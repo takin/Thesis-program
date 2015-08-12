@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html ng-app="semanticQA">
+    <head>
+        <meta charset="UTF-8">
+        <base href="http://localhost:8080/SemanticQA/">
+        <title>Insert title here</title>
+        <link rel="stylesheet" href="css/style.css" />
+    </head>
+<body>
+	<div class="container" ng-controller="appController">
+    	<div class="header">
+            <h1>Question Answering Data Kabupaten</h1>
+            <h1>Nusa Tenggara Barat</h1>
+        </div>
+        <form id="qa" ng-submit="search()" name="qform" class="form-wrapper cf" method="GET">
+            <input type="text" ng-model="question" name="q" id="q" placeholder="Masukkan Pertanyaan..." required>
+            <button ng-disabled="question.$valid" type="submit">Cari</button>
+        </form>
+        <div class="spinner" ng-if="searchPerformed"></div>
+        <div ng-if="hasResponse" answer></div>
+	</div>
+	<script type="text/javascript" src="js/angular.min.js"></script>
+	<script type="text/javascript" src="js/angular-animate.min.js"></script>
+    <script type="text/javascript" src="js/action.js"></script>
+</body>
+</html>

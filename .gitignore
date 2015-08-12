@@ -1,0 +1,15 @@
+.DS_Store
+API/Jena/*
+Ontologi/v*.*/*
+.metadata/
+Workspace/DesktopVersion/.settings/
+Workspace/DesktopVersion/.project
+Workspace/DesktopVersion/.classpath
+Workspace/SemanticQA/.settings/
+Workspace/SemanticQA/.project
+Workspace/SemanticQA/.classpath
+Workspace/.metadata/
+Workspace/.recommenders/
+Workspace/Servers/
+Workspace/.settings/*
+Workspace/SemanticQA/.settings/*

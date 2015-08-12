@@ -1,0 +1,113 @@
+-- Ontologi Pariwisata --
+================
+Kelas 
+================
++ ObyekWisata
+	- Alam
+		- Pantai
+		- Pulau = Gili
+		- Danau
+		- Gunung
+		- Sungai
+	- Museum
+	- Budaya
+	- Belanja
++ Transportasi
+	- Darat
+	- Laut
+	- Udara
++ Hotel
+	- Melati
+	- Homestay
+	- Berbintang = Mewah
+
+=======================
+Datatype property
+=======================
++ nama_lokasi -> string
++ keterangan -> string
++ longitude -> float
++ lattitude -> float
+
+
+=======================
+Object Property
+=======================
++ posisi -> untuk menunjukkan posisi lintang dan bujur
++ terletak_di
+	- berada_di
+
+
+
+
+
+
+-- Ontologi Geographic --
++ Wilayah = Tempat = Lokasi
+	- Propinsi
+	- Kabupaten
+	- Kotamadya
+	- Ibukota
+	- Kecamatan
+	- Desa
++ Produk
+	- Pertanian
+	- Perkebunan
+	- Perikanan
+	- Kerajinan
+	- Pariwisata
++ Budaya = Adat
++ Gambar
+
+-- Ontologi Goverment --
++ Pimpinan
+	- Gubernur
+	- Bupati
+	- Walikota
+	- Camat
+	- KepalaDesa
+	- KepalaDinas
++ Dinas
+
+
+
+
+
+
+
+
+
+
+================
+Object Property
+================
++ menawarkan -> (Wisata -> ProdukWisata,Adat/Budaya,Kerajinan)
+	- menawarkan
++ terletak_di -> (Hotel,Wisata -> Wilayah)
+	- berada_di
++ lambang -> (Kabupaten dan Propinsi)
+	 - logo
++ produk
+	- penghasil
+	- komoditas
+	- produk_wisata
+
+
+==================
+Datatype Property
+==================
++ koordinat
+	- lattitude
+	- bujur
+	- longitude
+	- lintang
++ telp
++ tarif -> (hotel -> nonNegativeInteger)
++ alamat
++ email
++ website
++ kode_pos
++ luas_wilayah
++ populasi
++ motto
+	- semboyan

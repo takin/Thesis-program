@@ -1,0 +1,8 @@
+alur proses:
+
+1. Input pertanyaan
+2. lakukan tokenisasi
+3. cek hasil tokenisasi di ontology bahasa (memfilter kata yang bermakna) untuk dijadikan objek
+4. cek tipe masing-masing objek dengan cara:
+	1. load dataset
+	2. lakukan pengecekan pada dataset, jika ditemukan

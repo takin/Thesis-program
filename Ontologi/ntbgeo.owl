@@ -1,0 +1,196 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE Ontology [
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.ntbprov.go.id/semweb/resource/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     ontologyIRI="http://www.ntbprov.go.id/semweb/resource/"
+     versionIRI="http://www.ntbprov.go.id/ontologies/ntbgeo/v3">
+    <Prefix name="" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="dct" IRI="http://purl.org/dc/terms/"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="dbid" IRI="http://id.dbpedia.org/resource/"/>
+    <Prefix name="dbpp" IRI="http://dbpedia.org/property/"/>
+    <Prefix name="prop" IRI="http://www.ntbprov.go.id/semweb/property/"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Declaration>
+        <Class abbreviatedIRI="dbid:Desa"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dbid:Ibu_kota"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dbid:Kabupaten"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dbid:Kecamatan"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dbid:Komoditas"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dbid:Kota"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dbid:Perikanan"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dbid:Perkebunan"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dbid:Pertambangan"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dbid:Pertanian"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="dbid:Provinsi"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty abbreviatedIRI="dct:hasPart"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty abbreviatedIRI="dct:isPartOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty abbreviatedIRI="prop:hasKomoditas"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="hasIbuKota"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty abbreviatedIRI="prop:hasLuasWilayah"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty abbreviatedIRI="prop:hasPopulasi"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="Kumbang"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="Lombok_timur"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="Masbagik"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="NTB"/>
+    </Declaration>
+    <SubClassOf>
+        <Class abbreviatedIRI="dbid:Perikanan"/>
+        <Class abbreviatedIRI="dbid:Komoditas"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dbid:Perkebunan"/>
+        <Class abbreviatedIRI="dbid:Komoditas"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dbid:Pertambangan"/>
+        <Class abbreviatedIRI="dbid:Komoditas"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class abbreviatedIRI="dbid:Pertanian"/>
+        <Class abbreviatedIRI="dbid:Komoditas"/>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class abbreviatedIRI="dbid:Desa"/>
+        <Class abbreviatedIRI="dbid:Ibu_kota"/>
+        <Class abbreviatedIRI="dbid:Kabupaten"/>
+        <Class abbreviatedIRI="dbid:Kecamatan"/>
+        <Class abbreviatedIRI="dbid:Komoditas"/>
+        <Class abbreviatedIRI="dbid:Kota"/>
+        <Class abbreviatedIRI="dbid:Provinsi"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class abbreviatedIRI="dbid:Perikanan"/>
+        <Class abbreviatedIRI="dbid:Perkebunan"/>
+        <Class abbreviatedIRI="dbid:Pertambangan"/>
+        <Class abbreviatedIRI="dbid:Pertanian"/>
+    </DisjointClasses>
+    <ClassAssertion>
+        <Class abbreviatedIRI="dbid:Desa"/>
+        <NamedIndividual IRI="Kumbang"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="dbid:Kabupaten"/>
+        <NamedIndividual IRI="Lombok_timur"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="dbid:Kecamatan"/>
+        <NamedIndividual IRI="Masbagik"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="dbid:Provinsi"/>
+        <NamedIndividual IRI="NTB"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="dct:isPartOf"/>
+        <NamedIndividual IRI="Kumbang"/>
+        <NamedIndividual IRI="Masbagik"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="dct:isPartOf"/>
+        <NamedIndividual IRI="Lombok_timur"/>
+        <NamedIndividual IRI="NTB"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="dct:isPartOf"/>
+        <NamedIndividual IRI="Masbagik"/>
+        <NamedIndividual IRI="Lombok_timur"/>
+    </ObjectPropertyAssertion>
+    <InverseObjectProperties>
+        <ObjectProperty abbreviatedIRI="dct:hasPart"/>
+        <ObjectProperty abbreviatedIRI="dct:isPartOf"/>
+    </InverseObjectProperties>
+    <TransitiveObjectProperty>
+        <ObjectProperty abbreviatedIRI="dct:hasPart"/>
+    </TransitiveObjectProperty>
+    <TransitiveObjectProperty>
+        <ObjectProperty abbreviatedIRI="dct:isPartOf"/>
+    </TransitiveObjectProperty>
+    <TransitiveObjectProperty>
+        <ObjectProperty abbreviatedIRI="prop:hasKomoditas"/>
+    </TransitiveObjectProperty>
+    <DataPropertyDomain>
+        <DataProperty abbreviatedIRI="prop:hasPopulasi"/>
+        <Class abbreviatedIRI="dbid:Desa"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty abbreviatedIRI="prop:hasPopulasi"/>
+        <Class abbreviatedIRI="dbid:Ibu_kota"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty abbreviatedIRI="prop:hasPopulasi"/>
+        <Class abbreviatedIRI="dbid:Kabupaten"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty abbreviatedIRI="prop:hasPopulasi"/>
+        <Class abbreviatedIRI="dbid:Kecamatan"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty abbreviatedIRI="prop:hasPopulasi"/>
+        <Class abbreviatedIRI="dbid:Kota"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty abbreviatedIRI="prop:hasPopulasi"/>
+        <Class abbreviatedIRI="dbid:Provinsi"/>
+    </DataPropertyDomain>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 3.5.0) http://owlapi.sourceforge.net -->
+

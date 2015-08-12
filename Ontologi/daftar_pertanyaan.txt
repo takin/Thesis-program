@@ -1,0 +1,35 @@
+======================================================
+		-- Pertanyaan seputar pariwisata --
+======================================================
+1. Dimanakah letak pantai senggigi ?
+2. Rute menuju pantai senggigi ?
+3. Rute menuju pantai senggigi dari bandara ?
+4. Berapakah jarak dari bandara ke pantai senggigi ?
+5. Jarak dari bandara ke pantai senggigi ?
+6. Apakah transportasi dari bandara ke senggigi ?
+7. Transportasi dari bandara ke senggigi ?
+8. Dimanakah letak hotel Senggigi Beach ?
+9. Tarif hotel Senggigi Beach ?
+10. Objek wisata air terjun ?
+11. Apakah desa Pringgasela termasuk desa wisata ?
+12. Desa apa saja yang termasuk desa wisata ?
+13. Budaya khas Sinduadi Mataram ?
+======================================================
+
+======================================================
+	   -- Pertanyaan seputar Pemerintahan --
+======================================================
+1. Siapakah Bupati Lombok Timur ?
+2. Siapakah Bupati Lombok Timur Tahun 2003 ?
+3. Alamat Kantor dinas pariwisata Lombok Timur ?
+4. Kantor dinas untuk mengurus akta kelahiran ?
+======================================================
+
+======================================================
+		  -- Pertanyaan seputar GeoEkonomi --
+======================================================
+1. Kabupaten penghasil tembakau ?
+2. Apakah komoditas asli dari desa Jerowaru ?
+3. Apakah mata pencaharian warga desa Sambelia ?
+4. Nama desa di daerah pantai Tanjung An ?
+======================================================

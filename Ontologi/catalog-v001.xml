@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
+        <uri id="Automatically generated entry, Timestamp=1427311683398" name="duplicate:http://www.ntbprov.go.id/semweb/resource/" uri="ntbgeo.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1427311683398" name="duplicate:http://www.ntbprov.go.id/semweb/resource/" uri="ntbgov.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1427311683398" name="duplicate:http://www.ntbprov.go.id/semweb/resource/" uri="ntbpar.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1427311683398" name="http://www.semanticweb.org/syamsul/ontologies/2014/1/ontGeo#" uri="v1.0/ontGeoSchema.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1427311683398" name="http://www.semanticweb.org/syamsul/ontologies/2014/1/ontGov#" uri="v1.0/ontGovSchema.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1427311683398" name="http://www.semanticweb.org/syamsul/ontologies/2014/1/ontPar#" uri="v1.0/ontParSchema.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1427311683398" name="http://www.semanticweb.org/syamsul/ontologies/ontGeo#" uri="v1.1/schema/ontGeoSchema.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1427311683398" name="http://www.semanticweb.org/syamsul/ontologies/ontPar#" uri="v1.1/schema/ontParSchema.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1427311683398" name="http://www.semanticweb.org/syamsul/ontologies/property#" uri="v2.0/schema/property.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1427311683398" name="http://www.semanticweb.org/syamsul/ontologies/resource#" uri="v1.1/dataset/dataset.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1427311683398" name="shadowed:http://www.ntbprov.go.id/semweb/resource/" uri="v3.0/ntbgov.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1427311683398" name="shadowed:http://www.semanticweb.org/syamsul/ontologies/ontGeo#" uri="v2.0/schema/ontgeo.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1427311683398" name="shadowed:http://www.semanticweb.org/syamsul/ontologies/ontGeo#" uri="v2.0/resource/dataset.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1427311683398" name="shadowed:http://www.semanticweb.org/syamsul/ontologies/ontPar#" uri="v2.0/schema/ontpar.owl"/>
+    </group>
+</catalog>
