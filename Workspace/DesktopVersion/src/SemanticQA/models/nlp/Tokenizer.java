@@ -6,16 +6,20 @@
 
 package SemanticQA.models.nlp;
 
-import SemanticQA.helpers.Constant;
-import SemanticQA.helpers.TaskListener;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import SemanticQA.helpers.Constant;
+import SemanticQA.helpers.TaskListener;
+import SemanticQA.models.ontology.OntologyMapper;
 
 /* ==============================================================================
  POSTagger merupakan bagian dari pre-process NLP
@@ -31,115 +35,91 @@ import java.util.List;
  * =============================================================================*/
 public class Tokenizer {
 	
+	private List<Map<String,String>> TOKEN;
+	private Connection CONNECTION;
+	private OntologyMapper ontoMapper;
+	
 	public interface TokenizerListener extends TaskListener{
-		public void onTokenizeSuccess(List<String> taggedToken);
+		public void onTokenizeSuccess(List<Map<String,String>> taggedToken);
 	}
     
+	public Tokenizer() {
+		TOKEN = new ArrayList<>();
+		CONNECTION = initDatabase();
+		ontoMapper = new OntologyMapper();
+	}
+	
     public void tokenize(String sentence, TokenizerListener listener){
-      
-    	Connection conn = initDatabase(listener);
-    	List<String> TOKEN = new ArrayList<>();
+        	
+    	List<String> temporaryList = new ArrayList<>(Arrays.asList(sentence.split(" ")));
     	
-        try{
-            /* ============================================================
-             * lakukan tokenisasi terhadap kalimat yang diinputkan
-             * token ini nantinya akan digunakan sebagai clausa dalam SQL 
-             * untuk mencari tipe kata masing-masing token
-             * 
-             * buat token dengan menggunakan pemisah spasi
-             * ============================================================*/
-            String[] token = sentence.split(" ");
-            
-            /* ===================================================================
-             * buat query sql untuk mencari tipe kata di dalam database
-             * clause IN dipilih dengan alasan agar proes query ke dalam database 
-             * tidak dilakukan berulang-ulang, sehingga dapat meningkatkan 
-             * performa, terutama pada query dengan jumlah token yang banyak
-             * ===================================================================*/
-            String SQL_QUERY = "SELECT katadasar,kode_katadasar FROM tb_katadasar WHERE katadasar IN (";
-            
-            /* ===============================================================
-             * lakukan iterasi untuk memasukkan masing-masing kata yang akan
-             * dijadikan sebagai kriteria di dalam kalusa IN
-             * ===============================================================*/
-            for(int i=0; i < token.length; i++){
-                
-                /* ===============================================================
-                 * Siapkan kata yang akan dicek
-                 * kata dalam database menggunakan lowercase, untuk itu pastikan 
-                 * kata yang akan dimasukkan juga dalam format lowe case
-                 * serta jangan lupa pula untuk melakukan trimming untuk membuang
-                 * tanda baca lain seperti koma dan titik yang menjadi satu 
-                 * dengan kata
-                 * ===============================================================*/
-                String word = token[i].toLowerCase().trim();
-                
-                TOKEN.add(word);
-               
-                /* ===============================================================
-                 * Lakukan concatinate terhadap SQL_QUERY sehingga membentuk
-                 * array string yang akan di cek di dalam database
-                 * 
-                 * Oleh karen kriteria yang akan dicek berupa string, 
-                 * maka jangan lupa untuk menambahkan tanda petik (')
-                 * pada setiap iterasi
-                 * 
-                 * Cek juga apakah posisi pointer sudah berada di akhir array 
-                 * atau belum, jika belum maka tambahkan tanda koma pada setiap 
-                 * akhir kata yang akan digabungkan
-                 * ===============================================================*/
-                SQL_QUERY += (i == (token.length - 1)) ? "'" + word + "'" : "'" + word + "',";
-            }
-            
-            /* ===========================================================
-             * setelah semua string kriteria dimasukkan, tambahkan tanda 
-             * kurung tutup pada akhir query sehingga membentuk statement 
-             * SQL yang utuk: Select katadasar, kode_katadasar from 
-             * tb_katadasar where katadasar in ('a','b',c')
-             * ===========================================================*/
-            SQL_QUERY += ")";
-            
-            // buat statement SQL
-            Statement stmt = conn.createStatement();
-            
-            // lakukan query ke database
-            ResultSet queryResult = stmt.executeQuery(SQL_QUERY);
-            
-           // cek apakah query menghasilkan result atau tidak
-           if(queryResult.isBeforeFirst()){
-               
-               while(queryResult.next()){
-                   
-                   String kata = queryResult.getString("katadasar");
-                   String kode = queryResult.getString("kode_katadasar");
-                   
-                   /* ============================================================
-                    * Untuk masing-masing kata yang ditemukan kelas katanya
-                    * lakukan proses modifikasi yaitu dengan menambahkan kelasnya 
-                    * di akhir dengan dippisahkan oleh tanda ';'
-                    * ============================================================*/
-                   
-                   // ambil index array dari kata yang bersangkutan
-                   int indexOfTheToken = TOKEN.indexOf(kata);
-                   
-                   // modifikasi isi array
-                   TOKEN.set(indexOfTheToken, kata + ";" + kode);
-               }
-           }
-           
-           queryResult.close();
-           stmt.close();
-           conn.close();
-           
-           // broadcast hasil tag
-           listener.onTokenizeSuccess(TOKEN);
-            
-        } catch( SQLException e ){
-            listener.onTaskFail(Tokenizer.class.getName(), e.getMessage());
-        }
+    	for(String word: temporaryList){
+    		Map<String,String> item = new HashMap<>();
+    		item.put(Constant.KEY_TOKEN_WORD, word);
+    		
+    		Thread t1 = new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					synchronized (item) {
+						item.put(Constant.KEY_TOKEN_WORD_TYPE, checkWordType(word));
+					}
+				}
+				
+			});
+    		
+    		Thread t2 = new Thread(new Runnable() {
+				
+				@Override
+				public void run() {
+					synchronized (item) {
+						item.put(Constant.KEY_TOKEN_SEMANTIC_TYPE, ontoMapper.getType(word));
+					}
+				}
+				
+			});
+    		
+    		t1.start();
+    		t2.start();
+    		
+    		try{
+    			t1.join();
+    			t2.join();
+    			TOKEN.add(item); 
+    		} catch(Exception e){
+    			
+    		}
+    		
+    	}
+    	listener.onTokenizeSuccess(TOKEN);
+        
+    }
+     
+
+
+    private String checkWordType(String word){
+    	
+    	String result = null;
+    	String sql = "SELECT katadasar,kode_katadasar FROM tb_katadasar WHERE katadasar='"+word+"'";
+    	
+		try {
+			Statement stmt = CONNECTION.createStatement();
+			ResultSet queryResult = stmt.executeQuery(sql);
+			
+			if(queryResult.isBeforeFirst()){
+				queryResult.absolute(1);
+				result = queryResult.getString("kode_katadasar");
+			}
+			
+			queryResult.close();
+		    stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
     }
     
-    private Connection initDatabase(TokenizerListener listener){
+    private Connection initDatabase(){
         
         /**
          * Lakukan inisialisasi koneksi ke database lexicon
@@ -153,8 +133,10 @@ public class Tokenizer {
             return DriverManager.getConnection(Constant.DB_URL + Constant.DB_NAME, Constant.DB_USER, Constant.DB_PASS);
         }
         catch( IllegalAccessException | ClassNotFoundException | InstantiationException | SQLException e ){
-            listener.onTaskFail(Tokenizer.class.getName(), "Koneksi ke database gagal karena: " + e.getMessage());
+            
         }
         return null;
     }
+    
+    
 }

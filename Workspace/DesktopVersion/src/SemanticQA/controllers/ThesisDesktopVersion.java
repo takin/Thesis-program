@@ -5,7 +5,9 @@
  */
 package SemanticQA.controllers;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
 
@@ -42,21 +44,16 @@ public class ThesisDesktopVersion implements TokenizerListener, ParserListener {
 
 	@Override
 	public void onTaskFail(String className, String reason) {
-		// TODO Auto-generated method stub
 		cetak(reason);
 	}
 
 	@Override
-	public void onTokenizeSuccess(List<String> taggedToken) {
-		// TODO Auto-generated method stub
-		cetak(taggedToken.toString());
-		
+	public void onTokenizeSuccess(List<Map<String,String>> taggedToken) {
 		new Parser().parse(taggedToken, this);
 	}
 
 	@Override
 	public void onParseSuccess(TreeMap<String, String> parseTree) {
-		// TODO Auto-generated method stub
 		
 	}
     
