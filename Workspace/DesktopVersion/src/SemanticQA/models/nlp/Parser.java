@@ -1,36 +1,65 @@
 package SemanticQA.models.nlp;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import SemanticQA.constant.Token;
+import SemanticQA.models.ontology.OntologyMapper;
+
 public class Parser {
+	
+	private OntologyMapper ontoMapper;
+	private List<Map<String,String>> syntaxFunction; 
 
 	public static interface ParserListener{
 		public void onParseSuccess(TreeMap<String, String> parseTree);
 	}
 	
-	/**
-	 * Proses penentuan fungsi sintaksis dari kalimat yang sudah diberi 
-	 * tag kelas kata
-	 * @param taggedToken array list tagged sentence
-	 * @return array list fungsi sintaksis <kata/frasa;fungsi> foo bar;S baz;P
-	 */
-	private List<String> analyzeSyntacticFunction(List<Map<String,String>> taggedToken){
-		 
-		/**
-		 * Algortima yang digunakan adalah bottom-up 
-		 * urutan kata diambil mulai dari konstituen terkecil sebelah kri
-		 */
-		
-		
-		return null;
+	public Parser(OntologyMapper mapper) {
+		ontoMapper = mapper;
+		syntaxFunction = new ArrayList<>();
 	}
 	
 	public void parse(List<Map<String,String>> taggedToken, ParserListener listener){
-		System.out.println(taggedToken);
+		analyzeSyntacticFunction(taggedToken);	
+	}
+	
+	private boolean analyzeSyntacticFunction(List<Map<String,String>> taggedToken){
 		
-		analyzeSyntacticFunction(taggedToken);
+		Map<String,String> currentToken = taggedToken.get(0);
+		
+		if(currentToken.get(Token.KEY_TOKEN_SEMANTIC_TYPE) != null){
+			
+			syntaxFunction.add(currentToken);
+			taggedToken.remove(currentToken);
+			
+			if(taggedToken.size() > 0){
+				analyzeSyntacticFunction(taggedToken);
+			}
+			return true;
+		}
+		
+		return false;
 		
 	}
+	
+	private boolean analyzeSemanticFunction(){
+		return false;
+	}
+	
+	private Map<String,String> makePhrase(Map<String,String> reference, List<Map<String,String>> lists){
+		
+		for(Map<String,String> token: lists){
+			switch (reference.get(Token.KEY_TOKEN_WORD_TYPE)) {
+			case "N":
+				
+				break;
+			}
+		}
+		
+		return reference;
+	}
+	
 }

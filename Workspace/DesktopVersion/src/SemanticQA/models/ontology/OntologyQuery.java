@@ -22,7 +22,6 @@ import java.util.regex.Pattern;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
-import SemanticQA.helpers.TaskListener;
 import uk.ac.manchester.cs.owl.owlapi.OWLClassImpl;
 import uk.ac.manchester.cs.owl.owlapi.OWLDataPropertyImpl;
 import uk.ac.manchester.cs.owl.owlapi.OWLNamedIndividualImpl;
@@ -52,7 +51,7 @@ public class OntologyQuery {
     @SuppressWarnings("unused")
 	private static final String CLAUSE_CLASS = "Class";
     
-    public interface Listener extends TaskListener{
+    public interface Listener {
     	public void onQueryExecuted(String result);
     }
     
@@ -107,7 +106,7 @@ public class OntologyQuery {
                 }
 
             } catch (QueryParserException | QueryEngineException ex) {
-                listener.onTaskFail(OntologyQuery.class.getName(), "error: " + ex.getMessage());
+                
             }
 //        }
         

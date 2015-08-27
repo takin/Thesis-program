@@ -17,8 +17,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import SemanticQA.helpers.Constant;
-import SemanticQA.helpers.TaskListener;
+import org.semanticweb.owlapi.model.OWLObject;
+
+import SemanticQA.constant.Database;
+import SemanticQA.constant.Ontology;
+import SemanticQA.constant.Token;
 import SemanticQA.models.ontology.OntologyMapper;
 
 /* ==============================================================================
@@ -39,14 +42,14 @@ public class Tokenizer {
 	private Connection CONNECTION;
 	private OntologyMapper ontoMapper;
 	
-	public interface TokenizerListener extends TaskListener{
+	public interface TokenizerListener {
 		public void onTokenizeSuccess(List<Map<String,String>> taggedToken);
 	}
     
-	public Tokenizer() {
+	public Tokenizer(OntologyMapper ontoMapper) {
 		TOKEN = new ArrayList<>();
 		CONNECTION = initDatabase();
-		ontoMapper = new OntologyMapper();
+		this.ontoMapper = ontoMapper;
 	}
 	
     public void tokenize(String sentence, TokenizerListener listener){
@@ -55,14 +58,14 @@ public class Tokenizer {
     	
     	for(String word: temporaryList){
     		Map<String,String> item = new HashMap<>();
-    		item.put(Constant.KEY_TOKEN_WORD, word);
+    		item.put(Token.KEY_TOKEN_WORD, word);
     		
     		Thread t1 = new Thread(new Runnable() {
 				
 				@Override
 				public void run() {
 					synchronized (item) {
-						item.put(Constant.KEY_TOKEN_WORD_TYPE, checkWordType(word));
+						item.put(Token.KEY_TOKEN_WORD_TYPE, checkWordType(word));
 					}
 				}
 				
@@ -73,7 +76,20 @@ public class Tokenizer {
 				@Override
 				public void run() {
 					synchronized (item) {
-						item.put(Constant.KEY_TOKEN_SEMANTIC_TYPE, ontoMapper.getType(word));
+						String semanticType = ontoMapper.getType(word);
+						item.put(Token.KEY_TOKEN_SEMANTIC_TYPE, semanticType);
+						
+						if(semanticType != null){
+							
+							Map<String,Object> obj = ontoMapper.getOWLObject(word);
+							if(obj != null){
+								String hasRestriction = ontoMapper.hasRestriction(semanticType, (OWLObject) obj.get(Ontology.KEY_OBJECT_URI)) ? "yes" : "no";
+								item.put(Token.KEY_TOKEN_HAS_RESTRICTION, hasRestriction);
+							} else {
+								item.put(Token.KEY_TOKEN_HAS_RESTRICTION, "no");
+							}
+							
+						}
 					}
 				}
 				
@@ -95,8 +111,6 @@ public class Tokenizer {
         
     }
      
-
-
     private String checkWordType(String word){
     	
     	String result = null;
@@ -128,9 +142,9 @@ public class Tokenizer {
          * dapat di broadcast ke class subscriber
          */
          try{
-            Class.forName(Constant.DB_DRIVER).newInstance();
+            Class.forName(Database.DB_DRIVER).newInstance();
             
-            return DriverManager.getConnection(Constant.DB_URL + Constant.DB_NAME, Constant.DB_USER, Constant.DB_PASS);
+            return DriverManager.getConnection(Database.DB_URL + Database.DB_NAME, Database.DB_USER, Database.DB_PASS);
         }
         catch( IllegalAccessException | ClassNotFoundException | InstantiationException | SQLException e ){
             

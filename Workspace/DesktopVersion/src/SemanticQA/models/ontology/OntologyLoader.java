@@ -13,7 +13,9 @@ import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.util.OWLOntologyMerger;
 
-import SemanticQA.helpers.Constant;
+import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
+
+import SemanticQA.constant.Ontology;
 
 /**
  *
@@ -27,11 +29,14 @@ public abstract class OntologyLoader {
 	public OntologyLoader() {
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		try {
-			manager.loadOntology(IRI.create("http://local.co/ontologi/mbuh.owl"));
-			manager.loadOntology(IRI.create(Constant.ONTOGOV_URL));
+			manager.loadOntologyFromOntologyDocument(IRI.create("file:///home/syamsul/Documents/Thesis-program/Ontologi/ntbpar.owl"));
+			manager.loadOntologyFromOntologyDocument(IRI.create("file:///home/syamsul/Documents/Thesis-program/Ontologi/ntbgov.owl"));
+			manager.loadOntologyFromOntologyDocument(IRI.create("file:///home/syamsul/Documents/Thesis-program/Ontologi/ntbgeo.owl"));
 			
 			OWLOntologyMerger merger = new OWLOntologyMerger(manager);
-			ontology = merger.createMergedOntology(manager, IRI.create(Constant.ONTO_MERGED_URI));
+			ontology = merger.createMergedOntology(manager, IRI.create(Ontology.ONTO_MERGED_URI));
+			
+			reasoner = new PelletReasonerFactory().createReasoner(ontology);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
