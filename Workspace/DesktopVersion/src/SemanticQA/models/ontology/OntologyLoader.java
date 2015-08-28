@@ -5,15 +5,15 @@
  */
 package SemanticQA.models.ontology;
 
+
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import org.semanticweb.owlapi.reasoner.structural.StructuralReasonerFactory;
 import org.semanticweb.owlapi.util.OWLOntologyMerger;
-
-import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 
 import SemanticQA.constant.Ontology;
 
@@ -35,8 +35,7 @@ public abstract class OntologyLoader {
 			
 			OWLOntologyMerger merger = new OWLOntologyMerger(manager);
 			ontology = merger.createMergedOntology(manager, IRI.create(Ontology.ONTO_MERGED_URI));
-			
-			reasoner = new PelletReasonerFactory().createReasoner(ontology);
+			reasoner = new StructuralReasonerFactory().createReasoner(ontology);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();

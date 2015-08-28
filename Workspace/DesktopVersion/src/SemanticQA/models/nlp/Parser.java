@@ -23,13 +23,20 @@ public class Parser {
 	}
 	
 	public void parse(List<Map<String,String>> taggedToken, ParserListener listener){
-		analyzeSyntacticFunction(taggedToken);	
+		analyzeSyntacticFunction(taggedToken);
 	}
 	
 	private boolean analyzeSyntacticFunction(List<Map<String,String>> taggedToken){
 		
 		Map<String,String> currentToken = taggedToken.get(0);
 		
+		/**
+		 * Cek token apakah sudah memiliki tipe semantik atau belum
+		 * jiak sudah, maka token yang bersangkutan tidak perlu untuk dilakukan
+		 * proses pembentukan frasa, karena sudah memiliki makna di dalam ontologi
+		 * 
+		 * Jika belum maka lakukan proses pembentukan frasa dengan metode bottom-up
+		 */
 		if(currentToken.get(Token.KEY_TOKEN_SEMANTIC_TYPE) != null){
 			
 			syntaxFunction.add(currentToken);
@@ -41,11 +48,13 @@ public class Parser {
 			return true;
 		}
 		
+//		makePhrase(reference, lists)
+		
 		return false;
 		
 	}
 	
-	private boolean analyzeSemanticFunction(){
+	private boolean analyzeSemanticRole(){
 		return false;
 	}
 	

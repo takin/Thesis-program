@@ -15,6 +15,7 @@ import SemanticQA.models.nlp.Parser.ParserListener;
 import SemanticQA.models.nlp.Tokenizer;
 import SemanticQA.models.nlp.Tokenizer.TokenizerListener;
 import SemanticQA.models.ontology.OntologyMapper;
+import SemanticQA.models.ontology.OntologyQuery;
 
 
 /**
@@ -30,15 +31,17 @@ public class ThesisDesktopVersion implements TokenizerListener, ParserListener {
      */
     public static void main(String[] args) {
        
-    	ontoMapper = new OntologyMapper();
+//    	ontoMapper = new OntologyMapper();
+    	OntologyQuery q = new OntologyQuery();
+    	q.find();
     	
-        System.out.print("Masukkan pertanyaan: ");
-        Scanner scan = new Scanner(System.in);
+//        System.out.print("Masukkan pertanyaan: ");
+//        Scanner scan = new Scanner(System.in);
         
-        String sentence = scan.nextLine();
-        scan.close();
+//        String sentence = scan.nextLine();
+//        scan.close();
         
-        new Tokenizer(ontoMapper).tokenize(sentence, new ThesisDesktopVersion());
+//        new Tokenizer(ontoMapper).tokenize(sentence, new ThesisDesktopVersion());
     }
     
     public static void cetak(String answer){
