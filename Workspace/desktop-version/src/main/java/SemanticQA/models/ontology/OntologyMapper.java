@@ -12,6 +12,8 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.util.ShortFormProvider;
+import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
 import SemanticQA.constant.Ontology;
 import SemanticQA.helpers.StringManipulation;
@@ -23,19 +25,11 @@ public class OntologyMapper extends OntologyLoader {
 	private List<Map<String,Object>> datatypesProperties = new ArrayList<>();
 	private List<Map<String,Object>> objectProperties = new ArrayList<>();
 	private List<Map<String,Object>> individuals = new ArrayList<>();
+	private ShortFormProvider shortForm = new SimpleShortFormProvider();
 	
 	public OntologyMapper() {
 		super();
-		
-		Thread t1 = new Worker(Ontology.KEY_TYPE_CLASS);
-		Thread t2 = new Worker(Ontology.KEY_TYPE_DATATYPE_PROPERTY);
-		Thread t3 = new Worker(Ontology.KEY_TYPE_INDIVIDUAL);
-		Thread t4 = new Worker(Ontology.KEY_TYPE_OBJECT_PROPERTY);
-				
-		t1.start();
-		t2.start();
-		t3.start();
-		t4.start();
+		loadEntitiy();
 	}
 
 	public OWLOntology getOntology(){
@@ -46,11 +40,32 @@ public class OntologyMapper extends OntologyLoader {
 		return classes;
 	}
 	
-	public Map<String,Object> getOWLObject(String name){
+	public Map<String,Object> getOWLObject(String name, String type){
 		
-		for(Map<String,Object> obj: classes){
-			if(obj.get(Ontology.KEY_OBJECT_NAME).toString().toLowerCase().equals(name.toLowerCase())){
-				return obj;
+		switch(type){
+		case Ontology.KEY_TYPE_CLASS:
+			for(Map<String,Object> obj: classes){
+				if(obj.get(Ontology.KEY_OBJECT_NAME).toString().toLowerCase().equals(name.toLowerCase())){
+					return obj;
+				}
+			}
+		case Ontology.KEY_TYPE_OBJECT_PROPERTY:
+			for(Map<String,Object> obj: objectProperties){
+				if(obj.get(Ontology.KEY_OBJECT_NAME).toString().toLowerCase().equals(name.toLowerCase())){
+					return obj;
+				}
+			}
+		case Ontology.KEY_TYPE_DATATYPE_PROPERTY:
+			for(Map<String,Object> obj: datatypesProperties){
+				if(obj.get(Ontology.KEY_OBJECT_NAME).toString().toLowerCase().equals(name.toLowerCase())){
+					return obj;
+				}
+			}
+		case Ontology.KEY_TYPE_INDIVIDUAL:
+			for(Map<String,Object> obj: individuals){
+				if(obj.get(Ontology.KEY_OBJECT_NAME).toString().toLowerCase().equals(name.toLowerCase())){
+					return obj;
+				}
 			}
 		}
 		
@@ -83,7 +98,7 @@ public class OntologyMapper extends OntologyLoader {
 		prop = StringManipulation.concate(prop, StringManipulation.MODEL_UNDERSCORE);
 		
 		for(OWLClass cls: super.ontology.getClassesInSignature()){
-			if(cls.getIRI().getFragment().equals(prop)){
+			if(shortForm.getShortForm(cls).toLowerCase().equals(prop)){
 				return true;
 			}
 		}
@@ -95,7 +110,7 @@ public class OntologyMapper extends OntologyLoader {
 		prop = StringManipulation.concate(prop, StringManipulation.MODEL_CAMELCASE);
 		
 		for(OWLDatatype dp: super.ontology.getDatatypesInSignature()){
-			if(dp.getIRI().getFragment().equals(prop)){
+			if(shortForm.getShortForm(dp).toLowerCase().equals(prop)){
 				return true;
 			}
 		}
@@ -107,7 +122,7 @@ public class OntologyMapper extends OntologyLoader {
 		prop = StringManipulation.concate(prop, StringManipulation.MODEL_CAMELCASE);
 		
 		for(OWLObjectProperty op: ontology.getObjectPropertiesInSignature()){
-			if(op.getIRI().getFragment().equals(prop)){
+			if(shortForm.getShortForm(op).toLowerCase().equals(prop)){
 				return true;
 			}
 		}
@@ -118,7 +133,7 @@ public class OntologyMapper extends OntologyLoader {
 		prop = StringManipulation.concate(prop, StringManipulation.MODEL_UNDERSCORE);
 		
 		for(OWLNamedIndividual in: ontology.getIndividualsInSignature()){
-			if(in.getIRI().getFragment().equals(prop)){
+			if(shortForm.getShortForm(in).toLowerCase().equals(prop)){
 				return true;
 			}
 		}
@@ -142,60 +157,34 @@ public class OntologyMapper extends OntologyLoader {
 		return false;
 	}
 	
-	private class Worker extends Thread {
-		
-		private Thread t;
-		private String type;
-		
-		public Worker(String type) {
-			this.type = type;
-			t = this;
-		}
-		
-		@Override
-		public synchronized void start() {
-			super.start();
-			t.run();
-		}
-		
-		@Override
-		public void run() {
+	private void loadEntitiy(){
 			
-			switch(type){
-			case Ontology.KEY_TYPE_CLASS:
-				for(OWLClass cls: ontology.getClassesInSignature()){
-					Map<String,Object> clsMap = new HashMap<>();
-					clsMap.put(Ontology.KEY_OBJECT_NAME, cls.getIRI().getFragment());
-					clsMap.put(Ontology.KEY_OBJECT_URI, cls);
-					classes.add(clsMap);
-				}
-				break;
-			case Ontology.KEY_TYPE_DATATYPE_PROPERTY:
-				for(OWLDatatype dp: ontology.getDatatypesInSignature()){
-					Map<String,Object> dpMap = new HashMap<>();
-					dpMap.put(Ontology.KEY_OBJECT_NAME, dp.getIRI().getFragment());
-					dpMap.put(Ontology.KEY_OBJECT_URI, dp);
-					datatypesProperties.add(dpMap);
-				}
-				break;
-			case Ontology.KEY_TYPE_INDIVIDUAL:
-				for(OWLObjectProperty op: ontology.getObjectPropertiesInSignature()){
-					Map<String,Object> opMap = new HashMap<>();
-					opMap.put(Ontology.KEY_OBJECT_NAME, op.getIRI().getFragment());
-					opMap.put(Ontology.KEY_OBJECT_URI, op);
-					objectProperties.add(opMap);
-				}
-				break;
-			case Ontology.KEY_TYPE_OBJECT_PROPERTY:
-				for(OWLNamedIndividual in: ontology.getIndividualsInSignature()){
-					Map<String,Object> inMap = new HashMap<>();
-					inMap.put(Ontology.KEY_OBJECT_NAME, in.getIRI().getFragment());
-					inMap.put(Ontology.KEY_OBJECT_URI, in);
-					individuals.add(inMap);
-				}
-				break;
-			}
-			
+		for(OWLClass cls: ontology.getClassesInSignature()){
+			Map<String,Object> clsMap = new HashMap<>();
+			clsMap.put(Ontology.KEY_OBJECT_NAME, shortForm.getShortForm(cls));
+			clsMap.put(Ontology.KEY_OBJECT_URI, cls);
+			classes.add(clsMap);
+		}
+
+		for(OWLDatatype dp: ontology.getDatatypesInSignature()){
+			Map<String,Object> dpMap = new HashMap<>();
+			dpMap.put(Ontology.KEY_OBJECT_NAME, shortForm.getShortForm(dp));
+			dpMap.put(Ontology.KEY_OBJECT_URI, dp);
+			datatypesProperties.add(dpMap);
+		}
+
+		for(OWLObjectProperty op: ontology.getObjectPropertiesInSignature()){
+			Map<String,Object> opMap = new HashMap<>();
+			opMap.put(Ontology.KEY_OBJECT_NAME, shortForm.getShortForm(op));
+			opMap.put(Ontology.KEY_OBJECT_URI, op);
+			objectProperties.add(opMap);
+		}
+
+		for(OWLNamedIndividual in: ontology.getIndividualsInSignature()){
+			Map<String,Object> inMap = new HashMap<>();
+			inMap.put(Ontology.KEY_OBJECT_NAME, shortForm.getShortForm(in));
+			inMap.put(Ontology.KEY_OBJECT_URI, in);
+			individuals.add(inMap);
 		}
 	}
 	

@@ -6,19 +6,11 @@
 package SemanticQA.models.ontology;
 
 import java.util.Map;
-import java.util.Set;
 
-import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.model.AxiomType;
-import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
-import org.semanticweb.owlapi.model.OWLClassAxiom;
-import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLDataFactory;
-import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
-import org.semanticweb.owlapi.model.OWLObject;
-import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.InferenceType;
+import org.semanticweb.owlapi.util.ShortFormProvider;
+import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
 import SemanticQA.constant.Ontology;
 
@@ -35,22 +27,16 @@ public class OntologyQuery extends OntologyMapper {
 	
 	public void find(){
 		
-		Map<String,Object> o = getOWLObject("bupati");
+		Map<String,Object> o = getOWLObject("camat", Ontology.KEY_TYPE_CLASS);
 		OWLClass bupati = (OWLClass) o.get(Ontology.KEY_OBJECT_URI);
 		
 		reasoner.precomputeInferences(InferenceType.CLASS_ASSERTIONS);
 		reasoner.precomputeInferences(InferenceType.CLASS_HIERARCHY);
 		
-		OWLDataFactory df = OWLManager.getOWLDataFactory();
+		ShortFormProvider sp = new SimpleShortFormProvider();
 		
-		Set<OWLClassAxiom> aa = ontology.getAxioms(bupati);
 		
-		for(OWLClassAxiom a: aa){
-			System.out.println(a.getAxiomType().getName());
-			if(a.getAxiomType().getName() == "EquivalentClasses"){
-				System.out.println("taraaa");
-			}
-		}
+		System.out.println(sp.getShortForm(bupati));
 		
 	}
 	

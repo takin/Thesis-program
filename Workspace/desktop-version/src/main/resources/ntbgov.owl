@@ -189,10 +189,6 @@
         <ObjectIntersectionOf>
             <Class IRI="http://xmlns.com/foaf/0.1/Person"/>
             <ObjectSomeValuesFrom>
-                <ObjectProperty IRI="hasVice"/>
-                <Class IRI="Wakil_bupati"/>
-            </ObjectSomeValuesFrom>
-            <ObjectSomeValuesFrom>
                 <ObjectProperty IRI="headOf"/>
                 <Class IRI="Kabupaten"/>
             </ObjectSomeValuesFrom>
@@ -415,14 +411,9 @@
         <NamedIndividual IRI="syamsul"/>
     </ClassAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty IRI="hasVice"/>
-        <NamedIndividual IRI="sukiman"/>
-        <NamedIndividual IRI="syamsul"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
         <ObjectProperty IRI="headOf"/>
-        <NamedIndividual IRI="sukiman"/>
-        <NamedIndividual IRI="lombok_tengah"/>
+        <NamedIndividual IRI="syamsul"/>
+        <NamedIndividual IRI="Masbagik"/>
     </ObjectPropertyAssertion>
     <InverseObjectProperties>
         <ObjectProperty IRI="hasHead"/>

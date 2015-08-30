@@ -81,7 +81,7 @@ public class Tokenizer {
 						
 						if(semanticType != null){
 							
-							Map<String,Object> obj = ontoMapper.getOWLObject(word);
+							Map<String,Object> obj = ontoMapper.getOWLObject(word, Ontology.KEY_TYPE_CLASS);
 							if(obj != null){
 								String hasRestriction = ontoMapper.hasRestriction(semanticType, (OWLObject) obj.get(Ontology.KEY_OBJECT_URI)) ? "yes" : "no";
 								item.put(Token.KEY_TOKEN_HAS_RESTRICTION, hasRestriction);
