@@ -1,0 +1,447 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE Ontology [
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.ntbprov.go.id/semweb/resource/"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="http://www.ntbprov.go.id/semweb/resource/"
+     versionIRI="http://www.ntbprov.go.id/ontologies/ntbgov/v3">
+    <Prefix name="" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="gn" IRI="http://www.geonames.org/ontology#"/>
+    <Prefix name="dcc" IRI="http://purl.org/dc/terms/"/>
+    <Prefix name="org" IRI="http://www.w3.org/ns/org#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="dbid" IRI="http://id.dbpedia.org/resource/"/>
+    <Prefix name="dbpp" IRI="http://dbpedia.org/property/"/>
+    <Prefix name="prop" IRI="http://www.ntbprov.go.id/semweb/property/"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Prefix name="time" IRI="http://www.w3.org/2006/time#"/>
+    <Declaration>
+        <Class IRI="Badan"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Biro"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Bupati"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Camat"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Desa"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Dinas"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Gubernur"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Kabupaten"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Kecamatan"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Kepala_badan"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Kepala_biro"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Kepala_desa"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Kepala_dinas"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Kota"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="PNS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Pegawai_negeri"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Pemerintah_daerah"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Provinsi"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Wakil_bupati"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Wakil_camat"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Wakil_gubernur"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Wakil_wali_kota"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="Wali_kota"/>
+    </Declaration>
+    <Declaration>
+        <Class abbreviatedIRI="org:Organization"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="http://xmlns.com/foaf/0.1/Person"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="hasHead"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="hasMember"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="hasVice"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="headOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="isPartOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="memberOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="viceOf"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="address"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="hasBeginning"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="hasEnd"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="http://xmlns.com/foaf/0.1/birthday"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="http://xmlns.com/foaf/0.1/hompage"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="http://xmlns.com/foaf/0.1/logo"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="http://xmlns.com/foaf/0.1/name"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="http://xmlns.com/foaf/0.1/phone"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="Masbagik"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="lombok_tengah"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="lombok_timur"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="sukiman"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="syamsul"/>
+    </Declaration>
+    <EquivalentClasses>
+        <Class IRI="Badan"/>
+        <ObjectIntersectionOf>
+            <Class IRI="Pemerintah_daerah"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="hasHead"/>
+                <Class IRI="Kepala_badan"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="Biro"/>
+        <ObjectIntersectionOf>
+            <Class IRI="Pemerintah_daerah"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="hasHead"/>
+                <Class IRI="Kepala_biro"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="Bupati"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://xmlns.com/foaf/0.1/Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="hasVice"/>
+                <Class IRI="Wakil_bupati"/>
+            </ObjectSomeValuesFrom>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="headOf"/>
+                <Class IRI="Kabupaten"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="Camat"/>
+        <ObjectIntersectionOf>
+            <Class IRI="Pegawai_negeri"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="headOf"/>
+                <Class IRI="Kecamatan"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="Desa"/>
+        <ObjectIntersectionOf>
+            <Class IRI="Pemerintah_daerah"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="hasHead"/>
+                <Class IRI="Kepala_desa"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="Dinas"/>
+        <ObjectIntersectionOf>
+            <Class IRI="Pemerintah_daerah"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="hasHead"/>
+                <Class IRI="Kepala_dinas"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="Gubernur"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://xmlns.com/foaf/0.1/Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="headOf"/>
+                <Class IRI="Provinsi"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="Kabupaten"/>
+        <ObjectIntersectionOf>
+            <Class IRI="Pemerintah_daerah"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="hasHead"/>
+                <Class IRI="Bupati"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="Kecamatan"/>
+        <ObjectIntersectionOf>
+            <Class IRI="Pemerintah_daerah"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="hasHead"/>
+                <Class IRI="Camat"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="Kepala_badan"/>
+        <ObjectIntersectionOf>
+            <Class IRI="Pegawai_negeri"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="headOf"/>
+                <Class IRI="Badan"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="Kepala_biro"/>
+        <ObjectIntersectionOf>
+            <Class IRI="Pegawai_negeri"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="headOf"/>
+                <Class IRI="Biro"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="Kepala_desa"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://xmlns.com/foaf/0.1/Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="headOf"/>
+                <Class IRI="Desa"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="Kepala_dinas"/>
+        <ObjectIntersectionOf>
+            <Class IRI="Pegawai_negeri"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="headOf"/>
+                <Class IRI="Dinas"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="Kota"/>
+        <ObjectIntersectionOf>
+            <Class IRI="Pemerintah_daerah"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="hasHead"/>
+                <Class IRI="Wali_kota"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="PNS"/>
+        <Class IRI="Pegawai_negeri"/>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="Pegawai_negeri"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://xmlns.com/foaf/0.1/Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="headOf"/>
+                <Class IRI="Kecamatan"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="Provinsi"/>
+        <ObjectIntersectionOf>
+            <Class IRI="Pemerintah_daerah"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="hasHead"/>
+                <Class IRI="Gubernur"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="Wakil_bupati"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://xmlns.com/foaf/0.1/Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="viceOf"/>
+                <Class IRI="Bupati"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="Wakil_camat"/>
+        <ObjectIntersectionOf>
+            <Class IRI="Pegawai_negeri"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="viceOf"/>
+                <Class IRI="Camat"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="Wakil_gubernur"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://xmlns.com/foaf/0.1/Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="viceOf"/>
+                <Class IRI="Gubernur"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="Wakil_wali_kota"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://xmlns.com/foaf/0.1/Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="viceOf"/>
+                <Class IRI="Wali_kota"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="Wali_kota"/>
+        <ObjectIntersectionOf>
+            <Class IRI="http://xmlns.com/foaf/0.1/Person"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="headOf"/>
+                <Class IRI="Kota"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <SubClassOf>
+        <Class IRI="Pemerintah_daerah"/>
+        <Class abbreviatedIRI="org:Organization"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="Provinsi"/>
+        <Class IRI="Pemerintah_daerah"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="Wakil_camat"/>
+        <Class IRI="Pegawai_negeri"/>
+    </SubClassOf>
+    <ClassAssertion>
+        <Class IRI="Kecamatan"/>
+        <NamedIndividual IRI="Masbagik"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="Kabupaten"/>
+        <NamedIndividual IRI="lombok_tengah"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="Kabupaten"/>
+        <NamedIndividual IRI="lombok_timur"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="http://xmlns.com/foaf/0.1/Person"/>
+        <NamedIndividual IRI="sukiman"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="http://xmlns.com/foaf/0.1/Person"/>
+        <NamedIndividual IRI="syamsul"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="hasVice"/>
+        <NamedIndividual IRI="sukiman"/>
+        <NamedIndividual IRI="syamsul"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="headOf"/>
+        <NamedIndividual IRI="sukiman"/>
+        <NamedIndividual IRI="lombok_tengah"/>
+    </ObjectPropertyAssertion>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="hasHead"/>
+        <ObjectProperty IRI="headOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="memberOf"/>
+        <ObjectProperty IRI="hasMember"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="hasVice"/>
+        <ObjectProperty IRI="viceOf"/>
+    </InverseObjectProperties>
+    <TransitiveObjectProperty>
+        <ObjectProperty IRI="isPartOf"/>
+    </TransitiveObjectProperty>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 3.5.0) http://owlapi.sourceforge.net -->
+
