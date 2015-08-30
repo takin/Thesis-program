@@ -9,8 +9,6 @@ import java.util.Map;
 
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.reasoner.InferenceType;
-import org.semanticweb.owlapi.util.ShortFormProvider;
-import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
 import SemanticQA.constant.Ontology;
 
@@ -33,10 +31,7 @@ public class OntologyQuery extends OntologyMapper {
 		reasoner.precomputeInferences(InferenceType.CLASS_ASSERTIONS);
 		reasoner.precomputeInferences(InferenceType.CLASS_HIERARCHY);
 		
-		ShortFormProvider sp = new SimpleShortFormProvider();
-		
-		
-		System.out.println(sp.getShortForm(bupati));
+		System.out.println(reasoner.getInstances(bupati, false));
 		
 	}
 	

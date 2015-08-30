@@ -8,12 +8,15 @@ package SemanticQA.models.ontology;
 
 import java.net.URISyntaxException;
 
+import org.semanticweb.HermiT.Reasoner;
+import org.semanticweb.HermiT.Reasoner.ReasonerFactory;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import org.semanticweb.owlapi.reasoner.SimpleConfiguration;
 import org.semanticweb.owlapi.reasoner.structural.StructuralReasonerFactory;
 import org.semanticweb.owlapi.util.OWLOntologyMerger;
 
@@ -38,7 +41,8 @@ public abstract class OntologyLoader {
 			
 			OWLOntologyMerger merger = new OWLOntologyMerger(manager);
 			ontology = merger.createMergedOntology(manager, IRI.create(Ontology.ONTO_MERGED_URI));
-			reasoner = new StructuralReasonerFactory().createReasoner(ontology);
+			ReasonerFactory rf = new Reasoner.ReasonerFactory();
+			reasoner = rf.createReasoner(ontology, new SimpleConfiguration());
 			
 		} catch (OWLOntologyCreationException | URISyntaxException e) {
 			e.printStackTrace();
