@@ -32,5 +32,9 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="src/main/resources/sparqldl-api.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/jdom.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/jpaul-2.5.1.jar"/>
+	<classpathentry kind="lib" path="src/main/resources/junit-4.8.2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

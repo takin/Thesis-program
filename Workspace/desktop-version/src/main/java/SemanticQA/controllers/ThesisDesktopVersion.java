@@ -31,17 +31,15 @@ public class ThesisDesktopVersion implements TokenizerListener, ParserListener {
      */
     public static void main(String[] args) {
        
-//    	ontoMapper = new OntologyMapper();
-    	OntologyQuery q = new OntologyQuery();
-    	q.find();
+    	ontoMapper = new OntologyMapper();
     	
-//        System.out.print("Masukkan pertanyaan: ");
-//        Scanner scan = new Scanner(System.in);
+        System.out.print("Masukkan pertanyaan: ");
+        Scanner scan = new Scanner(System.in);
         
-//        String sentence = scan.nextLine();
-//        scan.close();
+        String sentence = scan.nextLine();
+        scan.close();
         
-//        new Tokenizer(ontoMapper).tokenize(sentence, new ThesisDesktopVersion());
+        new Tokenizer(ontoMapper).tokenize(sentence, new ThesisDesktopVersion());
     }
     
     public static void cetak(String answer){
@@ -50,7 +48,11 @@ public class ThesisDesktopVersion implements TokenizerListener, ParserListener {
 
 	@Override
 	public void onTokenizeSuccess(List<Map<String,String>> taggedToken) {
-		new Parser(ontoMapper).parse(taggedToken, this);
+		
+		OntologyQuery q = new OntologyQuery(taggedToken);
+		q.find();
+		
+//		new Parser(ontoMapper).parse(taggedToken, this);
 	}
 
 	@Override

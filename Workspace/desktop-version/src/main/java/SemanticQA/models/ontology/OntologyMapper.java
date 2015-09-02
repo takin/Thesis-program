@@ -8,6 +8,7 @@ import java.util.Map;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataProperty;
 import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
@@ -36,6 +37,10 @@ public class OntologyMapper extends OntologyLoader {
 		return ontology;
 	}
 	
+	public String getShortForm(OWLEntity e){
+		return shortForm.getShortForm(e);
+	}
+	
 	public List<Map<String, Object>> getClasses(){
 		return classes;
 	}
@@ -43,25 +48,25 @@ public class OntologyMapper extends OntologyLoader {
 	public Map<String,Object> getOWLObject(String name, String type){
 		
 		switch(type){
-		case Ontology.KEY_TYPE_CLASS:
+		case Ontology.TYPE_CLASS:
 			for(Map<String,Object> obj: classes){
 				if(obj.get(Ontology.KEY_OBJECT_NAME).toString().toLowerCase().equals(name.toLowerCase())){
 					return obj;
 				}
 			}
-		case Ontology.KEY_TYPE_OBJECT_PROPERTY:
+		case Ontology.TYPE_OBJECT_PROPERTY:
 			for(Map<String,Object> obj: objectProperties){
 				if(obj.get(Ontology.KEY_OBJECT_NAME).toString().toLowerCase().equals(name.toLowerCase())){
 					return obj;
 				}
 			}
-		case Ontology.KEY_TYPE_DATATYPE_PROPERTY:
+		case Ontology.TYPE_DATATYPE_PROPERTY:
 			for(Map<String,Object> obj: datatypesProperties){
 				if(obj.get(Ontology.KEY_OBJECT_NAME).toString().toLowerCase().equals(name.toLowerCase())){
 					return obj;
 				}
 			}
-		case Ontology.KEY_TYPE_INDIVIDUAL:
+		case Ontology.TYPE_INDIVIDUAL:
 			for(Map<String,Object> obj: individuals){
 				if(obj.get(Ontology.KEY_OBJECT_NAME).toString().toLowerCase().equals(name.toLowerCase())){
 					return obj;
@@ -73,21 +78,20 @@ public class OntologyMapper extends OntologyLoader {
 	}
 	
 	public String getType(String prop){
-		
 		if(isClass(prop)){
-			return Ontology.KEY_TYPE_CLASS;
+			return Ontology.TYPE_CLASS;
 		}
 		
 		if(isDatatypeProperty(prop)){
-			return Ontology.KEY_TYPE_DATATYPE_PROPERTY;
+			return Ontology.TYPE_DATATYPE_PROPERTY;
 		}
 		
 		if(isObjectProperty(prop)){
-			return Ontology.KEY_TYPE_OBJECT_PROPERTY;
+			return Ontology.TYPE_OBJECT_PROPERTY;
 		}
 		
 		if(isIndividual(prop)){
-			return Ontology.KEY_TYPE_INDIVIDUAL;
+			return Ontology.TYPE_INDIVIDUAL;
 		}
 		
 		return null;
@@ -95,11 +99,18 @@ public class OntologyMapper extends OntologyLoader {
 	
 	public boolean isClass(String prop){
 		
-		prop = StringManipulation.concate(prop, StringManipulation.MODEL_UNDERSCORE);
-		
-		for(OWLClass cls: super.ontology.getClassesInSignature()){
-			if(shortForm.getShortForm(cls).toLowerCase().equals(prop)){
-				return true;
+		if(isURI(prop)){
+			for(OWLClass cls: super.ontology.getClassesInSignature()){
+				if(cls.getIRI().toString().equals(prop)){
+					return true;
+				}
+			}
+		} else {
+			prop = StringManipulation.concate(prop, StringManipulation.MODEL_UNDERSCORE);
+			for(OWLClass cls: super.ontology.getClassesInSignature()){
+				if(shortForm.getShortForm(cls).equals(prop)){
+					return true;
+				}
 			}
 		}
 		return false;
@@ -107,34 +118,60 @@ public class OntologyMapper extends OntologyLoader {
 	
 	public boolean isDatatypeProperty(String prop){
 		
-		prop = StringManipulation.concate(prop, StringManipulation.MODEL_CAMELCASE);
-		
-		for(OWLDatatype dp: super.ontology.getDatatypesInSignature()){
-			if(shortForm.getShortForm(dp).toLowerCase().equals(prop)){
-				return true;
+		if(isURI(prop)){
+			for(OWLDataProperty dp: super.ontology.getDataPropertiesInSignature()){
+				if(dp.getIRI().toString().equals(prop)){
+					return true;
+				}
+			}
+		} else {
+			prop = StringManipulation.concate(prop, StringManipulation.MODEL_CAMELCASE);
+			
+			for(OWLDataProperty dp: super.ontology.getDataPropertiesInSignature()){
+				if(shortForm.getShortForm(dp).equals(prop)){
+					return true;
+				}
 			}
 		}
+		
 		return false;
 	}
 	
 	public boolean isObjectProperty(String prop){
 		
-		prop = StringManipulation.concate(prop, StringManipulation.MODEL_CAMELCASE);
-		
-		for(OWLObjectProperty op: ontology.getObjectPropertiesInSignature()){
-			if(shortForm.getShortForm(op).toLowerCase().equals(prop)){
-				return true;
+		if(isURI(prop)){
+			for(OWLObjectProperty op: ontology.getObjectPropertiesInSignature()){
+				if(op.getIRI().toString().equals(prop)){
+					return true;
+				}
+			}
+		} else {
+			prop = StringManipulation.concate(prop, StringManipulation.MODEL_CAMELCASE);
+			
+			for(OWLObjectProperty op: ontology.getObjectPropertiesInSignature()){
+				if(shortForm.getShortForm(op).equals(prop)){
+					return true;
+				}
 			}
 		}
 		return false;
 	}
 	
 	public boolean isIndividual(String prop){
-		prop = StringManipulation.concate(prop, StringManipulation.MODEL_UNDERSCORE);
 		
-		for(OWLNamedIndividual in: ontology.getIndividualsInSignature()){
-			if(shortForm.getShortForm(in).toLowerCase().equals(prop)){
-				return true;
+		if(isURI(prop)){
+			for(OWLNamedIndividual in: ontology.getIndividualsInSignature()){
+				if(in.getIRI().toString().equals(prop)){
+					return true;
+				}
+			}
+		} else {
+			prop = StringManipulation.concate(prop, StringManipulation.MODEL_UNDERSCORE);
+			
+			for(OWLNamedIndividual in: ontology.getIndividualsInSignature()){
+				if(shortForm.getShortForm(in).equals(prop)){
+					return true;
+				}
 			}
 		}
 		
@@ -144,13 +181,13 @@ public class OntologyMapper extends OntologyLoader {
 	public boolean hasRestriction(String type, OWLObject obj){
 		
 		switch (type) {
-		case Ontology.KEY_TYPE_CLASS:
+		case Ontology.TYPE_CLASS:
 			return ontology.getAxioms((OWLClass) obj).size() > 0;
-		case Ontology.KEY_TYPE_DATATYPE_PROPERTY:
+		case Ontology.TYPE_DATATYPE_PROPERTY:
 			return ontology.getAxioms((OWLDataProperty) obj).size() > 0;
-		case Ontology.KEY_TYPE_INDIVIDUAL:
+		case Ontology.TYPE_INDIVIDUAL:
 			return ontology.getAxioms((OWLNamedIndividual) obj).size() > 0;
-		case Ontology.KEY_TYPE_OBJECT_PROPERTY:
+		case Ontology.TYPE_OBJECT_PROPERTY:
 			return ontology.getAxioms((OWLObjectProperty) obj).size() > 0;
 		}
 		
@@ -186,6 +223,10 @@ public class OntologyMapper extends OntologyLoader {
 			inMap.put(Ontology.KEY_OBJECT_URI, in);
 			individuals.add(inMap);
 		}
+	}
+	
+	private boolean isURI(String str){
+		return str.matches("^(https?://).*");
 	}
 	
 }
