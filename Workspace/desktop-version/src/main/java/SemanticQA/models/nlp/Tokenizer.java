@@ -13,16 +13,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import org.semanticweb.owlapi.model.OWLObject;
 
 import SemanticQA.constant.Database;
-import SemanticQA.constant.Ontology;
-import SemanticQA.constant.Token;
-import SemanticQA.models.ontology.OntologyMapper;
+import SemanticQA.helpers.QATokenModel;
 
 /* ==============================================================================
  POSTagger merupakan bagian dari pre-process NLP
@@ -38,18 +32,16 @@ import SemanticQA.models.ontology.OntologyMapper;
  * =============================================================================*/
 public class Tokenizer {
 	
-	private List<Map<String,String>> TOKEN;
+	private List<QATokenModel> TOKEN;
 	private Connection CONNECTION;
-	private OntologyMapper ontoMapper;
 	
 	public interface TokenizerListener {
-		public void onTokenizeSuccess(List<Map<String,String>> taggedToken);
+		public void onTokenizeSuccess(List<QATokenModel> TOKEN);
 	}
     
-	public Tokenizer(OntologyMapper ontoMapper) {
-		TOKEN = new ArrayList<>();
+	public Tokenizer() {
+		TOKEN = new ArrayList<QATokenModel>();
 		CONNECTION = initDatabase();
-		this.ontoMapper = ontoMapper;
 	}
 	
     public void tokenize(String sentence, TokenizerListener listener){
@@ -57,57 +49,12 @@ public class Tokenizer {
     	List<String> temporaryList = new ArrayList<>(Arrays.asList(sentence.split(" ")));
     	
     	for(final String word: temporaryList){
-    		final Map<String,String> item = new HashMap<>();
-    		item.put(Token.KEY_TOKEN_WORD, word);
+    		QATokenModel tm = new QATokenModel();
     		
-    		Thread t1 = new Thread(new Runnable() {
-				
-				@Override
-				public void run() {
-					synchronized (item) {
-						item.put(Token.KEY_TOKEN_WORD_TYPE, checkWordType(word));
-					}
-				}
-				
-			});
+    		tm.setWord(word);
+    		tm.setWordType(checkWordType(word));
     		
-    		Thread t2 = new Thread(new Runnable() {
-				
-				@Override
-				public void run() {
-					synchronized (item) {
-						
-						String semanticType = ontoMapper.getType(word);
-						
-						item.put(Token.KEY_TOKEN_SEMANTIC_TYPE, semanticType);
-						
-						if(semanticType != null){
-							
-							Map<String,Object> obj = ontoMapper.getOWLObject(word, Ontology.TYPE_CLASS);
-							if(obj != null){
-								String hasRestriction = ontoMapper.hasRestriction(semanticType, (OWLObject) obj.get(Ontology.KEY_OBJECT_URI)) ? "yes" : "no";
-								item.put(Token.KEY_TOKEN_HAS_RESTRICTION, hasRestriction);
-							} else {
-								item.put(Token.KEY_TOKEN_HAS_RESTRICTION, "no");
-							}
-							
-						}
-					}
-				}
-				
-			});
-    		
-    		t1.start();
-    		t2.start();
-    		
-    		try{
-    			t1.join();
-    			t2.join();
-    			TOKEN.add(item); 
-    		} catch(Exception e){
-    			
-    		}
-    		
+    		TOKEN.add(tm);
     	}
     	listener.onTokenizeSuccess(TOKEN);
         
@@ -116,7 +63,7 @@ public class Tokenizer {
     private String checkWordType(String word){
     	
     	String result = null;
-    	String sql = "SELECT katadasar,kode_katadasar FROM tb_katadasar WHERE katadasar='"+word+"'";
+    	String sql = "SELECT kata,kode FROM katadasar WHERE kata='"+word+"'";
     	
 		try {
 			Statement stmt = CONNECTION.createStatement();
@@ -124,7 +71,7 @@ public class Tokenizer {
 			
 			if(queryResult.isBeforeFirst()){
 				queryResult.absolute(1);
-				result = queryResult.getString("kode_katadasar");
+				result = queryResult.getString("kode");
 			}
 			
 			queryResult.close();

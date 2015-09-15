@@ -1,17 +1,17 @@
 package SemanticQA.models.ontology;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLClass;
+import org.semanticweb.owlapi.model.OWLClassAxiom;
 import org.semanticweb.owlapi.model.OWLDataProperty;
-import org.semanticweb.owlapi.model.OWLDatatype;
+import org.semanticweb.owlapi.model.OWLDataPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLIndividualAxiom;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
@@ -22,16 +22,7 @@ import SemanticQA.helpers.StringManipulation;
 
 public class OntologyMapper extends OntologyLoader {
 	
-	private List<Map<String,Object>> classes = new ArrayList<>();
-	private List<Map<String,Object>> datatypesProperties = new ArrayList<>();
-	private List<Map<String,Object>> objectProperties = new ArrayList<>();
-	private List<Map<String,Object>> individuals = new ArrayList<>();
 	private ShortFormProvider shortForm = new SimpleShortFormProvider();
-	
-	public OntologyMapper() {
-		super();
-		loadEntitiy();
-	}
 
 	public OWLOntology getOntology(){
 		return ontology;
@@ -41,34 +32,30 @@ public class OntologyMapper extends OntologyLoader {
 		return shortForm.getShortForm(e);
 	}
 	
-	public List<Map<String, Object>> getClasses(){
-		return classes;
-	}
-	
-	public Map<String,Object> getOWLObject(String name, String type){
+	public OWLObject getOWLObject(String name, String type){
 		
 		switch(type){
 		case Ontology.TYPE_CLASS:
-			for(Map<String,Object> obj: classes){
-				if(obj.get(Ontology.KEY_OBJECT_NAME).toString().toLowerCase().equals(name.toLowerCase())){
+			for(OWLClass obj: super.ontology.getClassesInSignature()){
+				if(getShortForm(obj).toString().toLowerCase().equals(name.toLowerCase())){
 					return obj;
 				}
 			}
 		case Ontology.TYPE_OBJECT_PROPERTY:
-			for(Map<String,Object> obj: objectProperties){
-				if(obj.get(Ontology.KEY_OBJECT_NAME).toString().toLowerCase().equals(name.toLowerCase())){
+			for(OWLObjectProperty obj: super.ontology.getObjectPropertiesInSignature()){
+				if(getShortForm(obj).toString().toLowerCase().equals(name.toLowerCase())){
 					return obj;
 				}
 			}
 		case Ontology.TYPE_DATATYPE_PROPERTY:
-			for(Map<String,Object> obj: datatypesProperties){
-				if(obj.get(Ontology.KEY_OBJECT_NAME).toString().toLowerCase().equals(name.toLowerCase())){
+			for(OWLDataProperty obj: super.ontology.getDataPropertiesInSignature()){
+				if(getShortForm(obj).toString().toLowerCase().equals(name.toLowerCase())){
 					return obj;
 				}
 			}
 		case Ontology.TYPE_INDIVIDUAL:
-			for(Map<String,Object> obj: individuals){
-				if(obj.get(Ontology.KEY_OBJECT_NAME).toString().toLowerCase().equals(name.toLowerCase())){
+			for(OWLNamedIndividual obj: super.ontology.getIndividualsInSignature()){
+				if(getShortForm(obj).toString().toLowerCase().equals(name.toLowerCase())){
 					return obj;
 				}
 			}
@@ -178,51 +165,20 @@ public class OntologyMapper extends OntologyLoader {
 		return false;
 	}
 	
-	public boolean hasRestriction(String type, OWLObject obj){
-		
-		switch (type) {
-		case Ontology.TYPE_CLASS:
-			return ontology.getAxioms((OWLClass) obj).size() > 0;
-		case Ontology.TYPE_DATATYPE_PROPERTY:
-			return ontology.getAxioms((OWLDataProperty) obj).size() > 0;
-		case Ontology.TYPE_INDIVIDUAL:
-			return ontology.getAxioms((OWLNamedIndividual) obj).size() > 0;
-		case Ontology.TYPE_OBJECT_PROPERTY:
-			return ontology.getAxioms((OWLObjectProperty) obj).size() > 0;
-		}
-		
-		return false;
+	public Set<OWLClassAxiom> getRestriction(OWLClass cls){
+		return ontology.getAxioms(cls);
 	}
 	
-	private void loadEntitiy(){
-			
-		for(OWLClass cls: ontology.getClassesInSignature()){
-			Map<String,Object> clsMap = new HashMap<>();
-			clsMap.put(Ontology.KEY_OBJECT_NAME, shortForm.getShortForm(cls));
-			clsMap.put(Ontology.KEY_OBJECT_URI, cls);
-			classes.add(clsMap);
-		}
-
-		for(OWLDatatype dp: ontology.getDatatypesInSignature()){
-			Map<String,Object> dpMap = new HashMap<>();
-			dpMap.put(Ontology.KEY_OBJECT_NAME, shortForm.getShortForm(dp));
-			dpMap.put(Ontology.KEY_OBJECT_URI, dp);
-			datatypesProperties.add(dpMap);
-		}
-
-		for(OWLObjectProperty op: ontology.getObjectPropertiesInSignature()){
-			Map<String,Object> opMap = new HashMap<>();
-			opMap.put(Ontology.KEY_OBJECT_NAME, shortForm.getShortForm(op));
-			opMap.put(Ontology.KEY_OBJECT_URI, op);
-			objectProperties.add(opMap);
-		}
-
-		for(OWLNamedIndividual in: ontology.getIndividualsInSignature()){
-			Map<String,Object> inMap = new HashMap<>();
-			inMap.put(Ontology.KEY_OBJECT_NAME, shortForm.getShortForm(in));
-			inMap.put(Ontology.KEY_OBJECT_URI, in);
-			individuals.add(inMap);
-		}
+	public Set<OWLDataPropertyAxiom> getRestriction(OWLDataProperty dp){
+		return ontology.getAxioms(dp);
+	}
+	
+	public Set<OWLIndividualAxiom> getRestriction(OWLNamedIndividual individu){
+		return ontology.getAxioms(individu);
+	}
+	
+	public Set<OWLObjectPropertyAxiom> getRestriction(OWLObjectProperty op){
+		return ontology.getAxioms(op);
 	}
 	
 	private boolean isURI(String str){

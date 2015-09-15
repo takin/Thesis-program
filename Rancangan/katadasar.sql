@@ -23,23 +23,23 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_katadasar`
+-- Table structure for table `katadasar`
 --
 
-CREATE TABLE IF NOT EXISTS `tb_katadasar` (
-  `id_katadasar` int(10) NOT NULL AUTO_INCREMENT,
-  `katadasar` varchar(70) NOT NULL,
-  `tipe_katadasar` varchar(25) NOT NULL,
-  `kode_katadasar` varchar(4) NOT NULL,
-  PRIMARY KEY (`id_katadasar`),
-  KEY `katadasar` (`katadasar`)
+CREATE TABLE IF NOT EXISTS `katadasar` (
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  `kata` varchar(70) NOT NULL,
+  `tipe` varchar(25) NOT NULL,
+  `kode` varchar(4) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `kata` (`kata`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28533 ;
 
 --
--- Dumping data for table `tb_katadasar`
+-- Dumping data for table `katadasar`
 --
 
-INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode_katadasar`) VALUES
+INSERT INTO `katadasar` (`id`, `kata`, `tipe`, `kode`) VALUES
 (1, 'a', 'Nomina', 'N'),
 (2, 'ab', 'Nomina', 'N'),
 (3, 'aba', 'Nomina', 'N'),
@@ -1582,7 +1582,7 @@ INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode
 (1540, 'audiograf', 'Nomina', 'N'),
 (1541, 'audiogram', 'Nomina', 'N'),
 (1542, 'audiolingual', 'Adjektiva', 'ADJ');
-INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode_katadasar`) VALUES
+INSERT INTO `katadasar` (`id`, `kata`, `tipe`, `kode`) VALUES
 (1543, 'audiologi', 'Nomina', 'N'),
 (1544, 'audiometer', 'Nomina', 'N'),
 (1545, 'audiovisual', 'Adjektiva', 'ADJ'),
@@ -3125,7 +3125,7 @@ INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode
 (3082, 'blantika', 'Nomina', 'N'),
 (3083, 'blaster', 'Nomina', 'N'),
 (3084, 'blastostil', 'Nomina', 'N');
-INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode_katadasar`) VALUES
+INSERT INTO `katadasar` (`id`, `kata`, `tipe`, `kode`) VALUES
 (3085, 'blazer', 'Nomina', 'N'),
 (3086, 'blek', 'Nomina', 'N'),
 (3087, 'blekek', 'Nomina', 'N'),
@@ -4694,7 +4694,7 @@ INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode
 (4650, 'darpana', 'Nomina', 'N'),
 (4651, 'darulaitam', 'Nomina', 'N'),
 (4652, 'darulakhirat', 'Nomina', 'N');
-INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode_katadasar`) VALUES
+INSERT INTO `katadasar` (`id`, `kata`, `tipe`, `kode`) VALUES
 (4653, 'darulbaka', 'Nomina', 'N'),
 (4654, 'darulfana', 'Nomina', 'N'),
 (4655, 'daruljalal', 'Nomina', 'N'),
@@ -6190,7 +6190,7 @@ INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode
 (6145, 'elektromiografi', 'Nomina', 'N'),
 (6146, 'elektromotif', 'Nomina', 'N'),
 (6147, 'elektron', 'Nomina', 'N');
-INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode_katadasar`) VALUES
+INSERT INTO `katadasar` (`id`, `kata`, `tipe`, `kode`) VALUES
 (6148, 'elektronegatif', 'Adjektiva', 'ADJ'),
 (6149, 'elektronik', 'Nomina', 'N'),
 (6150, 'elektronika', 'Nomina', 'N'),
@@ -7712,7 +7712,7 @@ INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode
 (7666, 'gelimang', 'Verba', 'V'),
 (7667, 'gelimantang', 'Verba', 'V'),
 (7668, 'gelimbir', 'Adjektiva', 'ADJ');
-INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode_katadasar`) VALUES
+INSERT INTO `katadasar` (`id`, `kata`, `tipe`, `kode`) VALUES
 (7669, 'gelimir', 'Nomina', 'N'),
 (7670, 'gelimpang', 'Verba', 'V'),
 (7671, 'gelimun', 'Verba', 'V'),
@@ -9235,7 +9235,7 @@ INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode
 (9188, 'homogeni', 'Nomina', 'N'),
 (9189, 'homogenitas', 'Nomina', 'N'),
 (9190, 'homograf', 'Nomina', 'N');
-INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode_katadasar`) VALUES
+INSERT INTO `katadasar` (`id`, `kata`, `tipe`, `kode`) VALUES
 (9191, 'homografi', 'Nomina', 'N'),
 (9192, 'homogram', 'Nomina', 'N'),
 (9193, 'homoiotermal', 'Adjektiva', 'ADJ'),
@@ -10726,7 +10726,7 @@ INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode
 (10678, 'jisim', 'Nomina', 'N'),
 (10679, 'jitah', 'Nomina', 'N'),
 (10680, 'jitak', 'Verba', 'V');
-INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode_katadasar`) VALUES
+INSERT INTO `katadasar` (`id`, `kata`, `tipe`, `kode`) VALUES
 (10681, 'jitok', 'Nomina', 'N'),
 (10682, 'jitu', 'Adjektiva', 'ADJ'),
 (10683, 'jiwa', 'Nomina', 'N'),
@@ -12229,7 +12229,7 @@ INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode
 (12180, 'kenduduk', 'Nomina', 'N'),
 (12181, 'kendung', 'Nomina', 'N'),
 (12182, 'kendur', 'Adjektiva', 'ADJ');
-INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode_katadasar`) VALUES
+INSERT INTO `katadasar` (`id`, `kata`, `tipe`, `kode`) VALUES
 (12183, 'kenduri', 'Nomina', 'N'),
 (12184, 'kenek', 'Nomina', 'N'),
 (12185, 'keneker', 'Nomina', 'N'),
@@ -13699,7 +13699,7 @@ INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode
 (13649, 'koret', 'Nomina', 'N'),
 (13650, 'koridor', 'Nomina', 'N'),
 (13651, 'korion', 'Nomina', 'N');
-INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode_katadasar`) VALUES
+INSERT INTO `katadasar` (`id`, `kata`, `tipe`, `kode`) VALUES
 (13652, 'kornea', 'Nomina', 'N'),
 (13653, 'kornel', 'Nomina', 'N'),
 (13654, 'korner', 'Nomina', 'N'),
@@ -15201,7 +15201,7 @@ INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode
 (15150, 'lihai', 'Adjektiva', 'ADJ'),
 (15151, 'lihat', 'Verba', 'V'),
 (15152, 'lik', 'Nomina', 'N');
-INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode_katadasar`) VALUES
+INSERT INTO `katadasar` (`id`, `kata`, `tipe`, `kode`) VALUES
 (15153, 'likantropi', 'Nomina', 'N'),
 (15154, 'likas', 'Nomina', 'N'),
 (15155, 'likat', 'Adjektiva', 'ADJ'),
@@ -16685,7 +16685,7 @@ INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode
 (16633, 'merajak', 'Adjektiva', 'ADJ'),
 (16634, 'merakan', 'Nomina', 'N'),
 (16635, 'meralgia', 'Nomina', 'N');
-INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode_katadasar`) VALUES
+INSERT INTO `katadasar` (`id`, `kata`, `tipe`, `kode`) VALUES
 (16636, 'merambai', 'Nomina', 'N'),
 (16637, 'merambung', 'Nomina', 'N'),
 (16638, 'merana', 'Adjektiva', 'ADJ'),
@@ -18140,7 +18140,7 @@ INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode
 (18087, 'nunut', 'Verba', 'V'),
 (18088, 'nur', 'Nomina', 'N'),
 (18089, 'nuraga', 'Adjektiva', 'ADJ');
-INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode_katadasar`) VALUES
+INSERT INTO `katadasar` (`id`, `kata`, `tipe`, `kode`) VALUES
 (18090, 'nurani', 'Adjektiva', 'ADJ'),
 (18091, 'nurbisa', 'Nomina', 'N'),
 (18092, 'nuri', 'Nomina', 'N'),
@@ -19619,7 +19619,7 @@ INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode
 (19565, 'pensiun', 'Verba', 'V'),
 (19566, 'pentagin', 'Nomina', 'N'),
 (19567, 'pentagon', 'Nomina', 'N');
-INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode_katadasar`) VALUES
+INSERT INTO `katadasar` (`id`, `kata`, `tipe`, `kode`) VALUES
 (19568, 'pentagram', 'Nomina', 'N'),
 (19569, 'pentahedron', 'Nomina', 'N'),
 (19570, 'pental', 'Verba', 'V'),
@@ -21080,7 +21080,7 @@ INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode
 (21025, 'punk', 'Nomina', 'N'),
 (21026, 'puntal', 'Verba', 'V'),
 (21027, 'punti', 'Nomina', 'N');
-INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode_katadasar`) VALUES
+INSERT INTO `katadasar` (`id`, `kata`, `tipe`, `kode`) VALUES
 (21028, 'puntianak', 'Nomina', 'N'),
 (21029, 'puntir', 'Verba', 'V'),
 (21030, 'puntuk', 'Nomina', 'N'),
@@ -22574,7 +22574,7 @@ INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode
 (22518, 'safsaf', 'Adjektiva', 'ADJ'),
 (22519, 'saga', 'Nomina', 'N'),
 (22520, 'sagai', 'Nomina', 'N');
-INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode_katadasar`) VALUES
+INSERT INTO `katadasar` (`id`, `kata`, `tipe`, `kode`) VALUES
 (22521, 'sagang', 'Nomina', 'N'),
 (22522, 'sagar', 'Nomina', 'N'),
 (22523, 'sagitarius', 'Nomina', 'N'),
@@ -24048,7 +24048,7 @@ INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode
 (23991, 'sesi', 'Nomina', 'N'),
 (23992, 'sesil', 'Nomina', 'N'),
 (23993, 'sesira', 'Nomina', 'N');
-INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode_katadasar`) VALUES
+INSERT INTO `katadasar` (`id`, `kata`, `tipe`, `kode`) VALUES
 (23994, 'sesium', 'Nomina', 'N'),
 (23995, 'sesoca', 'Nomina', 'N'),
 (23996, 'sespan', 'Nomina', 'N'),
@@ -25519,7 +25519,7 @@ INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode
 (25461, 'syarak', 'Nomina', 'N'),
 (25462, 'syarat', 'Nomina', 'N'),
 (25463, 'syarbat', 'Nomina', 'N');
-INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode_katadasar`) VALUES
+INSERT INTO `katadasar` (`id`, `kata`, `tipe`, `kode`) VALUES
 (25464, 'syarekat', 'Nomina', 'N'),
 (25465, 'syariat', 'Nomina', 'N'),
 (25466, 'syarif', 'Nomina', 'N'),
@@ -27033,7 +27033,7 @@ INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode
 (26974, 'topdal', 'Nomina', 'N'),
 (26975, 'topek', 'Verba', 'V'),
 (26976, 'topeng', 'Nomina', 'N');
-INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode_katadasar`) VALUES
+INSERT INTO `katadasar` (`id`, `kata`, `tipe`, `kode`) VALUES
 (26977, 'topes', 'Nomina', 'N'),
 (26978, 'tophit', 'Nomina', 'N'),
 (26979, 'topi', 'Nomina', 'N'),
@@ -28546,7 +28546,7 @@ INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode
 (28486, 'zimotik', 'Adjektiva', 'ADJ'),
 (28487, 'zimurgi', 'Nomina', 'N'),
 (28488, 'zina', 'Nomina', 'N');
-INSERT INTO `tb_katadasar` (`id_katadasar`, `katadasar`, `tipe_katadasar`, `kode_katadasar`) VALUES
+INSERT INTO `katadasar` (`id`, `kata`, `tipe`, `kode`) VALUES
 (28489, 'zindik', 'Nomina', 'N'),
 (28490, 'zink', 'Nomina', 'N'),
 (28491, 'zinkografi', 'Nomina', 'N'),

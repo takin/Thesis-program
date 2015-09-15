@@ -16,5 +16,5 @@ public abstract class Token {
     public static final String KEY_TOKEN_SEMANTIC_TYPE = "semanticType";
     public static final String KEY_TOKEN_WORD_ROLE = "wordRole";
     public static final String KEY_TOKEN_WORD_FUNCTION = "wordFunction";
-    public static final String KEY_TOKEN_HAS_RESTRICTION = "hasRestriction";
+    public static final String KEY_TOKEN_OBJECT_RESTRICTION = "objectRestriction";
 }
