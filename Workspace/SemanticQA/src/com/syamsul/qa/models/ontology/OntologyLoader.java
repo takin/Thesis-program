@@ -3,94 +3,58 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.syamsul.qa.models.ontology;
+package SemanticQA.models.ontology;
 
-import java.util.ArrayList;
-import java.util.List;
 
+import java.net.URISyntaxException;
+
+import org.semanticweb.HermiT.Reasoner;
+import org.semanticweb.HermiT.Reasoner.ReasonerFactory;
 import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.io.OWLOntologyCreationIOException;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyAlreadyExistsException;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyDocumentAlreadyExistsException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.reasoner.InferenceType;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+import org.semanticweb.owlapi.reasoner.SimpleConfiguration;
 import org.semanticweb.owlapi.util.OWLOntologyMerger;
 
-import com.syamsul.qa.helpers.TaskListener;
+import SemanticQA.constant.Ontology;
 
 /**
  *
  * @author syamsul
  */
-public class OntologyLoader {
-    
-    private static OWLOntologyManager ontologyManager;
-    private static OWLOntologyMerger ontologyMerger;
-    private static OWLOntology ontology;
-    
-    private static List<String> ontologyLocations;
-    private static String mergedURI = "";
-    
-    private static OntologyLoader ontologyLoader;
-    
-    public interface OntologyLoaderListener extends TaskListener {
-    	public void onOntologyLoaded(OWLOntology ontology);
-    }
-    
-    public OntologyLoader(List<String> locations, String mergedIRI){
-        ontologyManager = OWLManager.createOWLOntologyManager();
-        ontologyLocations = locations;
-        if(!mergedIRI.isEmpty()){
-            mergedURI = mergedIRI;
-        }
-    }
-    
-    @SuppressWarnings("serial")
-	public OntologyLoader(final String location){
-        this(new ArrayList<String>(){{add(location);}}, "");
-    }
-    
-    public static OntologyLoader load(List<String> locations, String mergedIRI){
-        ontologyLoader = new OntologyLoader(locations, mergedIRI);
-        return ontologyLoader;
-    }
-    
-    @SuppressWarnings("serial")
-	public static OntologyLoader load(final String location){
-        return OntologyLoader.load(new ArrayList<String>(){{add(location);}},"");
-    }
-    
-    public static void getResult(OntologyLoaderListener listener){
-        try {
-            listener.onOntologyLoaded(ontologyLoader.getOntology());
-            
-        } catch (OWLOntologyAlreadyExistsException | OWLOntologyDocumentAlreadyExistsException ex) {
-            
-            listener.onTaskFail(OntologyLoader.class.getName(),ex.getMessage());
-            
-        } catch (OWLOntologyCreationException ex) {
-            
-            listener.onTaskFail(OntologyLoader.class.getName(), ex.getMessage());
-            
-        }
-    }
-    
-    public OWLOntology getOntology() throws OWLOntologyCreationIOException, 
-            OWLOntologyAlreadyExistsException, OWLOntologyDocumentAlreadyExistsException, OWLOntologyCreationException {
-        
-        if(ontologyLocations.size() > 1){
-            ontologyMerger = new OWLOntologyMerger(ontologyManager);
-            
-            for(String location: ontologyLocations){
-                ontologyManager.loadOntologyFromOntologyDocument(IRI.create(location));
-            }
-            ontology = ontologyMerger.createMergedOntology(ontologyManager, IRI.create(mergedURI));
-        } else {
-            ontology = ontologyManager.loadOntologyFromOntologyDocument(IRI.create(ontologyLocations.get(0)));
-        }
-        
-        return ontology;
-    }
+public abstract class OntologyLoader {
+	
+	protected OWLOntology ontology;
+	protected OWLReasoner reasoner;
+	protected OWLDataFactory dataFactory;
+	
+	public OntologyLoader() {
+		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+		
+		dataFactory = manager.getOWLDataFactory();
+		
+		try {
+			manager.loadOntologyFromOntologyDocument(IRI.create(this.getClass().getClassLoader().getResource("ntbgov.owl")));
+//			manager.loadOntologyFromOntologyDocument(IRI.create("file:///home/syamsul/Documents/Thesis-program/Ontologi/ntbpar.owl"));
+//			manager.loadOntologyFromOntologyDocument(IRI.create("file:///home/syamsul/Documents/Thesis-program/Ontologi/ntbgov.owl"));
+//			manager.loadOntologyFromOntologyDocument(IRI.create("file:///home/syamsul/Documents/Thesis-program/Ontologi/ntbgeo.owl"));
+			
+			OWLOntologyMerger merger = new OWLOntologyMerger(manager);
+			ontology = merger.createMergedOntology(manager, IRI.create(Ontology.ONTO_MERGED_URI));
+			
+			ReasonerFactory rf = new Reasoner.ReasonerFactory();
+			
+			reasoner = rf.createReasoner(ontology, new SimpleConfiguration());
+			reasoner.precomputeInferences(InferenceType.CLASS_ASSERTIONS);
+			reasoner.precomputeInferences(InferenceType.CLASS_HIERARCHY);
+			
+		} catch (OWLOntologyCreationException | URISyntaxException e) {
+			e.printStackTrace();
+		}
+	}
 }

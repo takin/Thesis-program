@@ -32,7 +32,6 @@ import SemanticQA.helpers.QATokenModel;
  * =============================================================================*/
 public class Tokenizer {
 	
-	private List<QATokenModel> TOKEN;
 	private Connection CONNECTION;
 	
 	public interface TokenizerListener {
@@ -40,23 +39,28 @@ public class Tokenizer {
 	}
     
 	public Tokenizer() {
-		TOKEN = new ArrayList<QATokenModel>();
 		CONNECTION = initDatabase();
 	}
 	
-    public void tokenize(String sentence, TokenizerListener listener){
+    public List<QATokenModel> tokenize(String sentence){
         	
     	List<String> temporaryList = new ArrayList<>(Arrays.asList(sentence.split(" ")));
+    	final List<QATokenModel> token = new ArrayList<QATokenModel>();
     	
-    	for(final String word: temporaryList){
-    		QATokenModel tm = new QATokenModel();
+    	for(String word: temporaryList){
+    		
+			QATokenModel tm = new QATokenModel();
     		
     		tm.setWord(word);
     		tm.setWordType(checkWordType(word));
-    		
-    		TOKEN.add(tm);
+    		token.add(tm);    
     	}
-    	listener.onTokenizeSuccess(TOKEN);
+    	try {
+			CONNECTION.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    	return token;
         
     }
      

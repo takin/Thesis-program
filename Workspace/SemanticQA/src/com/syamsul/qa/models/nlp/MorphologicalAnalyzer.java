@@ -1,4 +1,4 @@
-package com.syamsul.qa.models.nlp;
+package SemanticQA.models.nlp;
 
 public class MorphologicalAnalyzer {
 
