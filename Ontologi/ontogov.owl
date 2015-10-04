@@ -17,11 +17,12 @@
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      ontologyIRI="http://semanticweb.techtalk.web.id/ontology/ontogov"
      versionIRI="http://semanticweb.techtalk.web.id/ontology/ontogov/1.0">
-    <Prefix name="prop" IRI="http://semanticweb.techtalk.web.id/ontology/property#"/>
-    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
-    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
-    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="" IRI="http://www.w3.org/2002/07/owl#"/>
     <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="prop" IRI="http://semanticweb.techtalk.web.id/ontology/property#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
     <Declaration>
         <Class IRI="#Badan"/>
     </Declaration>
@@ -96,6 +97,15 @@
     </Declaration>
     <Declaration>
         <ObjectProperty abbreviatedIRI="prop:viceOf"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty abbreviatedIRI="prop:hasAddress"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty abbreviatedIRI="prop:hasPhone"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty abbreviatedIRI="prop:hasWebsite"/>
     </Declaration>
     <EquivalentClasses>
         <Class IRI="#Badan"/>

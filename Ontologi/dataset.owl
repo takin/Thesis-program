@@ -1,0 +1,294 @@
+@prefix : <http://semanticweb.techtalk.web.id/ontology/dataset#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://semanticweb.techtalk.web.id/ontology/dataset> .
+
+<http://semanticweb.techtalk.web.id/ontology/dataset> rdf:type owl:Ontology .
+
+
+#################################################################
+#
+#    Individuals
+#
+#################################################################
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Ali_bin_dahlan
+
+:Ali_bin_dahlan rdf:type owl:NamedIndividual ,
+                         owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Ayam_taliwang_irama
+
+:Ayam_taliwang_irama rdf:type owl:NamedIndividual ,
+                              owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Cincin_mutiara
+
+:Cincin_mutiara rdf:type owl:NamedIndividual ,
+                         owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Desa_danger
+
+:Desa_danger rdf:type owl:NamedIndividual ,
+                      owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Desa_kumbang
+
+:Desa_kumbang rdf:type owl:NamedIndividual ,
+                       owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Desa_lendang_nangka
+
+:Desa_lendang_nangka rdf:type owl:NamedIndividual ,
+                              owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Desa_sade
+
+:Desa_sade rdf:type owl:NamedIndividual ,
+                    owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Dinas_pendidikan_kota_mataram
+
+:Dinas_pendidikan_kota_mataram rdf:type owl:NamedIndividual ,
+                                        owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Gelang_mutiara
+
+:Gelang_mutiara rdf:type owl:NamedIndividual ,
+                         owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Gerabah
+
+:Gerabah rdf:type owl:NamedIndividual ,
+                  owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Gili_air
+
+:Gili_air rdf:type owl:NamedIndividual ,
+                   owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Gili_lampu
+
+:Gili_lampu rdf:type owl:NamedIndividual ,
+                     owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Gili_meno
+
+:Gili_meno rdf:type owl:NamedIndividual ,
+                    owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Gili_nanggu
+
+:Gili_nanggu rdf:type owl:NamedIndividual ,
+                      owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Gili_trawangan
+
+:Gili_trawangan rdf:type owl:NamedIndividual ,
+                         owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Gunung_rinjani
+
+:Gunung_rinjani rdf:type owl:NamedIndividual ,
+                         owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Gunung_tambora
+
+:Gunung_tambora rdf:type owl:NamedIndividual ,
+                         owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Holiday_inn
+
+:Holiday_inn rdf:type owl:NamedIndividual ,
+                      owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Kain_songket
+
+:Kain_songket rdf:type owl:NamedIndividual ,
+                       owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Kalung_mutiara
+
+:Kalung_mutiara rdf:type owl:NamedIndividual ,
+                         owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Lombok_barat
+
+:Lombok_barat rdf:type owl:NamedIndividual ,
+                       owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Lombok_raya
+
+:Lombok_raya rdf:type owl:NamedIndividual ,
+                      owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Lombok_tengah
+
+:Lombok_tengah rdf:type owl:NamedIndividual ,
+                        owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Lombok_timur
+
+:Lombok_timur rdf:type owl:NamedIndividual ,
+                       owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Lombok_utara
+
+:Lombok_utara rdf:type owl:NamedIndividual ,
+                       owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Masbagik
+
+:Masbagik rdf:type owl:NamedIndividual ,
+                   owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Mataram
+
+:Mataram rdf:type owl:NamedIndividual ,
+                  owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Pantai_kuta
+
+:Pantai_kuta rdf:type owl:NamedIndividual ,
+                      owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Pantai_mawun
+
+:Pantai_mawun rdf:type owl:NamedIndividual ,
+                       owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Pantai_pink
+
+:Pantai_pink rdf:type owl:NamedIndividual ,
+                      owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Pantai_selong_belanak
+
+:Pantai_selong_belanak rdf:type owl:NamedIndividual ,
+                                owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Pantai_senggigi
+
+:Pantai_senggigi rdf:type owl:NamedIndividual ,
+                          owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Pantai_tanjung_an
+
+:Pantai_tanjung_an rdf:type owl:NamedIndividual ,
+                            owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Pantai_tanjung_ringgit
+
+:Pantai_tanjung_ringgit rdf:type owl:NamedIndividual ,
+                                 owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Sate_bulayak
+
+:Sate_bulayak rdf:type owl:NamedIndividual ,
+                       owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Senggigi
+
+:Senggigi rdf:type owl:NamedIndividual ,
+                   owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Senggigi_beach
+
+:Senggigi_beach rdf:type owl:NamedIndividual ,
+                         owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Skarbela
+
+:Skarbela rdf:type owl:NamedIndividual ,
+                   owl:Thing .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Zainul_majdi
+
+:Zainul_majdi rdf:type owl:NamedIndividual ,
+                       owl:Thing .
+
+
+
+
+###  Generated by the OWL API (version 3.5.0) http://owlapi.sourceforge.net
+
