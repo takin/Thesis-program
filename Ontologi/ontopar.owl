@@ -1,0 +1,421 @@
+@prefix : <http://semanticweb.techtalk.web.id/ontologies/ontopar#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix prop: <http://semanticweb.techtalk.web.id/ontology/property#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://semanticweb.techtalk.web.id/ontology/ontopar> .
+
+<http://semanticweb.techtalk.web.id/ontology/ontopar> rdf:type owl:Ontology ;
+                                                      
+                                                      owl:versionIRI <http://semanticweb.techtalk.web.id/ontology/ontopar/1.0> .
+
+
+#################################################################
+#
+#    Object Properties
+#
+#################################################################
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/property#hasDestination
+
+<http://semanticweb.techtalk.web.id/ontologies/property#hasDestination> rdf:type owl:ObjectProperty .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/property#hasProduct
+
+<http://semanticweb.techtalk.web.id/ontologies/property#hasProduct> rdf:type owl:ObjectProperty .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/property#hasRitual
+
+<http://semanticweb.techtalk.web.id/ontologies/property#hasRitual> rdf:type owl:ObjectProperty .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/property#hasTradition
+
+<http://semanticweb.techtalk.web.id/ontologies/property#hasTradition> rdf:type owl:ObjectProperty .
+
+
+
+
+
+#################################################################
+#
+#    Data properties
+#
+#################################################################
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/property#rate
+
+<http://semanticweb.techtalk.web.id/ontologies/property#rate> rdf:type owl:DatatypeProperty ;
+                                                              
+                                                              rdfs:comment "Property untuk menunjukkan rating hotel (1 - 5)" .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/property#roomRate
+
+<http://semanticweb.techtalk.web.id/ontologies/property#roomRate> rdf:type owl:DatatypeProperty ;
+                                                                  
+                                                                  rdfs:comment "Property untuk menjelaskan tarif kamar hotel" .
+
+
+
+
+
+#################################################################
+#
+#    Classes
+#
+#################################################################
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/ontopar#Akomodasi
+
+:Akomodasi rdf:type owl:Class .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/ontopar#Budaya
+
+:Budaya rdf:type owl:Class ;
+        
+        owl:equivalentClass :Tradisi ,
+                            [ rdf:type owl:Class ;
+                              owl:intersectionOf ( :Produk
+                                                   [ rdf:type owl:Class ;
+                                                     owl:complementOf [ rdf:type owl:Class ;
+                                                                        owl:unionOf ( :Kuliner
+                                                                                      :Souvenir
+                                                                                    )
+                                                                      ]
+                                                   ]
+                                                 )
+                            ] .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/ontopar#Gunung
+
+:Gunung rdf:type owl:Class .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/ontopar#Hotel
+
+:Hotel rdf:type owl:Class ;
+       
+       owl:equivalentClass [ rdf:type owl:Class ;
+                             owl:intersectionOf ( :Penginapan
+                                                  [ rdf:type owl:Class ;
+                                                    owl:complementOf [ rdf:type owl:Class ;
+                                                                       owl:unionOf ( :Losmen
+                                                                                     :Villa
+                                                                                   )
+                                                                     ]
+                                                  ]
+                                                )
+                           ] .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/ontopar#Kuliner
+
+:Kuliner rdf:type owl:Class ;
+         
+         owl:equivalentClass [ rdf:type owl:Class ;
+                               owl:intersectionOf ( :Produk
+                                                    [ rdf:type owl:Class ;
+                                                      owl:complementOf [ rdf:type owl:Class ;
+                                                                         owl:unionOf ( :Budaya
+                                                                                       :Souvenir
+                                                                                     )
+                                                                       ]
+                                                    ]
+                                                  )
+                             ] .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/ontopar#Losmen
+
+:Losmen rdf:type owl:Class ;
+        
+        owl:equivalentClass [ rdf:type owl:Class ;
+                              owl:intersectionOf ( :Penginapan
+                                                   [ rdf:type owl:Class ;
+                                                     owl:complementOf [ rdf:type owl:Class ;
+                                                                        owl:unionOf ( :Hotel
+                                                                                      :Villa
+                                                                                    )
+                                                                      ]
+                                                   ]
+                                                 )
+                            ] .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/ontopar#Makanan
+
+:Makanan rdf:type owl:Class ;
+         
+         owl:equivalentClass [ rdf:type owl:Class ;
+                               owl:intersectionOf ( :Kuliner
+                                                    [ rdf:type owl:Class ;
+                                                      owl:complementOf :Minuman
+                                                    ]
+                                                  )
+                             ] .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/ontopar#Minuman
+
+:Minuman rdf:type owl:Class ;
+         
+         owl:equivalentClass [ rdf:type owl:Class ;
+                               owl:intersectionOf ( :Kuliner
+                                                    [ rdf:type owl:Class ;
+                                                      owl:complementOf :Makanan
+                                                    ]
+                                                  )
+                             ] .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/ontopar#Pantai
+
+:Pantai rdf:type owl:Class .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/ontopar#Penginapan
+
+:Penginapan rdf:type owl:Class ;
+            
+            owl:equivalentClass [ rdf:type owl:Class ;
+                                  owl:intersectionOf ( :Akomodasi
+                                                       [ rdf:type owl:Class ;
+                                                         owl:complementOf :Transportasi
+                                                       ]
+                                                     )
+                                ] .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/ontopar#Produk
+
+:Produk rdf:type owl:Class .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/ontopar#Souvenir
+
+:Souvenir rdf:type owl:Class ;
+          
+          owl:equivalentClass [ rdf:type owl:Class ;
+                                owl:intersectionOf ( :Produk
+                                                     [ rdf:type owl:Class ;
+                                                       owl:complementOf [ rdf:type owl:Class ;
+                                                                          owl:unionOf ( :Budaya
+                                                                                        :Kuliner
+                                                                                      )
+                                                                        ]
+                                                     ]
+                                                   )
+                              ] .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/ontopar#Tradisi
+
+:Tradisi rdf:type owl:Class ;
+         
+         rdfs:subClassOf :Produk .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/ontopar#Transportasi
+
+:Transportasi rdf:type owl:Class ;
+              
+              owl:equivalentClass [ rdf:type owl:Class ;
+                                    owl:intersectionOf ( :Akomodasi
+                                                         [ rdf:type owl:Class ;
+                                                           owl:complementOf :Penginapan
+                                                         ]
+                                                       )
+                                  ] .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/ontopar#Villa
+
+:Villa rdf:type owl:Class ;
+       
+       owl:equivalentClass [ rdf:type owl:Class ;
+                             owl:intersectionOf ( :Penginapan
+                                                  [ rdf:type owl:Class ;
+                                                    owl:complementOf [ rdf:type owl:Class ;
+                                                                       owl:unionOf ( :Hotel
+                                                                                     :Losmen
+                                                                                   )
+                                                                     ]
+                                                  ]
+                                                )
+                           ] .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/ontopar#Wisata
+
+:Wisata rdf:type owl:Class .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/ontopar#Wisata_alam
+
+:Wisata_alam rdf:type owl:Class ;
+             
+             owl:equivalentClass [ rdf:type owl:Class ;
+                                   owl:intersectionOf ( :Wisata
+                                                        [ rdf:type owl:Restriction ;
+                                                          owl:onProperty <http://semanticweb.techtalk.web.id/ontologies/property#hasDestination> ;
+                                                          owl:allValuesFrom [ rdf:type owl:Class ;
+                                                                              owl:unionOf ( :Gunung
+                                                                                            :Pantai
+                                                                                          )
+                                                                            ]
+                                                        ]
+                                                      )
+                                 ] .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/ontopar#Wisata_belanja
+
+:Wisata_belanja rdf:type owl:Class ;
+                
+                owl:equivalentClass [ rdf:type owl:Class ;
+                                      owl:intersectionOf ( :Wisata
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty <http://semanticweb.techtalk.web.id/ontologies/property#hasProduct> ;
+                                                             owl:allValuesFrom :Souvenir
+                                                           ]
+                                                         )
+                                    ] .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/ontopar#Wisata_budaya
+
+:Wisata_budaya rdf:type owl:Class ;
+               
+               owl:equivalentClass [ rdf:type owl:Class ;
+                                     owl:intersectionOf ( :Wisata
+                                                          [ rdf:type owl:Class ;
+                                                            owl:unionOf ( [ rdf:type owl:Restriction ;
+                                                                            owl:onProperty <http://semanticweb.techtalk.web.id/ontologies/property#hasRitual> ;
+                                                                            owl:allValuesFrom :Budaya
+                                                                          ]
+                                                                          [ rdf:type owl:Restriction ;
+                                                                            owl:onProperty <http://semanticweb.techtalk.web.id/ontologies/property#hasTradition> ;
+                                                                            owl:allValuesFrom :Budaya
+                                                                          ]
+                                                                        )
+                                                          ]
+                                                        )
+                                   ] .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/ontopar#Wisata_kuliner
+
+:Wisata_kuliner rdf:type owl:Class ;
+                
+                owl:equivalentClass [ rdf:type owl:Class ;
+                                      owl:intersectionOf ( :Wisata
+                                                           [ rdf:type owl:Restriction ;
+                                                             owl:onProperty <http://semanticweb.techtalk.web.id/ontologies/property#hasProduct> ;
+                                                             owl:allValuesFrom :Kuliner
+                                                           ]
+                                                         )
+                                    ] .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/ontopar#Wisata_pantai
+
+:Wisata_pantai rdf:type owl:Class ;
+               
+               owl:equivalentClass [ rdf:type owl:Class ;
+                                     owl:intersectionOf ( :Wisata
+                                                          [ rdf:type owl:Restriction ;
+                                                            owl:onProperty <http://semanticweb.techtalk.web.id/ontologies/property#hasDestination> ;
+                                                            owl:allValuesFrom :Pantai
+                                                          ]
+                                                        )
+                                   ] .
+
+
+
+
+
+#################################################################
+#
+#    Individuals
+#
+#################################################################
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/ontopar#bulayak
+
+:bulayak rdf:type :Makanan ,
+                  owl:NamedIndividual .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/ontopar#mutiara
+
+:mutiara rdf:type :Souvenir ,
+                  owl:NamedIndividual .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontologies/ontopar#pantai_senggigi
+
+:pantai_senggigi rdf:type :Pantai ,
+                          owl:NamedIndividual .
+
+
+
+
+
+#################################################################
+#
+#    General axioms
+#
+#################################################################
+
+
+[ rdf:type owl:AllDisjointClasses ;
+  owl:members ( :Akomodasi
+                :Gunung
+                :Pantai
+                :Produk
+                :Wisata
+              )
+] .
+
+
+
+
+###  Generated by the OWL API (version 3.5.0) http://owlapi.sourceforge.net
+

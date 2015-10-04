@@ -1,0 +1,422 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE Ontology [
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://semanticweb.techtalk.web.id/ontology/ontogov"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="http://semanticweb.techtalk.web.id/ontology/ontogov"
+     versionIRI="http://semanticweb.techtalk.web.id/ontology/ontogov/1.0">
+    <Prefix name="prop" IRI="http://semanticweb.techtalk.web.id/ontology/property#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Declaration>
+        <Class IRI="#Badan"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Biro"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Bupati"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Camat"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Desa"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Dinas"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Gubernur"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Kabupaten"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Kecamatan"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Kepala_badan"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Kepala_biro"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Kepala_desa"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Kepala_dinas"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Kota"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Orang"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Pegawai_negeri"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Pemerintah_daerah"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Provinsi"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Wakil_bupati"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Wakil_camat"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Wakil_gubernur"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Wakil_wali_kota"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Wali_kota"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty abbreviatedIRI="prop:headOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty abbreviatedIRI="prop:viceOf"/>
+    </Declaration>
+    <EquivalentClasses>
+        <Class IRI="#Badan"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Pemerintah_daerah"/>
+            <ObjectComplementOf>
+                <ObjectUnionOf>
+                    <Class IRI="#Biro"/>
+                    <Class IRI="#Desa"/>
+                    <Class IRI="#Dinas"/>
+                    <Class IRI="#Kabupaten"/>
+                    <Class IRI="#Kecamatan"/>
+                    <Class IRI="#Kota"/>
+                    <Class IRI="#Provinsi"/>
+                </ObjectUnionOf>
+            </ObjectComplementOf>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Biro"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Pemerintah_daerah"/>
+            <ObjectComplementOf>
+                <ObjectUnionOf>
+                    <Class IRI="#Badan"/>
+                    <Class IRI="#Desa"/>
+                    <Class IRI="#Dinas"/>
+                    <Class IRI="#Kabupaten"/>
+                    <Class IRI="#Kecamatan"/>
+                    <Class IRI="#Kota"/>
+                    <Class IRI="#Provinsi"/>
+                </ObjectUnionOf>
+            </ObjectComplementOf>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Bupati"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Orang"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty abbreviatedIRI="prop:headOf"/>
+                <Class IRI="#Kabupaten"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Camat"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Pegawai_negeri"/>
+            <ObjectComplementOf>
+                <ObjectUnionOf>
+                    <Class IRI="#Kepala_badan"/>
+                    <Class IRI="#Kepala_biro"/>
+                    <Class IRI="#Kepala_dinas"/>
+                    <Class IRI="#Wakil_camat"/>
+                </ObjectUnionOf>
+            </ObjectComplementOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty abbreviatedIRI="prop:headOf"/>
+                <Class IRI="#Kecamatan"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Desa"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Pemerintah_daerah"/>
+            <ObjectComplementOf>
+                <ObjectUnionOf>
+                    <Class IRI="#Badan"/>
+                    <Class IRI="#Biro"/>
+                    <Class IRI="#Dinas"/>
+                    <Class IRI="#Kabupaten"/>
+                    <Class IRI="#Kecamatan"/>
+                    <Class IRI="#Kota"/>
+                    <Class IRI="#Provinsi"/>
+                </ObjectUnionOf>
+            </ObjectComplementOf>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Dinas"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Pemerintah_daerah"/>
+            <ObjectComplementOf>
+                <ObjectUnionOf>
+                    <Class IRI="#Badan"/>
+                    <Class IRI="#Biro"/>
+                    <Class IRI="#Desa"/>
+                    <Class IRI="#Kabupaten"/>
+                    <Class IRI="#Kecamatan"/>
+                    <Class IRI="#Kota"/>
+                    <Class IRI="#Provinsi"/>
+                </ObjectUnionOf>
+            </ObjectComplementOf>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Gubernur"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Orang"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty abbreviatedIRI="prop:headOf"/>
+                <Class IRI="#Provinsi"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Kabupaten"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Pemerintah_daerah"/>
+            <ObjectComplementOf>
+                <ObjectUnionOf>
+                    <Class IRI="#Badan"/>
+                    <Class IRI="#Biro"/>
+                    <Class IRI="#Desa"/>
+                    <Class IRI="#Dinas"/>
+                    <Class IRI="#Kecamatan"/>
+                    <Class IRI="#Kota"/>
+                    <Class IRI="#Provinsi"/>
+                </ObjectUnionOf>
+            </ObjectComplementOf>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Kecamatan"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Pemerintah_daerah"/>
+            <ObjectComplementOf>
+                <ObjectUnionOf>
+                    <Class IRI="#Badan"/>
+                    <Class IRI="#Biro"/>
+                    <Class IRI="#Desa"/>
+                    <Class IRI="#Dinas"/>
+                    <Class IRI="#Kabupaten"/>
+                    <Class IRI="#Kota"/>
+                    <Class IRI="#Provinsi"/>
+                </ObjectUnionOf>
+            </ObjectComplementOf>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Kepala_badan"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Pegawai_negeri"/>
+            <ObjectComplementOf>
+                <ObjectUnionOf>
+                    <Class IRI="#Camat"/>
+                    <Class IRI="#Kepala_biro"/>
+                    <Class IRI="#Kepala_dinas"/>
+                    <Class IRI="#Wakil_camat"/>
+                </ObjectUnionOf>
+            </ObjectComplementOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty abbreviatedIRI="prop:headOf"/>
+                <Class IRI="#Badan"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Kepala_biro"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Pegawai_negeri"/>
+            <ObjectComplementOf>
+                <ObjectUnionOf>
+                    <Class IRI="#Camat"/>
+                    <Class IRI="#Kepala_badan"/>
+                    <Class IRI="#Kepala_dinas"/>
+                    <Class IRI="#Wakil_camat"/>
+                </ObjectUnionOf>
+            </ObjectComplementOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty abbreviatedIRI="prop:headOf"/>
+                <Class IRI="#Biro"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Kepala_desa"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Orang"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty abbreviatedIRI="prop:headOf"/>
+                <Class IRI="#Desa"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Kepala_dinas"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Pegawai_negeri"/>
+            <ObjectComplementOf>
+                <ObjectUnionOf>
+                    <Class IRI="#Camat"/>
+                    <Class IRI="#Kepala_badan"/>
+                    <Class IRI="#Kepala_biro"/>
+                    <Class IRI="#Wakil_camat"/>
+                </ObjectUnionOf>
+            </ObjectComplementOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty abbreviatedIRI="prop:headOf"/>
+                <Class IRI="#Dinas"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Kota"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Pemerintah_daerah"/>
+            <ObjectComplementOf>
+                <ObjectUnionOf>
+                    <Class IRI="#Badan"/>
+                    <Class IRI="#Biro"/>
+                    <Class IRI="#Desa"/>
+                    <Class IRI="#Dinas"/>
+                    <Class IRI="#Kabupaten"/>
+                    <Class IRI="#Kecamatan"/>
+                    <Class IRI="#Provinsi"/>
+                </ObjectUnionOf>
+            </ObjectComplementOf>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Pegawai_negeri"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Orang"/>
+            <ObjectComplementOf>
+                <ObjectUnionOf>
+                    <Class IRI="#Bupati"/>
+                    <Class IRI="#Gubernur"/>
+                    <Class IRI="#Kepala_desa"/>
+                    <Class IRI="#Wakil_bupati"/>
+                    <Class IRI="#Wakil_gubernur"/>
+                    <Class IRI="#Wakil_wali_kota"/>
+                    <Class IRI="#Wali_kota"/>
+                </ObjectUnionOf>
+            </ObjectComplementOf>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Provinsi"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Pemerintah_daerah"/>
+            <ObjectComplementOf>
+                <ObjectUnionOf>
+                    <Class IRI="#Badan"/>
+                    <Class IRI="#Biro"/>
+                    <Class IRI="#Desa"/>
+                    <Class IRI="#Dinas"/>
+                    <Class IRI="#Kabupaten"/>
+                    <Class IRI="#Kecamatan"/>
+                    <Class IRI="#Kota"/>
+                </ObjectUnionOf>
+            </ObjectComplementOf>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Wakil_bupati"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Orang"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty abbreviatedIRI="prop:viceOf"/>
+                <Class IRI="#Bupati"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Wakil_camat"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Pegawai_negeri"/>
+            <ObjectComplementOf>
+                <ObjectUnionOf>
+                    <Class IRI="#Camat"/>
+                    <Class IRI="#Kepala_badan"/>
+                    <Class IRI="#Kepala_biro"/>
+                    <Class IRI="#Kepala_dinas"/>
+                </ObjectUnionOf>
+            </ObjectComplementOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty abbreviatedIRI="prop:viceOf"/>
+                <Class IRI="#Camat"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Wakil_gubernur"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Orang"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty abbreviatedIRI="prop:viceOf"/>
+                <Class IRI="#Gubernur"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Wakil_wali_kota"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Orang"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty abbreviatedIRI="prop:viceOf"/>
+                <Class IRI="#Kota"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Wali_kota"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Orang"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty abbreviatedIRI="prop:headOf"/>
+                <Class IRI="#Kota"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <DisjointClasses>
+        <Class IRI="#Orang"/>
+        <Class IRI="#Pemerintah_daerah"/>
+    </DisjointClasses>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 3.5.0) http://owlapi.sourceforge.net -->
+
