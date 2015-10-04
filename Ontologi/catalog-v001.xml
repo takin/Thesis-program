@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
     <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
-        <uri id="Automatically generated entry, Timestamp=1443985286005" name="http://semanticweb.techtalk.web.id/ontology/onogeo" uri="ontogeo.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1443985286005" name="duplicate:http://www.ntbprov.go.id/semweb/resource/" uri="ntbgeo.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1443985286005" name="duplicate:http://www.ntbprov.go.id/semweb/resource/" uri="ntbgov.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1443985286005" name="duplicate:http://www.ntbprov.go.id/semweb/resource/" uri="ntbpar.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1443990173731" name="http://semanticweb.techtalk.web.id/ontology/ontogeo" uri="ontogeo.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1443990173731" name="http://semanticweb.techtalk.web.id/ontology/ontogov" uri="ontogov.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1443990173731" name="duplicate:http://www.ntbprov.go.id/semweb/resource/" uri="ntbgeo.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1443990173731" name="duplicate:http://www.ntbprov.go.id/semweb/resource/" uri="ntbgov.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1443990173731" name="duplicate:http://www.ntbprov.go.id/semweb/resource/" uri="ntbpar.owl"/>
     </group>
 </catalog>

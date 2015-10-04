@@ -60,6 +60,33 @@
         <Class IRI="#Provinsi"/>
     </Declaration>
     <Declaration>
+        <ObjectProperty abbreviatedIRI="prop:hasKabupaten"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty abbreviatedIRI="prop:hasKecamatan"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty abbreviatedIRI="prop:hasLocation"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty abbreviatedIRI="prop:hasProvinsi"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty abbreviatedIRI="prop:hasPopulation"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty abbreviatedIRI="prop:lat"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty abbreviatedIRI="prop:latitude"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty abbreviatedIRI="prop:lng"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty abbreviatedIRI="prop:longitude"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="#sapi_perah"/>
     </Declaration>
     <EquivalentClasses>
@@ -141,6 +168,14 @@
         <Class IRI="#Kota"/>
         <Class IRI="#Provinsi"/>
     </DisjointClasses>
+    <EquivalentDataProperties>
+        <DataProperty abbreviatedIRI="prop:lat"/>
+        <DataProperty abbreviatedIRI="prop:latitude"/>
+    </EquivalentDataProperties>
+    <EquivalentDataProperties>
+        <DataProperty abbreviatedIRI="prop:lng"/>
+        <DataProperty abbreviatedIRI="prop:longitude"/>
+    </EquivalentDataProperties>
 </Ontology>
 
 
