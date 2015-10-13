@@ -10,12 +10,12 @@
 
 
 <Ontology xmlns="http://www.w3.org/2002/07/owl#"
-     xml:base="http://semanticweb.techtalk.web.id/ontology/ontogeo"
+     xml:base="http://semanticweb.techtalk.web.id/ontology"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-     ontologyIRI="http://semanticweb.techtalk.web.id/ontology/ontogeo"
+     ontologyIRI="http://semanticweb.techtalk.web.id/ontology"
      versionIRI="http://semanticweb.techtalk.web.id/ontology/ontogeo/1.0">
     <Prefix name="" IRI="http://www.w3.org/2002/07/owl#"/>
     <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
@@ -23,11 +23,21 @@
     <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
     <Prefix name="prop" IRI="http://semanticweb.techtalk.web.id/ontology/property#"/>
     <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Ontologi yang memuat fakta-fakta seputar informasi geografis tingkat kabupaten, kota dan provinsi.</Literal>
+    </Annotation>
     <Declaration>
         <Class IRI="#Desa"/>
     </Declaration>
     <Declaration>
         <Class IRI="#Ibu_kota"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Ibu_kota_kabupaten"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Ibu_kota_provinsi"/>
     </Declaration>
     <Declaration>
         <Class IRI="#Kabupaten"/>
@@ -42,123 +52,170 @@
         <Class IRI="#Kota"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#Perikanan"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Perkebunan"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Pertambangan"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Pertanian"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Peternakan"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#Provinsi"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty abbreviatedIRI="prop:hasKabupaten"/>
+        <ObjectProperty IRI="/property#ada_di"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty abbreviatedIRI="prop:hasKecamatan"/>
+        <ObjectProperty IRI="/property#bagian_dari"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty abbreviatedIRI="prop:hasLocation"/>
+        <ObjectProperty IRI="/property#berada_di"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty abbreviatedIRI="prop:hasProvinsi"/>
+        <ObjectProperty IRI="/property#hasCapital"/>
     </Declaration>
     <Declaration>
-        <DataProperty abbreviatedIRI="prop:hasPopulation"/>
+        <ObjectProperty IRI="/property#hasCommodity"/>
     </Declaration>
     <Declaration>
-        <DataProperty abbreviatedIRI="prop:lat"/>
+        <ObjectProperty IRI="/property#hasHead"/>
     </Declaration>
     <Declaration>
-        <DataProperty abbreviatedIRI="prop:latitude"/>
+        <ObjectProperty IRI="/property#hasLocation"/>
     </Declaration>
     <Declaration>
-        <DataProperty abbreviatedIRI="prop:lng"/>
+        <ObjectProperty IRI="/property#hasPart"/>
     </Declaration>
     <Declaration>
-        <DataProperty abbreviatedIRI="prop:longitude"/>
+        <ObjectProperty IRI="/property#headOf"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#sapi_perah"/>
+        <ObjectProperty IRI="/property#ibu_kota_dari"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="/property#isCapitalOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="/property#isPartOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="/property#komoditas_asli"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="/property#letak"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="/property#terletak_di"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#alamat"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#alamat_website"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#hasAddress"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#hasArea"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#hasDensity"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#hasMotto"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#hasPhone"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#hasPopulation"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#hasSymbol"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#hasWebsite"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#kepadatan_penduduk"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#kode_pos"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#lambang"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#luas_wilayah"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#motto"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#populasi"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#postCode"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#simbol"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#telepon"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#telp"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#website"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Perikanan"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Perkebunan"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Pertambangan"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Pertanian"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Peternakan"/>
     </Declaration>
     <EquivalentClasses>
-        <Class IRI="#Perikanan"/>
-        <ObjectIntersectionOf>
-            <Class IRI="#Komoditas"/>
-            <ObjectComplementOf>
-                <ObjectUnionOf>
-                    <Class IRI="#Perkebunan"/>
-                    <Class IRI="#Pertambangan"/>
-                    <Class IRI="#Pertanian"/>
-                    <Class IRI="#Peternakan"/>
-                </ObjectUnionOf>
-            </ObjectComplementOf>
-        </ObjectIntersectionOf>
+        <Class IRI="#Ibu_kota"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="/property#isCapitalOf"/>
+            <Class IRI="#Kota"/>
+        </ObjectSomeValuesFrom>
     </EquivalentClasses>
     <EquivalentClasses>
-        <Class IRI="#Perkebunan"/>
-        <ObjectIntersectionOf>
-            <Class IRI="#Komoditas"/>
-            <ObjectComplementOf>
-                <ObjectUnionOf>
-                    <Class IRI="#Perikanan"/>
-                    <Class IRI="#Pertambangan"/>
-                    <Class IRI="#Pertanian"/>
-                    <Class IRI="#Peternakan"/>
-                </ObjectUnionOf>
-            </ObjectComplementOf>
-        </ObjectIntersectionOf>
+        <Class IRI="#Ibu_kota_kabupaten"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="/property#isCapitalOf"/>
+            <Class IRI="#Kabupaten"/>
+        </ObjectSomeValuesFrom>
     </EquivalentClasses>
     <EquivalentClasses>
-        <Class IRI="#Pertambangan"/>
-        <ObjectIntersectionOf>
-            <Class IRI="#Komoditas"/>
-            <ObjectComplementOf>
-                <ObjectUnionOf>
-                    <Class IRI="#Perikanan"/>
-                    <Class IRI="#Perkebunan"/>
-                    <Class IRI="#Pertanian"/>
-                    <Class IRI="#Peternakan"/>
-                </ObjectUnionOf>
-            </ObjectComplementOf>
-        </ObjectIntersectionOf>
+        <Class IRI="#Ibu_kota_provinsi"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="/property#isCapitalOf"/>
+            <Class IRI="#Provinsi"/>
+        </ObjectSomeValuesFrom>
     </EquivalentClasses>
     <EquivalentClasses>
-        <Class IRI="#Pertanian"/>
-        <ObjectIntersectionOf>
-            <Class IRI="#Komoditas"/>
-            <ObjectComplementOf>
-                <ObjectUnionOf>
-                    <Class IRI="#Perikanan"/>
-                    <Class IRI="#Perkebunan"/>
-                    <Class IRI="#Pertambangan"/>
-                    <Class IRI="#Peternakan"/>
-                </ObjectUnionOf>
-            </ObjectComplementOf>
-        </ObjectIntersectionOf>
+        <Class IRI="#Komoditas"/>
+        <ObjectOneOf>
+            <NamedIndividual IRI="#Peternakan"/>
+            <NamedIndividual IRI="#Pertanian"/>
+            <NamedIndividual IRI="#Perikanan"/>
+            <NamedIndividual IRI="#Pertambangan"/>
+            <NamedIndividual IRI="#Perkebunan"/>
+        </ObjectOneOf>
     </EquivalentClasses>
-    <EquivalentClasses>
-        <Class IRI="#Peternakan"/>
-        <ObjectIntersectionOf>
-            <Class IRI="#Komoditas"/>
-            <ObjectComplementOf>
-                <ObjectUnionOf>
-                    <Class IRI="#Perikanan"/>
-                    <Class IRI="#Perkebunan"/>
-                    <Class IRI="#Pertambangan"/>
-                    <Class IRI="#Pertanian"/>
-                </ObjectUnionOf>
-            </ObjectComplementOf>
-        </ObjectIntersectionOf>
-    </EquivalentClasses>
+    <SubClassOf>
+        <Class IRI="#Ibu_kota_kabupaten"/>
+        <Class IRI="#Ibu_kota"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Ibu_kota_provinsi"/>
+        <Class IRI="#Ibu_kota"/>
+    </SubClassOf>
     <DisjointClasses>
         <Class IRI="#Desa"/>
         <Class IRI="#Ibu_kota"/>
@@ -168,14 +225,169 @@
         <Class IRI="#Kota"/>
         <Class IRI="#Provinsi"/>
     </DisjointClasses>
+    <ClassAssertion>
+        <Class IRI="#Komoditas"/>
+        <NamedIndividual IRI="#Perikanan"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Komoditas"/>
+        <NamedIndividual IRI="#Perkebunan"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Komoditas"/>
+        <NamedIndividual IRI="#Pertambangan"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Komoditas"/>
+        <NamedIndividual IRI="#Pertanian"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Komoditas"/>
+        <NamedIndividual IRI="#Peternakan"/>
+    </ClassAssertion>
+    <EquivalentObjectProperties>
+        <ObjectProperty IRI="/property#ada_di"/>
+        <ObjectProperty IRI="/property#berada_di"/>
+    </EquivalentObjectProperties>
+    <EquivalentObjectProperties>
+        <ObjectProperty IRI="/property#ada_di"/>
+        <ObjectProperty IRI="/property#hasLocation"/>
+    </EquivalentObjectProperties>
+    <EquivalentObjectProperties>
+        <ObjectProperty IRI="/property#ada_di"/>
+        <ObjectProperty IRI="/property#letak"/>
+    </EquivalentObjectProperties>
+    <EquivalentObjectProperties>
+        <ObjectProperty IRI="/property#berada_di"/>
+        <ObjectProperty IRI="/property#hasLocation"/>
+    </EquivalentObjectProperties>
+    <EquivalentObjectProperties>
+        <ObjectProperty IRI="/property#berada_di"/>
+        <ObjectProperty IRI="/property#letak"/>
+    </EquivalentObjectProperties>
+    <EquivalentObjectProperties>
+        <ObjectProperty IRI="/property#hasLocation"/>
+        <ObjectProperty IRI="/property#letak"/>
+    </EquivalentObjectProperties>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="/property#ada_di"/>
+        <ObjectProperty IRI="/property#terletak_di"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="/property#berada_di"/>
+        <ObjectProperty IRI="/property#terletak_di"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="/property#hasCommodity"/>
+        <ObjectProperty IRI="/property#komoditas_asli"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="/property#hasLocation"/>
+        <ObjectProperty IRI="/property#terletak_di"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="/property#isCapitalOf"/>
+        <ObjectProperty IRI="/property#ibu_kota_dari"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="/property#isPartOf"/>
+        <ObjectProperty IRI="/property#bagian_dari"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="/property#letak"/>
+        <ObjectProperty IRI="/property#terletak_di"/>
+    </SubObjectPropertyOf>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="/property#hasCapital"/>
+        <ObjectProperty IRI="/property#isCapitalOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="/property#headOf"/>
+        <ObjectProperty IRI="/property#hasHead"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="/property#isPartOf"/>
+        <ObjectProperty IRI="/property#hasPart"/>
+    </InverseObjectProperties>
+    <TransitiveObjectProperty>
+        <ObjectProperty IRI="/property#hasCommodity"/>
+    </TransitiveObjectProperty>
+    <TransitiveObjectProperty>
+        <ObjectProperty IRI="/property#hasPart"/>
+    </TransitiveObjectProperty>
+    <TransitiveObjectProperty>
+        <ObjectProperty IRI="/property#isPartOf"/>
+    </TransitiveObjectProperty>
     <EquivalentDataProperties>
-        <DataProperty abbreviatedIRI="prop:lat"/>
-        <DataProperty abbreviatedIRI="prop:latitude"/>
+        <DataProperty IRI="/property#alamat_website"/>
+        <DataProperty IRI="/property#hasWebsite"/>
     </EquivalentDataProperties>
     <EquivalentDataProperties>
-        <DataProperty abbreviatedIRI="prop:lng"/>
-        <DataProperty abbreviatedIRI="prop:longitude"/>
+        <DataProperty IRI="/property#hasPhone"/>
+        <DataProperty IRI="/property#telp"/>
     </EquivalentDataProperties>
+    <EquivalentDataProperties>
+        <DataProperty IRI="/property#hasSymbol"/>
+        <DataProperty IRI="/property#simbol"/>
+    </EquivalentDataProperties>
+    <SubDataPropertyOf>
+        <DataProperty IRI="/property#alamat_website"/>
+        <DataProperty IRI="/property#website"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="/property#hasAddress"/>
+        <DataProperty IRI="/property#alamat"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="/property#hasArea"/>
+        <DataProperty IRI="/property#luas_wilayah"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="/property#hasDensity"/>
+        <DataProperty IRI="/property#kepadatan_penduduk"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="/property#hasMotto"/>
+        <DataProperty IRI="/property#motto"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="/property#hasPhone"/>
+        <DataProperty IRI="/property#telepon"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="/property#hasPopulation"/>
+        <DataProperty IRI="/property#populasi"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="/property#hasSymbol"/>
+        <DataProperty IRI="/property#lambang"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="/property#hasWebsite"/>
+        <DataProperty IRI="/property#website"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="/property#postCode"/>
+        <DataProperty IRI="/property#kode_pos"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="/property#simbol"/>
+        <DataProperty IRI="/property#lambang"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="/property#telp"/>
+        <DataProperty IRI="/property#telepon"/>
+    </SubDataPropertyOf>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>/property#hasDensity</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Kepadatan penduduk</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>/property#hasSymbol</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Logo kabupaten, propinsi dan kota</Literal>
+    </AnnotationAssertion>
 </Ontology>
 
 

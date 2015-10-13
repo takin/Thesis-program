@@ -10,12 +10,12 @@
 
 
 <Ontology xmlns="http://www.w3.org/2002/07/owl#"
-     xml:base="http://semanticweb.techtalk.web.id/ontology/ontogov"
+     xml:base="http://semanticweb.techtalk.web.id/ontology"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
-     ontologyIRI="http://semanticweb.techtalk.web.id/ontology/ontogov"
+     ontologyIRI="http://semanticweb.techtalk.web.id/ontology"
      versionIRI="http://semanticweb.techtalk.web.id/ontology/ontogov/1.0">
     <Prefix name="" IRI="http://www.w3.org/2002/07/owl#"/>
     <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
@@ -23,6 +23,10 @@
     <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
     <Prefix name="prop" IRI="http://semanticweb.techtalk.web.id/ontology/property#"/>
     <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Otologi yang menyimpan fakta-fakta seputar pemerintahan tingkat kabupaten, kota dan provinsi.</Literal>
+    </Annotation>
     <Declaration>
         <Class IRI="#Badan"/>
     </Declaration>
@@ -93,19 +97,55 @@
         <Class IRI="#Wali_kota"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty abbreviatedIRI="prop:headOf"/>
+        <ObjectProperty IRI="/property#hasHead"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty abbreviatedIRI="prop:viceOf"/>
+        <ObjectProperty IRI="/property#hasVice"/>
     </Declaration>
     <Declaration>
-        <DataProperty abbreviatedIRI="prop:hasAddress"/>
+        <ObjectProperty IRI="/property#headOf"/>
     </Declaration>
     <Declaration>
-        <DataProperty abbreviatedIRI="prop:hasPhone"/>
+        <ObjectProperty IRI="/property#kepala"/>
     </Declaration>
     <Declaration>
-        <DataProperty abbreviatedIRI="prop:hasWebsite"/>
+        <ObjectProperty IRI="/property#pimpinan"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="/property#viceOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="/property#wakil_dari"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#alamat"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#alamat_website"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#hasAddress"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#hasPhone"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#hasWebsite"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#kode_pos"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#postCode"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#telepon"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#telp"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#website"/>
     </Declaration>
     <EquivalentClasses>
         <Class IRI="#Badan"/>
@@ -146,7 +186,7 @@
         <ObjectIntersectionOf>
             <Class IRI="#Orang"/>
             <ObjectSomeValuesFrom>
-                <ObjectProperty abbreviatedIRI="prop:headOf"/>
+                <ObjectProperty IRI="/property#headOf"/>
                 <Class IRI="#Kabupaten"/>
             </ObjectSomeValuesFrom>
         </ObjectIntersectionOf>
@@ -164,7 +204,7 @@
                 </ObjectUnionOf>
             </ObjectComplementOf>
             <ObjectSomeValuesFrom>
-                <ObjectProperty abbreviatedIRI="prop:headOf"/>
+                <ObjectProperty IRI="/property#headOf"/>
                 <Class IRI="#Kecamatan"/>
             </ObjectSomeValuesFrom>
         </ObjectIntersectionOf>
@@ -208,7 +248,7 @@
         <ObjectIntersectionOf>
             <Class IRI="#Orang"/>
             <ObjectSomeValuesFrom>
-                <ObjectProperty abbreviatedIRI="prop:headOf"/>
+                <ObjectProperty IRI="/property#headOf"/>
                 <Class IRI="#Provinsi"/>
             </ObjectSomeValuesFrom>
         </ObjectIntersectionOf>
@@ -260,7 +300,7 @@
                 </ObjectUnionOf>
             </ObjectComplementOf>
             <ObjectSomeValuesFrom>
-                <ObjectProperty abbreviatedIRI="prop:headOf"/>
+                <ObjectProperty IRI="/property#headOf"/>
                 <Class IRI="#Badan"/>
             </ObjectSomeValuesFrom>
         </ObjectIntersectionOf>
@@ -278,7 +318,7 @@
                 </ObjectUnionOf>
             </ObjectComplementOf>
             <ObjectSomeValuesFrom>
-                <ObjectProperty abbreviatedIRI="prop:headOf"/>
+                <ObjectProperty IRI="/property#headOf"/>
                 <Class IRI="#Biro"/>
             </ObjectSomeValuesFrom>
         </ObjectIntersectionOf>
@@ -288,7 +328,7 @@
         <ObjectIntersectionOf>
             <Class IRI="#Orang"/>
             <ObjectSomeValuesFrom>
-                <ObjectProperty abbreviatedIRI="prop:headOf"/>
+                <ObjectProperty IRI="/property#headOf"/>
                 <Class IRI="#Desa"/>
             </ObjectSomeValuesFrom>
         </ObjectIntersectionOf>
@@ -306,7 +346,7 @@
                 </ObjectUnionOf>
             </ObjectComplementOf>
             <ObjectSomeValuesFrom>
-                <ObjectProperty abbreviatedIRI="prop:headOf"/>
+                <ObjectProperty IRI="/property#headOf"/>
                 <Class IRI="#Dinas"/>
             </ObjectSomeValuesFrom>
         </ObjectIntersectionOf>
@@ -367,7 +407,7 @@
         <ObjectIntersectionOf>
             <Class IRI="#Orang"/>
             <ObjectSomeValuesFrom>
-                <ObjectProperty abbreviatedIRI="prop:viceOf"/>
+                <ObjectProperty IRI="/property#viceOf"/>
                 <Class IRI="#Bupati"/>
             </ObjectSomeValuesFrom>
         </ObjectIntersectionOf>
@@ -385,7 +425,7 @@
                 </ObjectUnionOf>
             </ObjectComplementOf>
             <ObjectSomeValuesFrom>
-                <ObjectProperty abbreviatedIRI="prop:viceOf"/>
+                <ObjectProperty IRI="/property#viceOf"/>
                 <Class IRI="#Camat"/>
             </ObjectSomeValuesFrom>
         </ObjectIntersectionOf>
@@ -395,7 +435,7 @@
         <ObjectIntersectionOf>
             <Class IRI="#Orang"/>
             <ObjectSomeValuesFrom>
-                <ObjectProperty abbreviatedIRI="prop:viceOf"/>
+                <ObjectProperty IRI="/property#viceOf"/>
                 <Class IRI="#Gubernur"/>
             </ObjectSomeValuesFrom>
         </ObjectIntersectionOf>
@@ -405,7 +445,7 @@
         <ObjectIntersectionOf>
             <Class IRI="#Orang"/>
             <ObjectSomeValuesFrom>
-                <ObjectProperty abbreviatedIRI="prop:viceOf"/>
+                <ObjectProperty IRI="/property#viceOf"/>
                 <Class IRI="#Kota"/>
             </ObjectSomeValuesFrom>
         </ObjectIntersectionOf>
@@ -415,7 +455,7 @@
         <ObjectIntersectionOf>
             <Class IRI="#Orang"/>
             <ObjectSomeValuesFrom>
-                <ObjectProperty abbreviatedIRI="prop:headOf"/>
+                <ObjectProperty IRI="/property#headOf"/>
                 <Class IRI="#Kota"/>
             </ObjectSomeValuesFrom>
         </ObjectIntersectionOf>
@@ -424,6 +464,62 @@
         <Class IRI="#Orang"/>
         <Class IRI="#Pemerintah_daerah"/>
     </DisjointClasses>
+    <EquivalentObjectProperties>
+        <ObjectProperty IRI="/property#hasHead"/>
+        <ObjectProperty IRI="/property#pimpinan"/>
+    </EquivalentObjectProperties>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="/property#hasHead"/>
+        <ObjectProperty IRI="/property#kepala"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="/property#pimpinan"/>
+        <ObjectProperty IRI="/property#kepala"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="/property#viceOf"/>
+        <ObjectProperty IRI="/property#wakil_dari"/>
+    </SubObjectPropertyOf>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="/property#headOf"/>
+        <ObjectProperty IRI="/property#hasHead"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="/property#viceOf"/>
+        <ObjectProperty IRI="/property#hasVice"/>
+    </InverseObjectProperties>
+    <EquivalentDataProperties>
+        <DataProperty IRI="/property#alamat_website"/>
+        <DataProperty IRI="/property#hasWebsite"/>
+    </EquivalentDataProperties>
+    <EquivalentDataProperties>
+        <DataProperty IRI="/property#hasPhone"/>
+        <DataProperty IRI="/property#telp"/>
+    </EquivalentDataProperties>
+    <SubDataPropertyOf>
+        <DataProperty IRI="/property#alamat_website"/>
+        <DataProperty IRI="/property#website"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="/property#hasAddress"/>
+        <DataProperty IRI="/property#alamat"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="/property#hasPhone"/>
+        <DataProperty IRI="/property#telepon"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="/property#hasWebsite"/>
+        <DataProperty IRI="/property#website"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="/property#postCode"/>
+        <DataProperty IRI="/property#kode_pos"/>
+    </SubDataPropertyOf>
+    <SubDataPropertyOf>
+        <DataProperty IRI="/property#telp"/>
+        <DataProperty IRI="/property#telepon"/>
+    </SubDataPropertyOf>
 </Ontology>
 
 

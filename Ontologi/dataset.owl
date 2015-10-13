@@ -1,294 +1,304 @@
-@prefix : <http://semanticweb.techtalk.web.id/ontology/dataset#> .
-@prefix owl: <http://www.w3.org/2002/07/owl#> .
-@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
-@prefix xml: <http://www.w3.org/XML/1998/namespace> .
-@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
-@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
-@base <http://semanticweb.techtalk.web.id/ontology/dataset> .
-
-<http://semanticweb.techtalk.web.id/ontology/dataset> rdf:type owl:Ontology .
-
-
-#################################################################
-#
-#    Individuals
-#
-#################################################################
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Ali_bin_dahlan
-
-:Ali_bin_dahlan rdf:type owl:NamedIndividual ,
-                         owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Ayam_taliwang_irama
-
-:Ayam_taliwang_irama rdf:type owl:NamedIndividual ,
-                              owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Cincin_mutiara
-
-:Cincin_mutiara rdf:type owl:NamedIndividual ,
-                         owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Desa_danger
-
-:Desa_danger rdf:type owl:NamedIndividual ,
-                      owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Desa_kumbang
-
-:Desa_kumbang rdf:type owl:NamedIndividual ,
-                       owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Desa_lendang_nangka
-
-:Desa_lendang_nangka rdf:type owl:NamedIndividual ,
-                              owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Desa_sade
-
-:Desa_sade rdf:type owl:NamedIndividual ,
-                    owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Dinas_pendidikan_kota_mataram
-
-:Dinas_pendidikan_kota_mataram rdf:type owl:NamedIndividual ,
-                                        owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Gelang_mutiara
-
-:Gelang_mutiara rdf:type owl:NamedIndividual ,
-                         owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Gerabah
-
-:Gerabah rdf:type owl:NamedIndividual ,
-                  owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Gili_air
-
-:Gili_air rdf:type owl:NamedIndividual ,
-                   owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Gili_lampu
-
-:Gili_lampu rdf:type owl:NamedIndividual ,
-                     owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Gili_meno
-
-:Gili_meno rdf:type owl:NamedIndividual ,
-                    owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Gili_nanggu
-
-:Gili_nanggu rdf:type owl:NamedIndividual ,
-                      owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Gili_trawangan
-
-:Gili_trawangan rdf:type owl:NamedIndividual ,
-                         owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Gunung_rinjani
-
-:Gunung_rinjani rdf:type owl:NamedIndividual ,
-                         owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Gunung_tambora
-
-:Gunung_tambora rdf:type owl:NamedIndividual ,
-                         owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Holiday_inn
-
-:Holiday_inn rdf:type owl:NamedIndividual ,
-                      owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Kain_songket
-
-:Kain_songket rdf:type owl:NamedIndividual ,
-                       owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Kalung_mutiara
-
-:Kalung_mutiara rdf:type owl:NamedIndividual ,
-                         owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Lombok_barat
-
-:Lombok_barat rdf:type owl:NamedIndividual ,
-                       owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Lombok_raya
-
-:Lombok_raya rdf:type owl:NamedIndividual ,
-                      owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Lombok_tengah
-
-:Lombok_tengah rdf:type owl:NamedIndividual ,
-                        owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Lombok_timur
-
-:Lombok_timur rdf:type owl:NamedIndividual ,
-                       owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Lombok_utara
-
-:Lombok_utara rdf:type owl:NamedIndividual ,
-                       owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Masbagik
-
-:Masbagik rdf:type owl:NamedIndividual ,
-                   owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Mataram
-
-:Mataram rdf:type owl:NamedIndividual ,
-                  owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Pantai_kuta
-
-:Pantai_kuta rdf:type owl:NamedIndividual ,
-                      owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Pantai_mawun
-
-:Pantai_mawun rdf:type owl:NamedIndividual ,
-                       owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Pantai_pink
-
-:Pantai_pink rdf:type owl:NamedIndividual ,
-                      owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Pantai_selong_belanak
-
-:Pantai_selong_belanak rdf:type owl:NamedIndividual ,
-                                owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Pantai_senggigi
-
-:Pantai_senggigi rdf:type owl:NamedIndividual ,
-                          owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Pantai_tanjung_an
-
-:Pantai_tanjung_an rdf:type owl:NamedIndividual ,
-                            owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Pantai_tanjung_ringgit
-
-:Pantai_tanjung_ringgit rdf:type owl:NamedIndividual ,
-                                 owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Sate_bulayak
-
-:Sate_bulayak rdf:type owl:NamedIndividual ,
-                       owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Senggigi
-
-:Senggigi rdf:type owl:NamedIndividual ,
-                   owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Senggigi_beach
-
-:Senggigi_beach rdf:type owl:NamedIndividual ,
-                         owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Skarbela
-
-:Skarbela rdf:type owl:NamedIndividual ,
-                   owl:Thing .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Zainul_majdi
-
-:Zainul_majdi rdf:type owl:NamedIndividual ,
-                       owl:Thing .
-
-
-
-
-###  Generated by the OWL API (version 3.5.0) http://owlapi.sourceforge.net
+<?xml version="1.0"?>
+
+
+<!DOCTYPE Ontology [
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://semanticweb.techtalk.web.id/ontology/dataset"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="http://semanticweb.techtalk.web.id/ontology/dataset">
+    <Prefix name="" IRI="http://semanticweb.techtalk.web.id/ontology/dataset#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="prop" IRI="http://semanticweb.techtalk.web.id/ontology/property#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Declaration>
+        <NamedIndividual IRI="#Ali_bin_dahlan"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Ayam_taliwang_irama"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Cincin_mutiara"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Desa_danger"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Desa_kumbang"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Desa_lendang_nangka"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Desa_sade"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Dinas_pendidikan_kota_mataram"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Gelang_mutiara"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Gerabah"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Gili_air"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Gili_lampu"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Gili_meno"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Gili_nanggu"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Gili_trawangan"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Gunung_rinjani"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Gunung_tambora"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Holiday_inn"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Kain_songket"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Kalung_mutiara"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Lombok_barat"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Lombok_raya"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Lombok_tengah"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Lombok_timur"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Lombok_utara"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Masbagik"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Mataram"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Pantai_kuta"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Pantai_mawun"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Pantai_pink"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Pantai_selong_belanak"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Pantai_senggigi"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Pantai_tanjung_an"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Pantai_tanjung_ringgit"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Sate_bulayak"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Senggigi"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Senggigi_beach"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Skarbela"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Zainul_majdi"/>
+    </Declaration>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Ali_bin_dahlan"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Ayam_taliwang_irama"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Cincin_mutiara"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Desa_danger"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Desa_kumbang"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Desa_lendang_nangka"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Desa_sade"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Dinas_pendidikan_kota_mataram"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Gelang_mutiara"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Gerabah"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Gili_air"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Gili_lampu"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Gili_meno"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Gili_nanggu"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Gili_trawangan"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Gunung_rinjani"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Gunung_tambora"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Holiday_inn"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Kain_songket"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Kalung_mutiara"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Lombok_barat"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Lombok_raya"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Lombok_tengah"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Lombok_timur"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Lombok_utara"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Masbagik"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Mataram"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Pantai_kuta"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Pantai_mawun"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Pantai_pink"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Pantai_selong_belanak"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Pantai_senggigi"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Pantai_tanjung_an"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Pantai_tanjung_ringgit"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Sate_bulayak"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Senggigi"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Senggigi_beach"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Skarbela"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Zainul_majdi"/>
+    </ClassAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 3.5.0) http://owlapi.sourceforge.net -->
 
