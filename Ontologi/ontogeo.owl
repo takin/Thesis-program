@@ -179,10 +179,21 @@
     </Declaration>
     <EquivalentClasses>
         <Class IRI="#Ibu_kota"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="/property#isCapitalOf"/>
-            <Class IRI="#Kota"/>
-        </ObjectSomeValuesFrom>
+        <ObjectIntersectionOf>
+            <ObjectComplementOf>
+                <ObjectUnionOf>
+                    <Class IRI="#Desa"/>
+                    <Class IRI="#Kabupaten"/>
+                    <Class IRI="#Kecamatan"/>
+                    <Class IRI="#Komoditas"/>
+                    <Class IRI="#Provinsi"/>
+                </ObjectUnionOf>
+            </ObjectComplementOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="/property#isCapitalOf"/>
+                <Class IRI="#Kota"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#Ibu_kota_kabupaten"/>
@@ -218,7 +229,6 @@
     </SubClassOf>
     <DisjointClasses>
         <Class IRI="#Desa"/>
-        <Class IRI="#Ibu_kota"/>
         <Class IRI="#Kabupaten"/>
         <Class IRI="#Kecamatan"/>
         <Class IRI="#Komoditas"/>
@@ -245,6 +255,13 @@
         <Class IRI="#Komoditas"/>
         <NamedIndividual IRI="#Peternakan"/>
     </ClassAssertion>
+    <DifferentIndividuals>
+        <NamedIndividual IRI="#Perikanan"/>
+        <NamedIndividual IRI="#Perkebunan"/>
+        <NamedIndividual IRI="#Pertambangan"/>
+        <NamedIndividual IRI="#Pertanian"/>
+        <NamedIndividual IRI="#Peternakan"/>
+    </DifferentIndividuals>
     <EquivalentObjectProperties>
         <ObjectProperty IRI="/property#ada_di"/>
         <ObjectProperty IRI="/property#berada_di"/>

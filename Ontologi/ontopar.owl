@@ -17,6 +17,7 @@
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      ontologyIRI="http://semanticweb.techtalk.web.id/ontology"
      versionIRI="http://semanticweb.techtalk.web.id/ontology/ontopar/1.0">
+    <Prefix name="" IRI="http://www.w3.org/2002/07/owl#"/>
     <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
     <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
     <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
@@ -191,10 +192,6 @@
     </Declaration>
     <EquivalentClasses>
         <Class IRI="#Budaya"/>
-        <Class IRI="#Tradisi"/>
-    </EquivalentClasses>
-    <EquivalentClasses>
-        <Class IRI="#Budaya"/>
         <ObjectIntersectionOf>
             <Class IRI="#Produk"/>
             <ObjectComplementOf>
@@ -281,6 +278,13 @@
         </ObjectIntersectionOf>
     </EquivalentClasses>
     <EquivalentClasses>
+        <Class IRI="#Tradisi"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Budaya"/>
+            <Class IRI="#Produk"/>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
         <Class IRI="#Transportasi"/>
         <ObjectIntersectionOf>
             <Class IRI="#Akomodasi"/>
@@ -342,10 +346,6 @@
             <Class IRI="#Pantai"/>
         </ObjectSomeValuesFrom>
     </EquivalentClasses>
-    <SubClassOf>
-        <Class IRI="#Tradisi"/>
-        <Class IRI="#Produk"/>
-    </SubClassOf>
     <SubClassOf>
         <Class IRI="#Wisata_alam"/>
         <Class IRI="#Wisata"/>
@@ -429,9 +429,13 @@
         <ObjectProperty IRI="/property#destinasi"/>
     </SubObjectPropertyOf>
     <InverseObjectProperties>
-        <ObjectProperty IRI="/property#isLocationOf"/>
         <ObjectProperty IRI="/property#hasLocation"/>
+        <ObjectProperty IRI="/property#isLocationOf"/>
     </InverseObjectProperties>
+    <EquivalentDataProperties>
+        <DataProperty IRI="/property#bintang"/>
+        <DataProperty IRI="/property#hasRating"/>
+    </EquivalentDataProperties>
     <EquivalentDataProperties>
         <DataProperty IRI="/property#hasPhone"/>
         <DataProperty IRI="/property#telp"/>
