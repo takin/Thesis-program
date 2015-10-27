@@ -20,7 +20,6 @@ public abstract class Token {
 	public static final String TYPE_PRONOMINA = "PRON";
 	public static final String TYPE_NUMERALIA = "NUM";
 	public static final String TYPE_FRASA_NOMINAL = "FN";
-	public static final String TYPE_FRASA_NUMERALIA = "FNUM";
 	public static final String TYPE_FRASA_VERBAL = "FV";
 	public static final String TYPE_FRASA_ADJECTIVAL = "FADJ";
 	public static final String TYPE_FRASA_ADVERBIAL = "FADV";

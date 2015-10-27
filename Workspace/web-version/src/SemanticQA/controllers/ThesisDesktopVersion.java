@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import SemanticQA.helpers.QATokenModel;
 import SemanticQA.models.nlp.Parser;
-import SemanticQA.models.nlp.QATokenModel;
 import SemanticQA.models.nlp.Tokenizer;
 
 class ThesisDesktopVersion {
@@ -29,10 +29,13 @@ class ThesisDesktopVersion {
 		cetak(token);
 		
 		Parser p = new Parser();
-		Map<String, List<QATokenModel>> result = p.parse(token);
+		Map<String, Object> result = p.parse(token);
 		
-		cetak(result.get(Parser.PARSE_RESULT));
-		
+		if(result.containsKey("data")){
+			cetak((List<QATokenModel>) result.get("data"));
+		} else {
+			cetak((String)result.get("message"));
+		}
 	}
 	
 	public static void cetak(List<QATokenModel> token){

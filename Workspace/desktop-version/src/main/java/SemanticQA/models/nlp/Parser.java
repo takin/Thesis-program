@@ -7,133 +7,215 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import SemanticQA.constant.Token;
-import SemanticQA.helpers.QATokenModel;
 
 public class Parser {
 
+	public static final String TOKEN_LIST = "tokenList";
+	public static final String PARSE_RESULT = "parseResult";
+	
+	private List<QATokenModel> parseResult;
+	Map<String,List<QATokenModel>> result;
+	
 	public static interface ParserListener{
 		public void onParseSuccess(TreeMap<String, String> parseTree);
 	}
 	
-	public Map<String,Object> parse(List<QATokenModel> taggedToken){
-		Map<String,Object> result = new HashMap<String, Object>();
-		result.put("success", false);
+	public Parser() {
+		parseResult = new ArrayList<QATokenModel>();
+		result = new HashMap<>();
+	}
+	
+	/**
+	 * Entry method untuk melakukan proses analisa fungsi sintaksis kalimat tanya
+	 * @param array list QATokenModel dari hasil proses tokenisasi
+	 * @return HashMap yang berisi arraylist QATokenModel hasil tokenisasi dan hasil 
+	 * proses analisa fungsi sintaksis.
+	 */
+	public Map<String,List<QATokenModel>> parse(List<QATokenModel> taggedToken){
 		
-		List<QATokenModel> phrases = createPhrase(null, taggedToken, new ArrayList<QATokenModel>());
-		result.put("data", analyzeSyntacticFunction(phrases));
+		createPhrase(null, taggedToken);
+		analyzeSyntacticFunction();
+		analyzeSemanticRole();
+		
+		result.put(TOKEN_LIST, taggedToken);
+		result.put(PARSE_RESULT, parseResult);
 		
 		return result;
 	}
 	
-	private List<QATokenModel> createPhrase(QATokenModel previousToken, List<QATokenModel> data, List<QATokenModel> result){
+	/**
+	 * Method untuk membentuk frasa dari token-token kata.
+	 * Proses pembentukan frasa dilakukan secara rekursi hingga rray list data habis
+	 * 
+	 * @param Token yang diproses sebelumnya
+	 * @param Sisa Array List token yang akan diproses
+	 * @param Arraylist frasa yang sudah berhasil dibentuk
+	 * @return
+	 */
+	private boolean createPhrase(QATokenModel previousToken, List<QATokenModel> data){
 		
-		int index = result.isEmpty() ? -1 : result.size() - 1;
-		QATokenModel currentToken = (data.size() > 0) ? data.remove(0) : null;
-		QATokenModel currentPhrase = index == -1 ? null : result.get(index);
+		/**
+		 * Flag untuk menentukan apakah latestProcessedPhrase harus diupdate atau tidak.
+		 * 
+		 * Nilai true menandakan bahwa token yang di proses saat ini memiliki tipe yang 
+		 * memenuhi syarat sebagai bagian dari frasa saat ini sehingga prosesnya adalah 
+		 * cukup menambahkan token yang sedang di proses menjadi bagian dari frasa yang ada saat ini. 
+		 */
+		boolean justUpdate = false;
 		
-		if(currentToken != null)
-		{
-			
-			if(previousToken != null)
-			{
-			
-				switch (currentToken.getWordType()) 
-				{
+		/**
+		 * Temporary variable untuk menyimpan tipe frasa yang baru.
+		 * Dalam proses pengecekan token ada kemungkinan terjadiny perubahan tipe frasa
+		 * yang disebabkan oleh tipe kata yang sedang di proses saat ini.
+		 */
+		String temporaryPhraseType = null;
+		
+		/**
+		 * Ambil nilai index terakhir dari array list parseResult.
+		 * Index ini dibutuhkan untuk melakukan update terhadap objek frasa yang sedang di proses
+		 */
+		int latestPhraseIndex = this.parseResult.isEmpty() ? -1 : this.parseResult.size() - 1;
+		
+		/**
+		 * Ambil objek dari array list token untuk di proses.
+		 * Pengambilan dilakukan dengan cara memotong langsung current object segingga tidak perlu dilakukan 
+		 * pemotongan pada saat akan dilakukan proses rekursi di akhir.
+		 */
+		QATokenModel currentToken = data.remove(0);
+		
+		/**
+		 * Ambil objek frasa yang terkahir sehingga memudahkan proses pembandingan dengan 
+		 * objek token yang sedang di proses.
+		 */
+		QATokenModel latestProcessedPhrase = latestPhraseIndex == -1 ? null : this.parseResult.get(latestPhraseIndex);
+		
+		/**
+		 * jika sudah ada token yang di proses sebelumnya
+		 * maka lakukan proses pembentukan frasa dengan mempertimbangkan token yang di proses sebelumnya
+		 */
+		if ( latestPhraseIndex != -1 ) {
+		
+			/**------------------------------------------------------------------------------------*
+			 * Pembentukan FRASA PRONOMINAL														   *
+			 * ------------------------------------------------------------------------------------*
+			 * Aturan:																			   *
+			 * 1. [ Pron + Num Kolektif ] 														   *
+			 * 2. [ Pron + Pron Penjunjuk ]														   *
+			 * 3. [ Pron + <sendiri> ]															   *
+			 *-------------------------------------------------------------------------------------*/
+			if ( latestProcessedPhrase.getWordType().equals(Token.TYPE_PRONOMINA) || 
+					previousToken.getWordType().equals(Token.TYPE_PRONOMINA) && 
+					currentToken.getWord().matches("(berdua|sekalian|semua|ini|itu|sendiri)") ) {
 				
-				case Token.TYPE_PRONOMINA:
-					if(currentToken.getWord().matches("(siapa|dimana)"))
-					{
-						result.add(currentToken);
-					} 
-					else if(isPhrasePronominal(currentPhrase) || isPhraseNominal(currentPhrase) || currentPhrase.getWordType().equals(Token.TYPE_PREPOSISI)) {
-						if(isPhraseNominal(currentPhrase))
-						{
-							currentPhrase.setWordType(Token.TYPE_FRASA_NOMINAL);
-						} 
-						else {
-							currentPhrase.setWordType(Token.TYPE_FRASA_PRONOMINAL);
-						}
-						currentPhrase.setWord(currentPhrase.getWord() + " " + currentToken.getWord());
-						result.set(index, currentPhrase);
-					}
-					
-					break;
-				case Token.TYPE_NOMINA:
-					if(previousToken.getWordType().equals(Token.TYPE_NOMINA))
-					{
-						currentPhrase.setWord(currentPhrase.getWord() + " " + currentToken.getWord());
-						currentPhrase.setWordType(Token.TYPE_FRASA_NOMINAL);
-						result.set(index, currentPhrase);
-					} 
-					
-					else if(previousToken.getWordType().equals(Token.TYPE_PREPOSISI) && 
-							(currentPhrase.getWordType().equals(Token.TYPE_PREPOSISI) || 
-									currentPhrase.getWordType().equals(Token.TYPE_FRASA_PREPOSISIONAL))) 
-					{
-						
-						currentPhrase.setWord(currentPhrase.getWord() + " " + currentToken.getWord());
-						currentPhrase.setWordType(Token.TYPE_FRASA_PREPOSISIONAL);
-						result.set(index, currentPhrase);
-						
-					}
-					else {
-						result.add(currentToken);
-					}
-					
-					break;
-				case Token.TYPE_KONJUNGSI:
-					result.add(currentToken);
-					break;
-				case Token.TYPE_PREPOSISI:
-					if(previousToken.getWordType().equals(Token.TYPE_KONJUNGSI) && 
-							(currentPhrase.getWordType().equals(Token.TYPE_PREPOSISI) || 
-									currentPhrase.getWordType().equals(Token.TYPE_FRASA_PREPOSISIONAL) ||
-									currentPhrase.getWordType().equals(Token.TYPE_KONJUNGSI)))
-					{
-						currentPhrase.setWord(currentPhrase.getWord() + " " + currentToken.getWord());
-						currentPhrase.setWordType(Token.TYPE_FRASA_PREPOSISIONAL);
-						result.set(index, currentPhrase);
-					} 
-					else {
-						result.add(currentToken);
-					}
-					break;
-				case Token.TYPE_ADJEKTIVA:
-					
-					if(isPhraseNominal(currentPhrase))
-					{
-						currentPhrase.setWord(currentPhrase.getWord() + " " + currentToken.getWord());
-						currentPhrase.setWordType(Token.TYPE_FRASA_NOMINAL);
-						result.set(index, currentPhrase);
-					}
-					
-					break;
-				default:
-					result.add(currentToken);
-					break;
-				}
-			} 
-			else {
-				result.add(currentToken);
+				justUpdate = true;
+				temporaryPhraseType = Token.TYPE_FRASA_PRONOMINAL;
+				
 			}
 			
-			createPhrase(currentToken, data, result);
+			/**------------------------------------------------------------------------------------*
+			 * Pembentukan FRASA NOMINAL														   *
+			 * ------------------------------------------------------------------------------------*
+			 * Aturan:																			   *
+			 * 1. [ N + N* + Pron Persona + Pron Penunjuk ]										   *
+			 * 2. [ N + Adj + Pron Persona + Pron Penunjuk ]									   *
+			 * 3. [ N + Pron Persona + <yang> + Adj + Pron Penunjuk ]							   *
+			 *-------------------------------------------------------------------------------------*/
+			if ( latestProcessedPhrase.getWordType().equals( Token.TYPE_NOMINA ) || 
+					latestProcessedPhrase.getWordType().equals( Token.TYPE_FRASA_NOMINAL ) ) {
+				
+				if ( previousToken.getWordType().equals( Token.TYPE_NOMINA ) && 
+						( currentToken.getWordType().equals( Token.TYPE_NOMINA ) || 
+								currentToken.getWordType().equals( Token.TYPE_ADJEKTIVA ) || 
+								currentToken.getWord().matches("(saya|aku|anda|kau|dia|ia|beliau|kami|kita)") ) ) {
+					
+					justUpdate = true;
+					temporaryPhraseType = Token.TYPE_FRASA_NOMINAL;
+					
+				}
+				
+			}
+			
+			/**------------------------------------------------------------------------------------*
+			 * Pembentukn FRASA NUMERALIA														   *
+			 * ------------------------------------------------------------------------------------*
+			 * Aturan:																			   *
+			 * 1. [ Num + N Penggolong ]														   *
+			 *-------------------------------------------------------------------------------------*/
+			if ( ( latestProcessedPhrase.getWordType().equals( Token.TYPE_NUMERALIA ) || 
+					latestProcessedPhrase.getWordType().equals( Token.TYPE_FRASA_NUMERALIA ) ) && 
+					currentToken.getWord().matches("(buah|ekor)") ) {
+				
+				justUpdate = true;
+				temporaryPhraseType = Token.TYPE_FRASA_NUMERALIA;
+				
+			}
+			
+			/**
+			 * Jika currentToken = "yang", maka perlu pengecekan lebih kompleks.
+			 * Treatment khusus untuk kata "yang"
+			 * 1. Frasa akan menjadi FN jika "yang" hadir diantara FN dan Adj -> Anak saya (FN) + yang + pintar(Adj)
+			 */
+			
+			
 		}
 		
-		return result;
-	}
-	
-	private List<QATokenModel> analyzeSyntacticFunction(List<QATokenModel> phrases){
-		List<QATokenModel> result = new ArrayList<QATokenModel>();
+		if ( justUpdate ) {
+			
+			latestProcessedPhrase.setWord( latestProcessedPhrase.getWord() + " " + currentToken.getWord() );
+			
+			if ( temporaryPhraseType != null ) {
+				latestProcessedPhrase.setWordType(temporaryPhraseType);
+			}
+			
+			this.parseResult.set(latestPhraseIndex, latestProcessedPhrase);
+			
+		} else {
+			this.parseResult.add( currentToken );
+		}
 		
-		return phrases;
+		// lakukan proses secara rekursi hingga data habis
+		if ( data.size() > 0 ) {
+			createPhrase( currentToken, data );
+		}
+		return true;
 	}
 	
-	private boolean isPhrasePronominal(QATokenModel model){
+	/**
+	 * Method untuk menganalisa fungsi sintaksis dari masing-masing frasa
+	 */
+	private boolean analyzeSyntacticFunction(){
+		
+		/**
+		 * Jika jumlah frasa hanya dua, maka kemungkinan bentuk fungsi sintaksisnya adalah:
+		 * 1. PS
+		 * 2. SP
+		 * 
+		 * Unsur frasa keduanya berupa FN, jika salah satu FN mengandung partikel -lah
+		 * maka FN tersebut sebagai Predikat. Jika keduanya tidak mengandung -lah,
+		 * maka anggap pola kalimat adalah SP
+		 */
+		if(this.parseResult.size() == 2){
+			
+		}
+
+		
+		return false;
+	}
+	
+	private boolean analyzeSemanticRole(){
+		
+		return true;
+	}
+	
+	private static boolean isPrepositional(QATokenModel model){
+		return model.getWordType().equals(Token.TYPE_PREPOSISI) || model.getWordType().equals(Token.TYPE_FRASA_PREPOSISIONAL);
+	}
+	
+	private static boolean isPhrasePronominal(QATokenModel model){
 		return model.getWordType().equals(Token.TYPE_PRONOMINA) || model.getWordType().equals(Token.TYPE_FRASA_PRONOMINAL);
 	}
 	
-	private boolean isPhraseNominal(QATokenModel model){
+	private static boolean isPhraseNominal(QATokenModel model){
 		return model.getWordType().equals(Token.TYPE_NOMINA) || model.getWordType().equals(Token.TYPE_FRASA_NOMINAL);
 	}
 }

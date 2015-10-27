@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import SemanticQA.constant.Database;
+import SemanticQA.helpers.QATokenModel;
 
 /* ==============================================================================
  POSTagger merupakan bagian dari pre-process NLP
