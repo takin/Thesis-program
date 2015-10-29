@@ -27,6 +27,12 @@ public abstract class Token {
 	public static final String TYPE_FRASA_PREPOSISIONAL = "FPREP";
 	public static final String TYPE_FRASA_PRONOMINAL = "FPRON";
 	
+	public static final String TYPE_SUBJEK = "S";
+	public static final String TYPE_PREDIKAT = "P";
+	public static final String TYPE_OBJEK = "O";
+	public static final String TYPE_PELENGKAP = "Pel";
+	public static final String TYPE_KETERANGAN = "Ket";
+	
     public static final String KEY_TOKEN_WORD = "word";
     public static final String KEY_TOKEN_WORD_TYPE = "wordType";
     public static final String KEY_TOKEN_SEMANTIC_TYPE = "semanticType";

@@ -12,7 +12,6 @@ class ThesisDesktopVersion {
 	
 //	private static OntologyMapper ontoMapper;
 	
-	@SuppressWarnings("unchecked")
 	public static void main(String args[]){
 		
 //		ontoMapper = new OntologyMapper();
@@ -38,7 +37,7 @@ class ThesisDesktopVersion {
 	public static void cetak(List<QATokenModel> token){
 		for(QATokenModel t: token)
 		{
-			System.out.print("[" + t.getWordType() + "=" + t.getWord() + "]");
+			System.out.print("[" + t.getWordType() + "(" + t.getSyntacticFunction() + ") = " + t.getWord() + "]");
 		}
 		System.out.println("");
 		System.out.println("--------------------");

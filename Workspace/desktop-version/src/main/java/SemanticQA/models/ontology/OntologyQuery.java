@@ -83,15 +83,13 @@ public class OntologyQuery extends OntologyMapper {
 		for(Map<String,String> qItem: query){
 			
 			String semanticType = qItem.get(Token.KEY_TOKEN_SEMANTIC_TYPE);
-			String word = qItem.get(Token.KEY_TOKEN_WORD);
-			Map<String,Object> o = getOWLObject(word, semanticType);
 			
 			switch (semanticType) {
 			case Ontology.TYPE_CLASS:
-				q += "Type(?subject, "+ o.get(Ontology.KEY_OBJECT_URI) +")";
+				q += "Type(?subject)";
 				break;
 			case Ontology.TYPE_INDIVIDUAL:
-				q += "PropertyValue(?subject,?y,"+ o.get(Ontology.KEY_OBJECT_URI) +")";
+				q += "PropertyValue(?subject,?y)";
 				break;
 			}
 			
