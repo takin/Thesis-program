@@ -6,8 +6,6 @@
 package SemanticQA.models.ontology;
 
 
-import java.net.URISyntaxException;
-
 import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.HermiT.Reasoner.ReasonerFactory;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -39,10 +37,11 @@ public abstract class OntologyLoader {
 		dataFactory = manager.getOWLDataFactory();
 		
 		try {
-			manager.loadOntologyFromOntologyDocument(IRI.create(this.getClass().getClassLoader().getResource("ntbgov.owl")));
-//			manager.loadOntologyFromOntologyDocument(IRI.create("file:///home/syamsul/Documents/Thesis-program/Ontologi/ntbpar.owl"));
-//			manager.loadOntologyFromOntologyDocument(IRI.create("file:///home/syamsul/Documents/Thesis-program/Ontologi/ntbgov.owl"));
-//			manager.loadOntologyFromOntologyDocument(IRI.create("file:///home/syamsul/Documents/Thesis-program/Ontologi/ntbgeo.owl"));
+//			manager.loadOntologyFromOntologyDocument(IRI.create(this.getClass().getClassLoader().getResource("ntbgov.owl")));
+			manager.loadOntologyFromOntologyDocument(IRI.create("file:///Users/syamsul/Documents/Thesis-program/Ontologi/ontogeo.owl"));
+			manager.loadOntologyFromOntologyDocument(IRI.create("file:///Users/syamsul/Documents/Thesis-program/Ontologi/ontogov.owl"));
+			manager.loadOntologyFromOntologyDocument(IRI.create("file:///Users/syamsul/Documents/Thesis-program/Ontologi/ontopar.owl"));
+			manager.loadOntologyFromOntologyDocument(IRI.create("file:///Users/syamsul/Documents/Thesis-program/Ontologi/dataset.owl"));
 			
 			OWLOntologyMerger merger = new OWLOntologyMerger(manager);
 			ontology = merger.createMergedOntology(manager, IRI.create(Ontology.ONTO_MERGED_URI));
@@ -53,7 +52,7 @@ public abstract class OntologyLoader {
 			reasoner.precomputeInferences(InferenceType.CLASS_ASSERTIONS);
 			reasoner.precomputeInferences(InferenceType.CLASS_HIERARCHY);
 			
-		} catch (OWLOntologyCreationException | URISyntaxException e) {
+		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		}
 	}

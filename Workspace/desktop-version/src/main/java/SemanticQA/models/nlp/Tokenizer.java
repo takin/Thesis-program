@@ -34,24 +34,24 @@ public class Tokenizer {
 	private Connection CONNECTION;
 	
 	public interface TokenizerListener {
-		public void onTokenizeSuccess(List<QATokenModel> TOKEN);
+		public void onTokenizeSuccess(List<TokenModel> TOKEN);
 	}
     
 	public Tokenizer() {
 		CONNECTION = initDatabase();
 	}
 	
-    public List<QATokenModel> tokenize(String sentence){
+    public List<TokenModel> tokenize(String sentence){
         	
     	List<String> temporaryList = new ArrayList<>(Arrays.asList(sentence.split(" ")));
-    	final List<QATokenModel> token = new ArrayList<QATokenModel>();
+    	final List<TokenModel> token = new ArrayList<TokenModel>();
     	
     	for(String word: temporaryList){
     		
-			QATokenModel tm = new QATokenModel();
+			TokenModel tm = new TokenModel();
     		
     		tm.setWord(word);
-    		tm.setWordType(checkWordType(word));
+    		tm.setType(checkWordType(word));
     		token.add(tm);    
     	}
     	try {

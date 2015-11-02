@@ -1,5 +1,6 @@
 package SemanticQA.models.ontology;
 
+import java.util.List;
 import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLClass;
@@ -17,13 +18,50 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
 import SemanticQA.constant.Ontology;
+import SemanticQA.constant.Token;
 import SemanticQA.helpers.StringManipulation;
+import SemanticQA.models.nlp.QuestionModel;
+import SemanticQA.models.nlp.TokenModel;
 
 
 public class OntologyMapper extends OntologyLoader {
 	
 	private ShortFormProvider shortForm = new SimpleShortFormProvider();
-
+	private List<QuestionModel> questionModel;
+	
+	public OntologyMapper(List<QuestionModel> model) {
+		this.questionModel = model;
+	}
+	
+	public List<QuestionModel> map(){
+		
+		for ( int i = 0; i < this.questionModel.size(); i++ ) {
+			
+			QuestionModel m = this.questionModel.get(i);
+			
+			if ( !m.getType().equals(Token.TYPE_PRONOMINA) ||
+					!m.getType().equals(Token.TYPE_FRASA_PRONOMINAL) ) {
+				
+				List<TokenModel> tokens = m.getPhrases();
+				
+				for ( int j = 0; j < tokens.size(); j++ ) {
+					
+					TokenModel token = tokens.get(j);
+					
+					token.setOWLType(getType(token.getWord()));
+					
+					tokens.set(j, token);
+				}
+				
+				this.questionModel.set(i, m);
+				
+			}
+			
+		}
+		
+		return this.questionModel;
+	}
+	
 	public OWLOntology getOntology(){
 		return ontology;
 	}
