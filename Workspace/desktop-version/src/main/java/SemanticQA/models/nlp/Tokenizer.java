@@ -50,8 +50,8 @@ public class Tokenizer {
     		
 			TokenModel tm = new TokenModel();
     		
-    		tm.setWord(word);
-    		tm.setType(checkWordType(word));
+    		tm.setToken(word);
+    		tm.setTokenType(checkWordType(word));
     		token.add(tm);    
     	}
     	try {

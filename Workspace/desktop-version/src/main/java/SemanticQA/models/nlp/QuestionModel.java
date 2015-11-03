@@ -23,20 +23,28 @@ public class QuestionModel {
 		return this.phraseType;
 	}
 	
-	public void setPhrases(String type, String word){
+	public void addConstituent(String type, String word){
 		TokenModel m = new TokenModel();
 		
-		m.setWord(word);
-		m.setType(type);
+		m.setToken(word);
+		m.setTokenType(type);
 		
-		setPhrases(m);
+		addConstituent(m);
 	}
 	
-	public void setPhrases(TokenModel phrase){
+	public void addConstituent(TokenModel phrase){
 		this.phrases.add(phrase);
 	}
 	
-	public List<TokenModel> getPhrases(){
+	public void setConstituent(int position, TokenModel constituent) {
+		this.phrases.set(position, constituent);
+	}
+	
+	public void replaceConstituent(List<TokenModel> constituents) {
+		this.phrases = constituents;
+	}
+	
+	public List<TokenModel> getConstituents(){
 		return this.phrases;
 	}
 	

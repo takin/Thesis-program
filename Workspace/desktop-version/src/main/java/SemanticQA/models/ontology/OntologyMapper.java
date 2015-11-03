@@ -1,5 +1,6 @@
 package SemanticQA.models.ontology;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -39,27 +40,102 @@ public class OntologyMapper extends OntologyLoader {
 			
 			QuestionModel m = this.questionModel.get(i);
 			
-			if ( !m.getType().equals(Token.TYPE_PRONOMINA) ||
-					!m.getType().equals(Token.TYPE_FRASA_PRONOMINAL) ) {
-				
-				List<TokenModel> tokens = m.getPhrases();
-				
-				for ( int j = 0; j < tokens.size(); j++ ) {
-					
-					TokenModel token = tokens.get(j);
-					
-					token.setOWLType(getType(token.getWord()));
-					
-					tokens.set(j, token);
-				}
-				
-				this.questionModel.set(i, m);
-				
+			if (m.getType().equals(Token.TYPE_PRONOMINA) ||
+					m.getType().equals(Token.TYPE_FRASA_PRONOMINAL) ||
+					m.getType().equals(Token.TYPE_KONJUNGSI) ) {
+				continue;
 			}
 			
+			List<TokenModel> originalConstituents = m.getConstituents();
+			
+			if ( originalConstituents.size() > 0 ) {
+				List<TokenModel> constituents = checkType(null, new ArrayList<TokenModel>(), originalConstituents);					
+				m.replaceConstituent(constituents);
+			}
+			
+			this.questionModel.set(i, m);
 		}
 		
+		
 		return this.questionModel;
+	}
+	
+	private List<TokenModel> checkType(String unmappedToken, List<TokenModel> res, List<TokenModel> data) {
+		
+		TokenModel m = data.remove(0);
+		String token = m.getToken();
+		String tipe = getType(token);
+		
+		/**
+		 * Jika token tidak memiliki mapping di dalam ontologi 
+		 * maka lakukan langkah:
+		 * 1. cek apakah unmappedToken = null atau tidak
+		 * 2. Jika null, maka lanjutkan dengan token berikutnya.
+		 * 3. Jika tidak, maka gabungkan token saat ini dengan unmappedToken
+		 *    kemudian lakukan pengecekan ulang.
+		 * 4. Jika hasil penggabungkan ditemukan mappingnya, maka selesai.
+		 */
+		if ( tipe != null ) {
+			
+			// jika token berhasil di mapping dengan ontologi
+			m.setTokenOWLType(tipe);
+			res.add(m);
+			
+		} else {
+			
+			/**
+			 * Jika unmappedToken tidak kosong dan token tidak berhasil di mapping
+			 * maka gabungkan token tersebut dengan token sebelumnya.
+			 */
+			if ( unmappedToken != null ) {
+				token = unmappedToken + "_" + token;
+			}
+			
+			/**
+			 * Setelah proses penggabungan token dengan token sebelumnya 
+			 * yang sama-sama tidak memiliki mapping di dalam ontologi
+			 * maka lakukan pengecekan ulang.
+			 */
+			tipe = getType(token);
+			
+			/**
+			 * Jika hasil penggabungan berhasil di mapping
+			 */
+			if ( tipe != null ) {
+				
+				/**
+				 * Masukkan tipe ontologi ke dalam objek TokenModel
+				 */
+				m.setTokenOWLType(tipe);
+				/**
+				 * ganti token dengan token yang telah digabungkan
+				 */
+				m.setToken(token);
+				
+				res.add(m);
+				
+				/**
+				 * Reset unmappedToken menjadi null sehingga untuk token 
+				 * yang selanjutnya akan dimulai dari proses awal dengan 
+				 * tanpa ada unmappedToken
+				 */
+				unmappedToken = null;
+			} else {
+				/**
+				 * Jika mapping untuk token yang bersangkutan tidak ada,
+				 * maka set token menjadi nmappedToken. Token ini nantinya
+				 * akan dikirimkan ke proses selanjutnya. 
+				 */
+				unmappedToken = token;
+			}
+		}
+		
+		
+		if ( data.size() > 0 ) {
+			checkType(unmappedToken, res, data);
+		}
+		
+		return res;
 	}
 	
 	public OWLOntology getOntology(){

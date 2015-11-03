@@ -9,34 +9,34 @@ import org.semanticweb.owlapi.model.OWLObject;
 
 public class TokenModel {
 
-	private String word;
-	private String type;
-	private String owlType;
+	private String token;
+	private String tokenType;
+	private String tokenOWLType;
 	private OWLObject ontologyObject;
-	private List<OWLAxiom> restrictions;
+	private List<OWLAxiom> tokenRestrictions;
 	
-	public void setWord(String word){
-		this.word = word;
+	public void setToken(String token){
+		this.token = token;
 	}
 	
-	public String getWord(){
-		return this.word;
+	public String getToken(){
+		return this.token;
 	}
 	
-	public void setType(String type){
-		this.type = type;
+	public void setTokenType(String tt){
+		this.tokenType = tt;
 	}
 	
-	public String getType(){
-		return this.type;
+	public String getTokenType(){
+		return this.tokenType;
 	}
 	
-	public void setOWLType(String semanticType){
-		this.owlType = semanticType;
+	public void setTokenOWLType(String semanticType){
+		this.tokenOWLType = semanticType;
 	}
 	
-	public String getOWLType(){
-		return this.owlType;
+	public String getTokenOWLType(){
+		return this.tokenOWLType;
 	}
 	
 	public void setOntologyObject(OWLObject obj){
@@ -47,37 +47,37 @@ public class TokenModel {
 		return this.ontologyObject;
 	}
 	
-	public void setRestriction(OWLAxiom axiom){
+	public void setTokenRestriction(OWLAxiom axiom){
 		/**
 		 * proses instansiasi dilakukan di sini untuk menghemat memory
 		 * (instansiasi dilakukan hanya jika diperlukan)
 		 */
-		if ( this.restrictions == null ) {
-			this.restrictions = new ArrayList<OWLAxiom>();
+		if ( this.tokenRestrictions == null ) {
+			this.tokenRestrictions = new ArrayList<OWLAxiom>();
 		}
 		
-		restrictions.add(axiom);
+		this.tokenRestrictions.add(axiom);
 	}
 	
-	public void setRestriction(Set<OWLAxiom> axioms){
+	public void setTokenRestrictions(Set<OWLAxiom> axioms){
 		for(OWLAxiom axiom: axioms){
-			setRestriction(axiom);
+			setTokenRestriction(axiom);
 		}
 	}
 	
-	public List<OWLAxiom> getRestriction() {
-		return this.restrictions;
+	public List<OWLAxiom> getTokenRestriction() {
+		return this.tokenRestrictions;
 	}
 	
 	public void clear(){
-		this.word = null;
-		this.type = null;
+		this.token = null;
+		this.tokenType = null;
 		this.ontologyObject = null;
-		this.owlType = null;
-		this.restrictions.clear();
+		this.tokenOWLType = null;
+		this.tokenRestrictions.clear();
 	}
 	
 	public boolean isEmpty(){
-		return word == null && type == null;
+		return token == null && tokenType == null;
 	}
 }

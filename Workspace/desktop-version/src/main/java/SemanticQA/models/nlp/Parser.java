@@ -85,9 +85,9 @@ public class Parser {
 		 * jika sudah ada token yang di proses sebelumnya
 		 * maka lakukan proses pembentukan frasa dengan mempertimbangkan token yang di proses sebelumnya
 		 */
-		if ( latestPhraseIndex != -1 && latestProcessedPhrase.getType() != null && !currentToken.getWord().matches(KONJUNGTOR_KLAUSA_PATTERN) ) {
+		if ( latestPhraseIndex != -1 && latestProcessedPhrase.getType() != null && !currentToken.getToken().matches(KONJUNGTOR_KLAUSA_PATTERN) ) {
 		
-			switch (currentToken.getType()) {
+			switch (currentToken.getTokenType()) {
 			
 			// currentToken
 			case Token.TYPE_PREPOSISI:
@@ -136,7 +136,7 @@ public class Parser {
 				// latestProcessedPhrase
 				case Token.TYPE_NUMERALIA:
 					
-					if ( currentToken.getWord().matches(NOMINA_PENGGOLONG_PATTERN) ) {
+					if ( currentToken.getToken().matches(NOMINA_PENGGOLONG_PATTERN) ) {
 //						justUpdate = true;
 						temporaryPhraseType = Token.TYPE_FRASA_NUMERALIA;
 					}
@@ -165,11 +165,11 @@ public class Parser {
 				 *------------------------------------------------------------------------*/
 				if ( ( ( latestProcessedPhrase.getType().equals( Token.TYPE_PRONOMINA ) || 
 						latestProcessedPhrase.getType().equals( Token.TYPE_FRASA_PRONOMINAL ) ) && 
-						currentToken.getWord().matches( PRONOMINA_PENJUNJUK_PATTERN ) ) ||
-						previousToken.getWord().matches( PREPOSISI_PENANYA_PATTERN )) {
+						currentToken.getToken().matches( PRONOMINA_PENJUNJUK_PATTERN ) ) ||
+						previousToken.getToken().matches( PREPOSISI_PENANYA_PATTERN )) {
 					
-					if ( ( previousToken.getWord().matches("(di|ke|dari)") && 
-							currentToken.getWord().equals("apa") ) ) {
+					if ( ( previousToken.getToken().matches("(di|ke|dari)") && 
+							currentToken.getToken().equals("apa") ) ) {
 						return false;
 					}
 					
@@ -180,8 +180,8 @@ public class Parser {
 				/**-----------------------------------------------------------------------*
 				 * Pembentukan FN dengan aturan [ N + PRON Persona + PRON penunjuk ]	  *
 				 *------------------------------------------------------------------------*/
-				if ( (currentToken.getWord().matches(PRONOMINA_PERSONA_PATTERN) || 
-						currentToken.getWord().matches( PRONOMINA_PENJUNJUK_PATTERN )) && 
+				if ( (currentToken.getToken().matches(PRONOMINA_PERSONA_PATTERN) || 
+						currentToken.getToken().matches( PRONOMINA_PENJUNJUK_PATTERN )) && 
 						(latestProcessedPhrase.getType().equals(Token.TYPE_NOMINA) || 
 								latestProcessedPhrase.getType().equals(Token.TYPE_FRASA_NOMINAL)) ){
 					
@@ -206,8 +206,8 @@ public class Parser {
 				 *------------------------------------------------------------------------*/
 				if ( latestProcessedPhrase.getType().equals(Token.TYPE_NOMINA) || 
 						( latestProcessedPhrase.getType().equals(Token.TYPE_FRASA_NOMINAL) && 
-								previousToken.getType().equals(Token.TYPE_NOMINA) ) || 
-						previousToken.getWord().equals("yang") ){
+								previousToken.getToken().equals(Token.TYPE_NOMINA) ) || 
+						previousToken.getToken().equals("yang") ){
 					
 //					justUpdate = true;
 					temporaryPhraseType = Token.TYPE_FRASA_NOMINAL;
@@ -218,8 +218,8 @@ public class Parser {
 			// currentToken
 			case Token.TYPE_ADVERBIA:
 				
-				if ( currentToken.getWord().equals("saja") && 
-						previousToken.getWord().matches(PRONOMINA_PENANYA_PATTERN) ) {
+				if ( currentToken.getToken().equals("saja") && 
+						previousToken.getToken().matches(PRONOMINA_PENANYA_PATTERN) ) {
 					
 //					justUpdate = true;
 					temporaryPhraseType = Token.TYPE_FRASA_PRONOMINAL;
@@ -230,8 +230,8 @@ public class Parser {
 			// currentToken
 			case Token.TYPE_KONJUNGSI:
 				
-				if ( currentToken.getWord().equals("yang") &&
-						previousToken.getType().equals(Token.TYPE_PRONOMINA) ) {
+				if ( currentToken.getToken().equals("yang") &&
+						previousToken.getTokenType().equals(Token.TYPE_PRONOMINA) ) {
 					
 //					justUpdate = true;
 					temporaryPhraseType = Token.TYPE_FRASA_NOMINAL;
@@ -244,7 +244,7 @@ public class Parser {
 				
 				if ( ( latestProcessedPhrase.getType().equals(Token.TYPE_FRASA_PRONOMINAL) ||
 						latestProcessedPhrase.getType().equals(Token.TYPE_PRONOMINA) ) &&
-						currentToken.getWord().matches(NUMERALIA_KOLEKTIF_PATTERN) ) {
+						currentToken.getToken().matches(NUMERALIA_KOLEKTIF_PATTERN) ) {
 					
 //					justUpdate = true;
 					temporaryPhraseType = Token.TYPE_FRASA_PRONOMINAL;
@@ -345,7 +345,7 @@ public class Parser {
 		 * cukup melakukan update terhadap objek yang lama
 		 */
 		if ( temporaryPhraseType != null ) {
-			latestProcessedPhrase.setPhrases(currentToken);
+			latestProcessedPhrase.addConstituent(currentToken);
 			latestProcessedPhrase.setType(temporaryPhraseType);
 			
 			this.parseResult.set(latestPhraseIndex, latestProcessedPhrase);	
@@ -359,7 +359,7 @@ public class Parser {
 			 * ke dalam objek QuestionModel
 			 */
 			QuestionModel m = new QuestionModel(currentToken);
-			m.setType(currentToken.getType());
+			m.setType(currentToken.getTokenType());
 			
 			this.parseResult.add( m );
 		}
