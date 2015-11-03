@@ -21,52 +21,27 @@ import de.derivo.sparqldlapi.exceptions.QueryEngineException;
 import de.derivo.sparqldlapi.exceptions.QueryParserException;
 import SemanticQA.constant.Ontology;
 import SemanticQA.constant.Token;
+import SemanticQA.models.nlp.QuestionModel;
 
 /**
  *
  * @author syamsul
  */
-public class OntologyQuery extends OntologyMapper {
-    
-	private List<Map<String,String>> query;
+public class OntologyQuery {
+
 	private QueryEngine queryEngine;
+	private OntologyLoader ontologyLoader;
 	
-	public OntologyQuery(List<Map<String,String>> query) {
-		super();
-		this.query = query;
-		this.queryEngine =  QueryEngine.create(ontology.getOWLOntologyManager(), reasoner);
+	public OntologyQuery(OntologyLoader ontologyLoader) {
+		this.ontologyLoader = ontologyLoader;
+		this.queryEngine =  QueryEngine.create(ontologyLoader.getOntology().getOWLOntologyManager(), ontologyLoader.getReasoner());
 	}
 	
-	public void find(){
+	public void execute(List<QuestionModel> model){
 		
 		try {
 			Query q = buildQuery();
 			QueryResult r = queryEngine.execute(q);
-			
-			for(QueryBinding b: r){
-				Set<QueryArgument> arg = b.getBoundArgs();
-				
-				OWLEntity out = null;
-				
-				for(QueryArgument a: arg){
-					
-					String argValue = b.get(a).getValue();
-				
-					IRI iri = IRI.create(argValue);
-					
-					switch (getType(argValue)) {
-					case Ontology.TYPE_CLASS:
-						out = dataFactory.getOWLClass(iri);
-						break;
-					case Ontology.TYPE_INDIVIDUAL:
-						out = dataFactory.getOWLNamedIndividual(iri);
-						break;
-					}
-					
-					System.out.println(getShortForm(out));
-					
-				}
-			}
 			
 		} catch (QueryParserException | QueryEngineException e) {
 			e.printStackTrace();
@@ -78,23 +53,7 @@ public class OntologyQuery extends OntologyMapper {
 		
 		String q = "Select ?subject where {";
 		
-		Map<String, String> lastItem = query.get(query.size() - 1);
 		
-		for(Map<String,String> qItem: query){
-			
-			String semanticType = qItem.get(Token.KEY_TOKEN_SEMANTIC_TYPE);
-			
-			switch (semanticType) {
-			case Ontology.TYPE_CLASS:
-				q += "Type(?subject)";
-				break;
-			case Ontology.TYPE_INDIVIDUAL:
-				q += "PropertyValue(?subject,?y)";
-				break;
-			}
-			
-			q += (qItem == lastItem) ? "}" : ",";
-		}
 		
 		return Query.create(q);
 	}

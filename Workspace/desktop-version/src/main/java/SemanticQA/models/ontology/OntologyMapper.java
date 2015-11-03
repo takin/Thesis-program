@@ -14,7 +14,6 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAxiom;
-import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
@@ -136,10 +135,6 @@ public class OntologyMapper extends OntologyLoader {
 		}
 		
 		return res;
-	}
-	
-	public OWLOntology getOntology(){
-		return ontology;
 	}
 	
 	public String getShortForm(OWLEntity e){

@@ -10,7 +10,6 @@ import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.HermiT.Reasoner.ReasonerFactory;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
@@ -25,19 +24,15 @@ import SemanticQA.constant.Ontology;
  *
  * @author syamsul
  */
-public abstract class OntologyLoader {
+public class OntologyLoader {
 	
 	protected OWLOntology ontology;
 	protected OWLReasoner reasoner;
-	protected OWLDataFactory dataFactory;
 	
 	public OntologyLoader() {
 		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
 		
-		dataFactory = manager.getOWLDataFactory();
-		
 		try {
-//			manager.loadOntologyFromOntologyDocument(IRI.create(this.getClass().getClassLoader().getResource("ntbgov.owl")));
 			manager.loadOntologyFromOntologyDocument(IRI.create("file:///Users/syamsul/Documents/Thesis-program/Ontologi/ontogeo.owl"));
 			manager.loadOntologyFromOntologyDocument(IRI.create("file:///Users/syamsul/Documents/Thesis-program/Ontologi/ontogov.owl"));
 			manager.loadOntologyFromOntologyDocument(IRI.create("file:///Users/syamsul/Documents/Thesis-program/Ontologi/ontopar.owl"));
@@ -50,10 +45,20 @@ public abstract class OntologyLoader {
 			
 			reasoner = rf.createReasoner(ontology, new SimpleConfiguration());
 			reasoner.precomputeInferences(InferenceType.CLASS_ASSERTIONS);
-			reasoner.precomputeInferences(InferenceType.CLASS_HIERARCHY);
+			reasoner.precomputeInferences(InferenceType.DATA_PROPERTY_ASSERTIONS);
+			reasoner.precomputeInferences(InferenceType.OBJECT_PROPERTY_ASSERTIONS);
+			reasoner.precomputeInferences(InferenceType.DISJOINT_CLASSES);
 			
 		} catch (OWLOntologyCreationException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public OWLOntology getOntology() {
+		return this.ontology;
+	}
+	
+	public OWLReasoner getReasoner() {
+		return this.reasoner;
 	}
 }
