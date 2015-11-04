@@ -1,6 +1,7 @@
 package SemanticQA.controllers;
 
 import java.util.List;
+import java.util.Scanner;
 
 import SemanticQA.models.nlp.Parser;
 import SemanticQA.models.nlp.QuestionModel;
@@ -18,7 +19,7 @@ class ThesisDesktopVersion {
 		
 //		Scanner s = new Scanner(System.in);
 //		String pertanyaan = s.nextLine();
-		String pertanyaan = "bupati kabupaten lombok timur siapa";
+		String pertanyaan = "di mana letak pantai selong belanak";
 //		s.close();
 		
 		Tokenizer t = new Tokenizer();
@@ -30,7 +31,7 @@ class ThesisDesktopVersion {
 		Parser p = new Parser();
 		List<QuestionModel> result = p.parse(token);
 		
-//		cetakKlausa(result);
+		cetakKlausa(result);
 		
 		OntologyMapper mapper = new OntologyMapper(result);
 		List<QuestionModel> mapResult = mapper.map();
@@ -44,7 +45,7 @@ class ThesisDesktopVersion {
 		System.out.println("Mapping is executed in: " + executionTime + " seconds");
 		
 		OntologyQuery q = new OntologyQuery(new OntologyLoader());
-		q.execute(mapResult);
+//		q.execute(mapResult);
 	}	
 	
 	public static void cetak(List<TokenModel> token){

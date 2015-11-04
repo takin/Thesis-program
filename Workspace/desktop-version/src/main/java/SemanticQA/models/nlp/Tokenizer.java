@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import SemanticQA.constant.Database;
+import SemanticQA.constant.Token;
 
 /* ==============================================================================
  POSTagger merupakan bagian dari pre-process NLP
@@ -75,6 +76,8 @@ public class Tokenizer {
 			if(queryResult.isBeforeFirst()){
 				queryResult.absolute(1);
 				result = queryResult.getString("kode");
+			} else {
+				result = Token.TYPE_NOMINA;
 			}
 			
 			queryResult.close();

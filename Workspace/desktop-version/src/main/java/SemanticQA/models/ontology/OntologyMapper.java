@@ -1,6 +1,7 @@
 package SemanticQA.models.ontology;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -48,7 +49,21 @@ public class OntologyMapper extends OntologyLoader {
 			List<TokenModel> originalConstituents = m.getConstituents();
 			
 			if ( originalConstituents.size() > 0 ) {
-				List<TokenModel> constituents = checkType(null, new ArrayList<TokenModel>(), originalConstituents);					
+				List<TokenModel> constituents = checkType(new ArrayList<String>(), new ArrayList<TokenModel>(), originalConstituents);
+				
+				/**
+				 * Oleh karena proses mapping dalam method checkType dimulai dari 
+				 * token yang paling belakang, maka hasil proses mappingnya akan terbalik
+				 * sehingga perlu di balik untuk mendapatkan urutan aslinya.
+				 */
+				Collections.reverse(constituents);
+				/**
+				 * Ganti isi arraylist konstituen yang lama dengan konstituen yang sudah di mapping
+				 * hal ini harus dilakukan karena ada kemungkinan beberapa konstituen
+				 * digabungkan menjadi satu, misalnya:
+				 * 
+				 * lombok + timur, dalam proses mapping menjadi satu yaitu lombok_timur
+				 */
 				m.replaceConstituent(constituents);
 			}
 			
@@ -59,79 +74,94 @@ public class OntologyMapper extends OntologyLoader {
 		return this.questionModel;
 	}
 	
-	private List<TokenModel> checkType(String unmappedToken, List<TokenModel> res, List<TokenModel> data) {
+	private List<TokenModel> checkType(List<String> previousTokens, List<TokenModel> res, List<TokenModel> data) {
 		
-		TokenModel m = data.remove(0);
+		TokenModel m = data.remove(data.size() - 1);
+		TokenModel lastInserted = res.size() > 0 ? res.get(res.size() - 1) : null;
+		
 		String token = m.getToken();
 		String tipe = getType(token);
 		
-		/**
-		 * Jika token tidak memiliki mapping di dalam ontologi 
-		 * maka lakukan langkah:
-		 * 1. cek apakah unmappedToken = null atau tidak
-		 * 2. Jika null, maka lanjutkan dengan token berikutnya.
-		 * 3. Jika tidak, maka gabungkan token saat ini dengan unmappedToken
-		 *    kemudian lakukan pengecekan ulang.
-		 * 4. Jika hasil penggabungkan ditemukan mappingnya, maka selesai.
-		 */
-		if ( tipe != null ) {
+		System.out.println("current -> " + token); 
+		System.out.print("prev[" + previousTokens.size() + "] => ");
+		for(String x:previousTokens) {
+			if (x == previousTokens.get(previousTokens.size() - 1)) {
+				System.out.print(x);
+			} else {
+				System.out.print(x+", ");
+			}
+		}
+		System.out.println("");
+		
+		if ( tipe == null ) {
 			
-			// jika token berhasil di mapping dengan ontologi
-			m.setTokenOWLType(tipe);
-			res.add(m);
-			
-		} else {
-			
-			/**
-			 * Jika unmappedToken tidak kosong dan token tidak berhasil di mapping
-			 * maka gabungkan token tersebut dengan token sebelumnya.
-			 */
-			if ( unmappedToken != null ) {
-				token = unmappedToken + "_" + token;
+			if ( !previousTokens.isEmpty() ) {
+				
+				String newToken = token + "_" + String.join("_", previousTokens);
+				
+				tipe = getType(newToken);
+				
+				if ( tipe != null ) {
+					
+					m.setToken(newToken);
+					m.setTokenOWLType(tipe);
+					
+					if (lastInserted != null && previousTokens.contains(lastInserted.getToken())){
+						res.set(res.size() - 1, m);
+					} else {
+						res.add(m);
+					}
+				}
 			}
 			
-			/**
-			 * Setelah proses penggabungan token dengan token sebelumnya 
-			 * yang sama-sama tidak memiliki mapping di dalam ontologi
-			 * maka lakukan pengecekan ulang.
-			 */
-			tipe = getType(token);
+			previousTokens.add(token);
+		} 
+		// Jika proses mapping berhasil
+		else {
 			
-			/**
-			 * Jika hasil penggabungan berhasil di mapping
-			 */
-			if ( tipe != null ) {
-				
-				/**
-				 * Masukkan tipe ontologi ke dalam objek TokenModel
-				 */
-				m.setTokenOWLType(tipe);
-				/**
-				 * ganti token dengan token yang telah digabungkan
-				 */
-				m.setToken(token);
+			m.setTokenOWLType(tipe);
+			
+			if ( previousTokens.isEmpty() ) {
 				
 				res.add(m);
+				previousTokens.add(token);
 				
-				/**
-				 * Reset unmappedToken menjadi null sehingga untuk token 
-				 * yang selanjutnya akan dimulai dari proses awal dengan 
-				 * tanpa ada unmappedToken
-				 */
-				unmappedToken = null;
 			} else {
-				/**
-				 * Jika mapping untuk token yang bersangkutan tidak ada,
-				 * maka set token menjadi nmappedToken. Token ini nantinya
-				 * akan dikirimkan ke proses selanjutnya. 
-				 */
-				unmappedToken = token;
+				
+				String newToken = token + "_" + String.join("_", previousTokens);
+				
+				System.out.println(newToken);
+				
+				tipe = getType(newToken);
+				
+				if ( tipe != null ) {
+					
+					m.setToken(newToken);
+					
+					m.setTokenOWLType(tipe);
+					
+					if (lastInserted != null && previousTokens.contains(lastInserted.getToken())){
+						res.set(res.size() - 1, m);
+					} else {
+						res.add(m);
+					}
+					
+					Collections.reverse(previousTokens);
+					previousTokens.add(token);
+					
+				} else {
+					res.add(m);
+					previousTokens.clear();
+					previousTokens.add(token);
+				}
 			}
 		}
 		
+		System.out.println("");
 		
 		if ( data.size() > 0 ) {
-			checkType(unmappedToken, res, data);
+			Collections.reverse(previousTokens);
+			checkType(previousTokens, res, data);
 		}
 		
 		return res;
