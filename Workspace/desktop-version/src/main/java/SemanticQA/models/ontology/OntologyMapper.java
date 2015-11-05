@@ -111,6 +111,24 @@ public class OntologyMapper extends OntologyLoader {
 					} else {
 						res.add(m);
 					}
+					
+					previousTokens.add(token);
+				} else {
+					
+					/**
+					 * Jika setelah penggabungan tetap tidak ditemukan mappingnya,
+					 * maka cek terlebih dahulu apakah member dari previousTokens
+					 * ada di dalam array res.
+					 * 
+					 * Jika ada, artinya previous item pernah digunakan untuk menyambung
+					 * maka kosongkan array previousTokens karena kata tersebut sudah 
+					 * tidak mungkin memiliki mapping lagi di dalam ontologi.
+					 */
+					String prevTokenJoined = String.join("_", previousTokens);
+					if ( lastInserted != null && lastInserted.getToken().equals(prevTokenJoined) ) {
+						System.out.println("must cleared");
+						previousTokens.clear();
+					}
 				}
 			}
 			
