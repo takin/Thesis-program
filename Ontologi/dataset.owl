@@ -21,6 +21,7 @@
     <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
     <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
     <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="onto" IRI="http://semanticweb.techtalk.web.id/ontology#"/>
     <Prefix name="prop" IRI="http://semanticweb.techtalk.web.id/ontology/property#"/>
     <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
     <Annotation>
@@ -28,106 +29,16 @@
         <Literal datatypeIRI="&rdf;PlainLiteral">RDF data kabupaten di Nusa Tenggara Barat. Data terdiri dari data pariwisata, pemerintahan dan informasi geografis</Literal>
     </Annotation>
     <Declaration>
+        <ObjectProperty abbreviatedIRI="prop:headOf"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="prop:Lombok_timur"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="#Ali_bin_dahlan"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#Ayam_taliwang_irama"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Cincin_mutiara"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Desa_danger"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Desa_kumbang"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Desa_lendang_nangka"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Desa_sade"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Dinas_pendidikan_kota_mataram"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Gelang_mutiara"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Gerabah"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Gili_air"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Gili_lampu"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Gili_meno"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Gili_nanggu"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Gili_trawangan"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Gunung_rinjani"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Gunung_tambora"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Holiday_inn"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Kain_songket"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Kalung_mutiara"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Lombok_barat"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Lombok_raya"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Lombok_tengah"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Lombok_timur"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Lombok_utara"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Masbagik"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Mataram"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Pantai_kuta"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Pantai_mawun"/>
-    </Declaration>
-    <Declaration>
         <NamedIndividual IRI="#Pantai_pink"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Pantai_selong_belanak"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Pantai_senggigi"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Pantai_tanjung_an"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Pantai_tanjung_ringgit"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#Sate_bulayak"/>
@@ -139,167 +50,53 @@
         <NamedIndividual IRI="#Senggigi_beach"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#Skarbela"/>
-    </Declaration>
-    <Declaration>
         <NamedIndividual IRI="#Zainul_majdi"/>
     </Declaration>
     <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
+        <Class abbreviatedIRI="onto:Pantai"/>
+        <NamedIndividual abbreviatedIRI="prop:Lombok_timur"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="onto:Orang"/>
         <NamedIndividual IRI="#Ali_bin_dahlan"/>
     </ClassAssertion>
     <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Ayam_taliwang_irama"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Cincin_mutiara"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Desa_danger"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Desa_kumbang"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Desa_lendang_nangka"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Desa_sade"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Dinas_pendidikan_kota_mataram"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Gelang_mutiara"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Gerabah"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Gili_air"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Gili_lampu"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Gili_meno"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Gili_nanggu"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Gili_trawangan"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Gunung_rinjani"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Gunung_tambora"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Holiday_inn"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Kain_songket"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Kalung_mutiara"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Lombok_barat"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Lombok_raya"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Lombok_tengah"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Lombok_timur"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Lombok_utara"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Masbagik"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Mataram"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Pantai_kuta"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Pantai_mawun"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
+        <Class abbreviatedIRI="onto:Pantai"/>
         <NamedIndividual IRI="#Pantai_pink"/>
     </ClassAssertion>
     <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Pantai_selong_belanak"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Pantai_senggigi"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Pantai_tanjung_an"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Pantai_tanjung_ringgit"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
+        <Class abbreviatedIRI="onto:Makanan"/>
         <NamedIndividual IRI="#Sate_bulayak"/>
     </ClassAssertion>
     <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
+        <Class abbreviatedIRI="onto:Pantai"/>
+        <NamedIndividual IRI="#Selong_belanak"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="onto:Pantai"/>
         <NamedIndividual IRI="#Senggigi"/>
     </ClassAssertion>
     <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
+        <Class abbreviatedIRI="onto:Hotel"/>
         <NamedIndividual IRI="#Senggigi_beach"/>
     </ClassAssertion>
     <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Skarbela"/>
+        <Class abbreviatedIRI="onto:Pantai"/>
+        <NamedIndividual IRI="#Tanjung_an"/>
     </ClassAssertion>
     <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
+        <Class abbreviatedIRI="onto:Pantai"/>
+        <NamedIndividual IRI="#Tanjung_ringgit"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="onto:Orang"/>
         <NamedIndividual IRI="#Zainul_majdi"/>
     </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="prop:headOf"/>
+        <NamedIndividual IRI="#Ali_bin_dahlan"/>
+        <NamedIndividual abbreviatedIRI="prop:Lombok_timur"/>
+    </ObjectPropertyAssertion>
 </Ontology>
 
 

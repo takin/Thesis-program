@@ -82,16 +82,16 @@ public class OntologyMapper extends OntologyLoader {
 		String token = m.getToken();
 		String tipe = getType(token);
 		
-		System.out.println("current -> " + token); 
-		System.out.print("prev[" + previousTokens.size() + "] => ");
-		for(String x:previousTokens) {
-			if (x == previousTokens.get(previousTokens.size() - 1)) {
-				System.out.print(x);
-			} else {
-				System.out.print(x+", ");
-			}
-		}
-		System.out.println("");
+//		System.out.println("current -> " + token); 
+//		System.out.print("prev[" + previousTokens.size() + "] => ");
+//		for(String x:previousTokens) {
+//			if (x == previousTokens.get(previousTokens.size() - 1)) {
+//				System.out.print(x);
+//			} else {
+//				System.out.print(x+", ");
+//			}
+//		}
+//		System.out.println("");
 		
 		if ( tipe == null ) {
 			
@@ -105,6 +105,7 @@ public class OntologyMapper extends OntologyLoader {
 					
 					m.setToken(newToken);
 					m.setTokenOWLType(tipe);
+					m.setOntologyObject(getOWLObject(newToken, tipe));
 					
 					if (lastInserted != null && previousTokens.contains(lastInserted.getToken())){
 						res.set(res.size() - 1, m);
@@ -126,7 +127,7 @@ public class OntologyMapper extends OntologyLoader {
 					 */
 					String prevTokenJoined = String.join("_", previousTokens);
 					if ( lastInserted != null && lastInserted.getToken().equals(prevTokenJoined) ) {
-						System.out.println("must cleared");
+//						System.out.println("must cleared");
 						previousTokens.clear();
 					}
 				}
@@ -138,6 +139,7 @@ public class OntologyMapper extends OntologyLoader {
 		else {
 			
 			m.setTokenOWLType(tipe);
+			m.setOntologyObject(getOWLObject(token, tipe));
 			
 			if ( previousTokens.isEmpty() ) {
 				
@@ -148,15 +150,15 @@ public class OntologyMapper extends OntologyLoader {
 				
 				String newToken = token + "_" + String.join("_", previousTokens);
 				
-				System.out.println(newToken);
+//				System.out.println(newToken);
 				
 				tipe = getType(newToken);
 				
 				if ( tipe != null ) {
 					
 					m.setToken(newToken);
-					
 					m.setTokenOWLType(tipe);
+					m.setOntologyObject(getOWLObject(newToken, tipe));
 					
 					if (lastInserted != null && previousTokens.contains(lastInserted.getToken())){
 						res.set(res.size() - 1, m);
@@ -175,7 +177,7 @@ public class OntologyMapper extends OntologyLoader {
 			}
 		}
 		
-		System.out.println("");
+//		System.out.println("");
 		
 		if ( data.size() > 0 ) {
 			Collections.reverse(previousTokens);

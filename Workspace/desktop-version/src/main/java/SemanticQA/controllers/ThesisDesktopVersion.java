@@ -18,28 +18,31 @@ class ThesisDesktopVersion {
 //		System.out.println("Masukkan pertanyaan: ");
 		
 //		Scanner s = new Scanner(System.in);
-//		String pertanyaan = s.nextLine();
+//		String pertanyaan = s.nextLine(); 
+		
 		String[] pertanyaan = new String[]{
 				"di mana letak pantai senggigi pantai tanjung an",
 				"di mana letak pantai tanjung an pantai mawun",
 				"siapa bupati kabupaten lombok timur",
-				"wisata alam apa saja yang ada di lombok timur"
+				"apa saja wisata budaya di lombok",
+				"di lombok ada wisata budaya apa saja",
+				"siapa nama kepala desa danger"
 				};
 //		s.close();
 		
 		Tokenizer t = new Tokenizer();
 		
-		List<TokenModel> token = t.tokenize(pertanyaan[3]);
+		List<TokenModel> token = t.tokenize(pertanyaan[2]);
 		
 //		cetak(token);
 		
 		Parser p = new Parser();
 		List<QuestionModel> result = p.parse(token);
 		
-		cetakKlausa(result);
+//		cetakKlausa(result);
 		
-//		OntologyMapper mapper = new OntologyMapper(result);
-//		List<QuestionModel> mapResult = mapper.map();
+		OntologyMapper mapper = new OntologyMapper(result);
+		List<QuestionModel> mapResult = mapper.map();
 		
 //		long startTime = System.currentTimeMillis();
 //		cetakMap(mapResult);
@@ -49,8 +52,8 @@ class ThesisDesktopVersion {
 		
 //		System.out.println("Mapping is executed in: " + executionTime + " seconds");
 		
-//		OntologyQuery q = new OntologyQuery(new OntologyLoader());
-//		q.execute(mapResult);
+		OntologyQuery q = new OntologyQuery(mapper);
+		q.execute(mapResult);
 	}	
 	
 	public static void cetak(List<TokenModel> token){

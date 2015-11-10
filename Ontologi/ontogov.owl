@@ -73,6 +73,9 @@
         <Class IRI="#Orang"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#PNS"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#Pegawai_negeri"/>
     </Declaration>
     <Declaration>
@@ -147,6 +150,12 @@
     <Declaration>
         <DataProperty IRI="/property#website"/>
     </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Lombok_timur"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#syamsul"/>
+    </Declaration>
     <EquivalentClasses>
         <Class IRI="#Badan"/>
         <ObjectIntersectionOf>
@@ -183,41 +192,17 @@
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#Bupati"/>
-        <ObjectIntersectionOf>
-            <Class IRI="#Orang"/>
-            <ObjectComplementOf>
-                <ObjectUnionOf>
-                    <Class IRI="#Gubernur"/>
-                    <Class IRI="#Kepala_desa"/>
-                    <Class IRI="#Wakil_bupati"/>
-                    <Class IRI="#Wakil_gubernur"/>
-                    <Class IRI="#Wakil_wali_kota"/>
-                    <Class IRI="#Wali_kota"/>
-                </ObjectUnionOf>
-            </ObjectComplementOf>
-            <ObjectSomeValuesFrom>
-                <ObjectProperty IRI="/property#headOf"/>
-                <Class IRI="#Kabupaten"/>
-            </ObjectSomeValuesFrom>
-        </ObjectIntersectionOf>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="/property#headOf"/>
+            <Class IRI="#Kabupaten"/>
+        </ObjectSomeValuesFrom>
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#Camat"/>
-        <ObjectIntersectionOf>
-            <Class IRI="#Pegawai_negeri"/>
-            <ObjectComplementOf>
-                <ObjectUnionOf>
-                    <Class IRI="#Kepala_badan"/>
-                    <Class IRI="#Kepala_biro"/>
-                    <Class IRI="#Kepala_dinas"/>
-                    <Class IRI="#Wakil_camat"/>
-                </ObjectUnionOf>
-            </ObjectComplementOf>
-            <ObjectSomeValuesFrom>
-                <ObjectProperty IRI="/property#headOf"/>
-                <Class IRI="#Kecamatan"/>
-            </ObjectSomeValuesFrom>
-        </ObjectIntersectionOf>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="/property#headOf"/>
+            <Class IRI="#Kecamatan"/>
+        </ObjectSomeValuesFrom>
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#Desa"/>
@@ -255,23 +240,10 @@
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#Gubernur"/>
-        <ObjectIntersectionOf>
-            <Class IRI="#Orang"/>
-            <ObjectComplementOf>
-                <ObjectUnionOf>
-                    <Class IRI="#Bupati"/>
-                    <Class IRI="#Kepala_desa"/>
-                    <Class IRI="#Wakil_bupati"/>
-                    <Class IRI="#Wakil_gubernur"/>
-                    <Class IRI="#Wakil_wali_kota"/>
-                    <Class IRI="#Wali_kota"/>
-                </ObjectUnionOf>
-            </ObjectComplementOf>
-            <ObjectSomeValuesFrom>
-                <ObjectProperty IRI="/property#headOf"/>
-                <Class IRI="#Provinsi"/>
-            </ObjectSomeValuesFrom>
-        </ObjectIntersectionOf>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="/property#headOf"/>
+            <Class IRI="#Provinsi"/>
+        </ObjectSomeValuesFrom>
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#Kabupaten"/>
@@ -309,77 +281,31 @@
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#Kepala_badan"/>
-        <ObjectIntersectionOf>
-            <Class IRI="#Pegawai_negeri"/>
-            <ObjectComplementOf>
-                <ObjectUnionOf>
-                    <Class IRI="#Camat"/>
-                    <Class IRI="#Kepala_biro"/>
-                    <Class IRI="#Kepala_dinas"/>
-                    <Class IRI="#Wakil_camat"/>
-                </ObjectUnionOf>
-            </ObjectComplementOf>
-            <ObjectSomeValuesFrom>
-                <ObjectProperty IRI="/property#headOf"/>
-                <Class IRI="#Badan"/>
-            </ObjectSomeValuesFrom>
-        </ObjectIntersectionOf>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="/property#headOf"/>
+            <Class IRI="#Badan"/>
+        </ObjectSomeValuesFrom>
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#Kepala_biro"/>
-        <ObjectIntersectionOf>
-            <Class IRI="#Pegawai_negeri"/>
-            <ObjectComplementOf>
-                <ObjectUnionOf>
-                    <Class IRI="#Camat"/>
-                    <Class IRI="#Kepala_badan"/>
-                    <Class IRI="#Kepala_dinas"/>
-                    <Class IRI="#Wakil_camat"/>
-                </ObjectUnionOf>
-            </ObjectComplementOf>
-            <ObjectSomeValuesFrom>
-                <ObjectProperty IRI="/property#headOf"/>
-                <Class IRI="#Biro"/>
-            </ObjectSomeValuesFrom>
-        </ObjectIntersectionOf>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="/property#headOf"/>
+            <Class IRI="#Biro"/>
+        </ObjectSomeValuesFrom>
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#Kepala_desa"/>
-        <ObjectIntersectionOf>
-            <Class IRI="#Orang"/>
-            <ObjectComplementOf>
-                <ObjectUnionOf>
-                    <Class IRI="#Bupati"/>
-                    <Class IRI="#Gubernur"/>
-                    <Class IRI="#Wakil_bupati"/>
-                    <Class IRI="#Wakil_gubernur"/>
-                    <Class IRI="#Wakil_wali_kota"/>
-                    <Class IRI="#Wali_kota"/>
-                </ObjectUnionOf>
-            </ObjectComplementOf>
-            <ObjectSomeValuesFrom>
-                <ObjectProperty IRI="/property#headOf"/>
-                <Class IRI="#Desa"/>
-            </ObjectSomeValuesFrom>
-        </ObjectIntersectionOf>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="/property#headOf"/>
+            <Class IRI="#Desa"/>
+        </ObjectSomeValuesFrom>
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#Kepala_dinas"/>
-        <ObjectIntersectionOf>
-            <Class IRI="#Pegawai_negeri"/>
-            <ObjectComplementOf>
-                <ObjectUnionOf>
-                    <Class IRI="#Camat"/>
-                    <Class IRI="#Kepala_badan"/>
-                    <Class IRI="#Kepala_biro"/>
-                    <Class IRI="#Wakil_camat"/>
-                </ObjectUnionOf>
-            </ObjectComplementOf>
-            <ObjectSomeValuesFrom>
-                <ObjectProperty IRI="/property#headOf"/>
-                <Class IRI="#Dinas"/>
-            </ObjectSomeValuesFrom>
-        </ObjectIntersectionOf>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="/property#headOf"/>
+            <Class IRI="#Dinas"/>
+        </ObjectSomeValuesFrom>
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#Kota"/>
@@ -399,21 +325,8 @@
         </ObjectIntersectionOf>
     </EquivalentClasses>
     <EquivalentClasses>
+        <Class IRI="#PNS"/>
         <Class IRI="#Pegawai_negeri"/>
-        <ObjectIntersectionOf>
-            <Class IRI="#Orang"/>
-            <ObjectComplementOf>
-                <ObjectUnionOf>
-                    <Class IRI="#Bupati"/>
-                    <Class IRI="#Gubernur"/>
-                    <Class IRI="#Kepala_desa"/>
-                    <Class IRI="#Wakil_bupati"/>
-                    <Class IRI="#Wakil_gubernur"/>
-                    <Class IRI="#Wakil_wali_kota"/>
-                    <Class IRI="#Wali_kota"/>
-                </ObjectUnionOf>
-            </ObjectComplementOf>
-        </ObjectIntersectionOf>
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#Provinsi"/>
@@ -434,106 +347,129 @@
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#Wakil_bupati"/>
-        <ObjectIntersectionOf>
-            <Class IRI="#Orang"/>
-            <ObjectComplementOf>
-                <ObjectUnionOf>
-                    <Class IRI="#Bupati"/>
-                    <Class IRI="#Gubernur"/>
-                    <Class IRI="#Kepala_desa"/>
-                    <Class IRI="#Wakil_gubernur"/>
-                    <Class IRI="#Wakil_wali_kota"/>
-                    <Class IRI="#Wali_kota"/>
-                </ObjectUnionOf>
-            </ObjectComplementOf>
-            <ObjectSomeValuesFrom>
-                <ObjectProperty IRI="/property#viceOf"/>
-                <Class IRI="#Bupati"/>
-            </ObjectSomeValuesFrom>
-        </ObjectIntersectionOf>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="/property#viceOf"/>
+            <Class IRI="#Bupati"/>
+        </ObjectSomeValuesFrom>
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#Wakil_camat"/>
-        <ObjectIntersectionOf>
-            <Class IRI="#Pegawai_negeri"/>
-            <ObjectComplementOf>
-                <ObjectUnionOf>
-                    <Class IRI="#Camat"/>
-                    <Class IRI="#Kepala_badan"/>
-                    <Class IRI="#Kepala_biro"/>
-                    <Class IRI="#Kepala_dinas"/>
-                </ObjectUnionOf>
-            </ObjectComplementOf>
-            <ObjectSomeValuesFrom>
-                <ObjectProperty IRI="/property#viceOf"/>
-                <Class IRI="#Camat"/>
-            </ObjectSomeValuesFrom>
-        </ObjectIntersectionOf>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="/property#viceOf"/>
+            <Class IRI="#Camat"/>
+        </ObjectSomeValuesFrom>
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#Wakil_gubernur"/>
-        <ObjectIntersectionOf>
-            <Class IRI="#Orang"/>
-            <ObjectComplementOf>
-                <ObjectUnionOf>
-                    <Class IRI="#Bupati"/>
-                    <Class IRI="#Gubernur"/>
-                    <Class IRI="#Kepala_desa"/>
-                    <Class IRI="#Wakil_bupati"/>
-                    <Class IRI="#Wakil_wali_kota"/>
-                    <Class IRI="#Wali_kota"/>
-                </ObjectUnionOf>
-            </ObjectComplementOf>
-            <ObjectSomeValuesFrom>
-                <ObjectProperty IRI="/property#viceOf"/>
-                <Class IRI="#Gubernur"/>
-            </ObjectSomeValuesFrom>
-        </ObjectIntersectionOf>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="/property#viceOf"/>
+            <Class IRI="#Gubernur"/>
+        </ObjectSomeValuesFrom>
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#Wakil_wali_kota"/>
-        <ObjectIntersectionOf>
-            <Class IRI="#Orang"/>
-            <ObjectComplementOf>
-                <ObjectUnionOf>
-                    <Class IRI="#Bupati"/>
-                    <Class IRI="#Gubernur"/>
-                    <Class IRI="#Kepala_desa"/>
-                    <Class IRI="#Wakil_bupati"/>
-                    <Class IRI="#Wakil_gubernur"/>
-                    <Class IRI="#Wali_kota"/>
-                </ObjectUnionOf>
-            </ObjectComplementOf>
-            <ObjectSomeValuesFrom>
-                <ObjectProperty IRI="/property#viceOf"/>
-                <Class IRI="#Kota"/>
-            </ObjectSomeValuesFrom>
-        </ObjectIntersectionOf>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="/property#viceOf"/>
+            <Class IRI="#Wali_kota"/>
+        </ObjectSomeValuesFrom>
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#Wali_kota"/>
-        <ObjectIntersectionOf>
-            <Class IRI="#Orang"/>
-            <ObjectComplementOf>
-                <ObjectUnionOf>
-                    <Class IRI="#Bupati"/>
-                    <Class IRI="#Gubernur"/>
-                    <Class IRI="#Kepala_desa"/>
-                    <Class IRI="#Wakil_bupati"/>
-                    <Class IRI="#Wakil_gubernur"/>
-                    <Class IRI="#Wakil_wali_kota"/>
-                </ObjectUnionOf>
-            </ObjectComplementOf>
-            <ObjectSomeValuesFrom>
-                <ObjectProperty IRI="/property#headOf"/>
-                <Class IRI="#Kota"/>
-            </ObjectSomeValuesFrom>
-        </ObjectIntersectionOf>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="/property#headOf"/>
+            <Class IRI="#Kota"/>
+        </ObjectSomeValuesFrom>
     </EquivalentClasses>
+    <SubClassOf>
+        <Class IRI="#Bupati"/>
+        <Class IRI="#Orang"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Camat"/>
+        <Class IRI="#Pegawai_negeri"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Gubernur"/>
+        <Class IRI="#Orang"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Kepala_badan"/>
+        <Class IRI="#Pegawai_negeri"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Kepala_biro"/>
+        <Class IRI="#Pegawai_negeri"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Kepala_desa"/>
+        <Class IRI="#Orang"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Kepala_dinas"/>
+        <Class IRI="#Pegawai_negeri"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PNS"/>
+        <Class IRI="#Orang"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Pegawai_negeri"/>
+        <Class IRI="#Orang"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Wakil_bupati"/>
+        <Class IRI="#Orang"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Wakil_camat"/>
+        <Class IRI="#Pegawai_negeri"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Wakil_gubernur"/>
+        <Class IRI="#Orang"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Wakil_wali_kota"/>
+        <Class IRI="#Orang"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Wali_kota"/>
+        <Class IRI="#Orang"/>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="#Bupati"/>
+        <Class IRI="#Gubernur"/>
+        <Class IRI="#Kepala_desa"/>
+        <Class IRI="#Pegawai_negeri"/>
+        <Class IRI="#Pemerintah_daerah"/>
+        <Class IRI="#Wakil_bupati"/>
+        <Class IRI="#Wakil_gubernur"/>
+        <Class IRI="#Wakil_wali_kota"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Camat"/>
+        <Class IRI="#Kepala_badan"/>
+        <Class IRI="#Kepala_biro"/>
+        <Class IRI="#Kepala_dinas"/>
+        <Class IRI="#Wakil_camat"/>
+    </DisjointClasses>
     <DisjointClasses>
         <Class IRI="#Orang"/>
         <Class IRI="#Pemerintah_daerah"/>
     </DisjointClasses>
+    <ClassAssertion>
+        <Class IRI="#Kabupaten"/>
+        <NamedIndividual IRI="#Lombok_timur"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Orang"/>
+        <NamedIndividual IRI="#syamsul"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="/property#headOf"/>
+        <NamedIndividual IRI="#syamsul"/>
+        <NamedIndividual IRI="#Lombok_timur"/>
+    </ObjectPropertyAssertion>
     <EquivalentObjectProperties>
         <ObjectProperty IRI="/property#hasHead"/>
         <ObjectProperty IRI="/property#pimpinan"/>
@@ -558,6 +494,34 @@
         <ObjectProperty IRI="/property#viceOf"/>
         <ObjectProperty IRI="/property#hasVice"/>
     </InverseObjectProperties>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="/property#hasVice"/>
+        <Class IRI="#Orang"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="/property#headOf"/>
+        <Class IRI="#Orang"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="/property#viceOf"/>
+        <Class IRI="#Orang"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="/property#wakil_dari"/>
+        <Class IRI="#Orang"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="/property#hasVice"/>
+        <Class IRI="#Orang"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="/property#viceOf"/>
+        <Class IRI="#Orang"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="/property#wakil_dari"/>
+        <Class IRI="#Orang"/>
+    </ObjectPropertyRange>
     <EquivalentDataProperties>
         <DataProperty IRI="/property#alamat_website"/>
         <DataProperty IRI="/property#hasWebsite"/>

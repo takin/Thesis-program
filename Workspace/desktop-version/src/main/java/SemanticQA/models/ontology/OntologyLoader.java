@@ -28,15 +28,16 @@ public class OntologyLoader {
 	
 	protected OWLOntology ontology;
 	protected OWLReasoner reasoner;
+	protected OWLOntologyManager manager;
 	
 	public OntologyLoader() {
-		OWLOntologyManager manager = OWLManager.createOWLOntologyManager();
+		this.manager = OWLManager.createOWLOntologyManager();
 		
 		try {
 			manager.loadOntologyFromOntologyDocument(IRI.create("file:///Users/syamsul/Documents/Thesis-program/Ontologi/ontogeo.owl"));
 			manager.loadOntologyFromOntologyDocument(IRI.create("file:///Users/syamsul/Documents/Thesis-program/Ontologi/ontogov.owl"));
 			manager.loadOntologyFromOntologyDocument(IRI.create("file:///Users/syamsul/Documents/Thesis-program/Ontologi/ontopar.owl"));
-			manager.loadOntologyFromOntologyDocument(IRI.create("file:///Users/syamsul/Documents/Thesis-program/Ontologi/dataset.owl"));
+//			manager.loadOntologyFromOntologyDocument(IRI.create("file:///Users/syamsul/Documents/Thesis-program/Ontologi/dataset.owl"));
 			
 			OWLOntologyMerger merger = new OWLOntologyMerger(manager);
 			ontology = merger.createMergedOntology(manager, IRI.create(Ontology.ONTO_MERGED_URI));

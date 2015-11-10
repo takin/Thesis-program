@@ -97,7 +97,6 @@ public class Parser {
 						latestProcessedPhrase.getType().equals( Token.TYPE_ADJEKTIVA ) ||
 						latestProcessedPhrase.getType().equals( Token.TYPE_ADVERBIA ) ) {
 					
-//					justUpdate = true;
 					temporaryPhraseType = Token.TYPE_FRASA_PREPOSISIONAL;
 					
 				}
@@ -116,7 +115,6 @@ public class Parser {
 					// no break here
 				case Token.TYPE_FRASA_PREPOSISIONAL:
 					
-//					justUpdate = true;
 					temporaryPhraseType = Token.TYPE_FRASA_PREPOSISIONAL;
 					
 					break;
@@ -129,7 +127,6 @@ public class Parser {
 					// no break here
 				case Token.TYPE_FRASA_NOMINAL:
 					
-//					justUpdate = true;
 					temporaryPhraseType = Token.TYPE_FRASA_NOMINAL;
 					
 					break;
@@ -137,10 +134,15 @@ public class Parser {
 				case Token.TYPE_NUMERALIA:
 					
 					if ( currentToken.getToken().matches(NOMINA_PENGGOLONG_PATTERN) ) {
-//						justUpdate = true;
 						temporaryPhraseType = Token.TYPE_FRASA_NUMERALIA;
 					}
 					
+					break;
+				// latestProcessedPhrase
+				case Token.TYPE_VERBA:
+					// no break here
+				case Token.TYPE_FRASA_VERBAL:
+					temporaryPhraseType = Token.TYPE_FRASA_VERBAL;
 					break;
 				}
 				
@@ -151,8 +153,9 @@ public class Parser {
 				/**-----------------------------------------------------------------------*
 				 * Pembentukan Frasa verbal dengan aturan [ ADJ + V ] 					  *
 				 *------------------------------------------------------------------------*/
-				if ( latestProcessedPhrase.getType().equals( Token.TYPE_ADVERBIA ) ) {
-//					justUpdate = true;
+				if ( latestProcessedPhrase.getType().equals( Token.TYPE_ADVERBIA ) ||
+						latestProcessedPhrase.getType().equals( Token.TYPE_VERBA ) ||
+						latestProcessedPhrase.getType().equals(Token.TYPE_FRASA_VERBAL) ) {
 					temporaryPhraseType = Token.TYPE_FRASA_VERBAL;
 				}
 				
@@ -173,7 +176,6 @@ public class Parser {
 						return false;
 					}
 					
-//					justUpdate = true;
 					temporaryPhraseType = Token.TYPE_FRASA_PRONOMINAL;
 					
 				}
@@ -185,7 +187,6 @@ public class Parser {
 						(latestProcessedPhrase.getType().equals(Token.TYPE_NOMINA) || 
 								latestProcessedPhrase.getType().equals(Token.TYPE_FRASA_NOMINAL)) ){
 					
-//					justUpdate = true;
 					temporaryPhraseType = Token.TYPE_FRASA_NOMINAL;
 					
 				}
@@ -209,7 +210,6 @@ public class Parser {
 								previousToken.getToken().equals(Token.TYPE_NOMINA) ) || 
 						previousToken.getToken().equals("yang") ){
 					
-//					justUpdate = true;
 					temporaryPhraseType = Token.TYPE_FRASA_NOMINAL;
 					
 				}
@@ -221,7 +221,6 @@ public class Parser {
 				if ( currentToken.getToken().equals("saja") && 
 						previousToken.getToken().matches(PRONOMINA_PENANYA_PATTERN) ) {
 					
-//					justUpdate = true;
 					temporaryPhraseType = Token.TYPE_FRASA_PRONOMINAL;
 					
 				}
@@ -233,7 +232,6 @@ public class Parser {
 				if ( currentToken.getToken().equals("yang") &&
 						previousToken.getTokenType().equals(Token.TYPE_PRONOMINA) ) {
 					
-//					justUpdate = true;
 					temporaryPhraseType = Token.TYPE_FRASA_NOMINAL;
 					
 				}
@@ -246,95 +244,12 @@ public class Parser {
 						latestProcessedPhrase.getType().equals(Token.TYPE_PRONOMINA) ) &&
 						currentToken.getToken().matches(NUMERALIA_KOLEKTIF_PATTERN) ) {
 					
-//					justUpdate = true;
 					temporaryPhraseType = Token.TYPE_FRASA_PRONOMINAL;
 					
 				}
 				
 				break;
 			}
-			
-			/**------------------------------------------------------------------------------------*
-			 * Pembentukan FRASA PREPOSISIONAL													   *
-			 *-------------------------------------------------------------------------------------*
-			 * Aturan:																			   *
-			 * 1. [ PREP + N ]																	   *
-			 *-------------------------------------------------------------------------------------*/
-			/*if ( latestProcessedPhrase.getWordType().equals( Token.TYPE_PREPOSISI ) || 
-					latestProcessedPhrase.getWordType().equals( Token.TYPE_FRASA_PREPOSISIONAL ) ) {
-				
-				justUpdate = true;
-				temporaryPhraseType = Token.TYPE_FRASA_PREPOSISIONAL;
-				
-			}*/
-			
-			/**------------------------------------------------------------------------------------*
-			 * Pembentukan FRASA PRONOMINAL														   *
-			 * ------------------------------------------------------------------------------------*
-			 * Aturan:																			   *
-			 * 1. [ Pron + Num Kolektif ] 														   *
-			 * 2. [ Pron + Pron Penjunjuk ]														   *
-			 * 3. [ Pron + <sendiri> ]															   *
-			 *-------------------------------------------------------------------------------------*/
-			/*if ( ( ( latestProcessedPhrase.getWordType().equals( Token.TYPE_PRONOMINA ) || 
-					previousToken.getWordType().equals( Token.TYPE_PRONOMINA ) ) && 
-					currentToken.getWord().matches( NUMERALIA_KOLEKTIF_PATTERN ) ) || 
-					latestProcessedPhrase.getWordType().matches( PREPOSISI_PENANYA_PATTERN ) ) {
-				
-				// Jika pola kalimat tanya di + apa maka tolak!
-				if ( latestProcessedPhrase.getWord().matches("(di|ke|dari)") && currentToken.getWord().equals("apa") ) {
-					return false;
-				}
-				justUpdate = true;
-				temporaryPhraseType = Token.TYPE_FRASA_PRONOMINAL;
-				
-			}*/
-			
-			/**------------------------------------------------------------------------------------*
-			 * Pembentukan FRASA NOMINAL														   *
-			 * ------------------------------------------------------------------------------------*
-			 * Aturan:																			   *
-			 * 1. [ N + N* + Pron Persona + Pron Penunjuk ]										   *
-			 * 2. [ N + Adj + Pron Persona + Pron Penunjuk ]									   *
-			 * 3. [ N + Pron Persona + <yang> + Adj + Pron Penunjuk ]							   *
-			 *-------------------------------------------------------------------------------------*/
-			/*if ( latestProcessedPhrase.getWordType().equals( Token.TYPE_NOMINA ) || 
-					latestProcessedPhrase.getWordType().equals( Token.TYPE_FRASA_NOMINAL ) ) {
-				
-				if ( previousToken.getWordType().equals( Token.TYPE_NOMINA ) && 
-						( currentToken.getWordType().equals( Token.TYPE_NOMINA ) || 
-								currentToken.getWordType().equals( Token.TYPE_ADJEKTIVA ) || 
-								currentToken.getWord().matches( PRONOMINA_PERSONA_PATTERN ) ) ) {
-					
-					justUpdate = true;
-					temporaryPhraseType = Token.TYPE_FRASA_NOMINAL;
-					
-				}
-				
-			}*/
-			
-			/**------------------------------------------------------------------------------------*
-			 * Pembentukn FRASA NUMERALIA														   *
-			 * ------------------------------------------------------------------------------------*
-			 * Aturan:																			   *
-			 * 1. [ Num + N Penggolong ]														   *
-			 *-------------------------------------------------------------------------------------*/
-			/*if ( ( latestProcessedPhrase.getWordType().equals( Token.TYPE_NUMERALIA ) || 
-					latestProcessedPhrase.getWordType().equals( Token.TYPE_FRASA_NUMERALIA ) ) && 
-					currentToken.getWord().matches( NOMINA_PENGGOLONG_PATTERN ) ) {
-				
-				justUpdate = true;
-				temporaryPhraseType = Token.TYPE_FRASA_NUMERALIA;
-				
-			}*/
-			
-			/**
-			 * Jika currentToken = "yang", maka perlu pengecekan lebih kompleks.
-			 * Treatment khusus untuk kata "yang"
-			 * 1. Frasa akan menjadi FN jika "yang" hadir diantara FN dan Adj -> Anak saya (FN) + yang + pintar(Adj)
-			 */
-			
-			
 		}
 		
 		/**
