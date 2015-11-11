@@ -1,0 +1,33 @@
+[siapa] [bupati] [kabupaten] [lombok timur] -> PN + N + N + N -> OWLCLass + OWLClass + Individual
+
+select ?object where {
+	Type(?object, bupati),
+	PropertyValue(?object, ?prop, lombok_timur)
+}
+
+[di mana] [letak] [pantai] [selong belanak] -> PN + N + N + N -> OWLObjectProperty + OWLClass + Individual
+
+select ?object where {
+	Type(selong_belanak,pantai),
+	PropertyValue(selong_belanak, letak, ?object)
+}
+
+[siapa] [nama] [bupati] [kabupaten] [lombok timur] -> OWLDataProperty + OWLClass + OWLClass + Individual
+
+select ?object where {
+	Type(?object,bupati),
+	PropertyValue(?object, nama, lombok_timur)
+}
+
+
+[selong belanak] [terletak] [di mana] -> FN + V + FPRON -> Individual + OWLObjectProperty
+
+kapan ali bin dahlan menjadi bupati kabupaten lombok timur
+
+
+Jika pola pertanyaan:
+1. P - S maka P adalah yang dicari (P pengganti dari objek)
+2. S - P maka P adalah yang dicari (P pengganti dari objek)
+3. S - P - O maka O adalah yang di cari
+4. S - P - Ket -> S adalah yang di cari
+5. S - P - Pel -> S adalah yang di cari

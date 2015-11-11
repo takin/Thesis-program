@@ -32,7 +32,13 @@
         <ObjectProperty abbreviatedIRI="prop:headOf"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual abbreviatedIRI="prop:Lombok_timur"/>
+    	<ObjectProperty IRI="#Lombok_utara"/>
+    </Declaration>
+    <Declaration>
+    	<NamedIndividual IRI="#Danger"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Lombok_timur"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#Ali_bin_dahlan"/>
@@ -53,8 +59,16 @@
         <NamedIndividual IRI="#Zainul_majdi"/>
     </Declaration>
     <ClassAssertion>
-        <Class abbreviatedIRI="onto:Pantai"/>
-        <NamedIndividual abbreviatedIRI="prop:Lombok_timur"/>
+    	<Class abbreviatedIRI="onto:Desa"/>
+    	<NamedIndividual IRI="#Danger"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="onto:Kabupaten"/>
+        <NamedIndividual IRI="#Lombok_timur"/>
+    </ClassAssertion>
+    <ClassAssertion>
+    	<Class abbreviatedIRI="onto:Kabupaten"/>
+    	<NamedIndividual IRI="#Lombok_utara"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class abbreviatedIRI="onto:Orang"/>
@@ -95,7 +109,17 @@
     <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="prop:headOf"/>
         <NamedIndividual IRI="#Ali_bin_dahlan"/>
-        <NamedIndividual abbreviatedIRI="prop:Lombok_timur"/>
+        <NamedIndividual IRI="#Lombok_timur"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+    	<ObjectProperty abbreviatedIRI="prop:terletak_di"/>
+    	<NamedIndividual IRI="#Senggigi"/>
+    	<NamedIndividual IRI="#Lombok_utara"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+    	<ObjectProperty abbreviatedIRI="prop:letak"/>
+    	<NamedIndividual IRI="#Selong_belanak"/>
+    	<NamedIndividual IRI="#Lombok_timur"/>
     </ObjectPropertyAssertion>
 </Ontology>
 

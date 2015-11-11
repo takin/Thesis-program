@@ -1,0 +1,75 @@
+Prefix(:=<http://semanticweb.techtalk.web.id/ontology/dataset#>)
+Prefix(owl:=<http://www.w3.org/2002/07/owl#>)
+Prefix(rdf:=<http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+Prefix(xml:=<http://www.w3.org/XML/1998/namespace>)
+Prefix(xsd:=<http://www.w3.org/2001/XMLSchema#>)
+Prefix(onto:=<http://semanticweb.techtalk.web.id/ontology#>)
+Prefix(prop:=<http://semanticweb.techtalk.web.id/ontology/property#>)
+Prefix(rdfs:=<http://www.w3.org/2000/01/rdf-schema#>)
+
+
+Ontology(<http://semanticweb.techtalk.web.id/resources>
+Annotation(rdfs:comment "RDF data kabupaten di Nusa Tenggara Barat. Data terdiri dari data pariwisata, pemerintahan dan informasi geografis")
+
+Declaration(Class(onto:Desa))
+Declaration(Class(onto:Hotel))
+Declaration(Class(onto:Kabupaten))
+Declaration(Class(onto:Makanan))
+Declaration(Class(onto:Orang))
+Declaration(Class(onto:Pantai))
+Declaration(Class(onto:Kecamatan))
+
+Declaration(ObjectProperty(prop:headOf))
+Declaration(ObjectProperty(prop:letak))
+Declaration(ObjectProperty(prop:terletak_di))
+Declaration(ObjectProperty(prop:hasDestination))
+
+Declaration(NamedIndividual(:Ali_bin_dahlan))
+Declaration(NamedIndividual(:Danger))
+Declaration(NamedIndividual(:Lombok_timur))
+Declaration(NamedIndividual(:Lombok_utara))
+Declaration(NamedIndividual(:Lombok_tengah))
+Declaration(NamedIndividual(:Pantai_pink))
+Declaration(NamedIndividual(:Sate_bulayak))
+Declaration(NamedIndividual(:Selong_belanak))
+Declaration(NamedIndividual(:Senggigi))
+Declaration(NamedIndividual(:Senggigi_beach))
+Declaration(NamedIndividual(:Tanjung_an))
+Declaration(NamedIndividual(:Tanjung_ringgit))
+Declaration(NamedIndividual(:Zainul_majdi))
+Declaration(NamedIndividual(:Kuta))
+Declaration(NamedIndividual(:Kumbang))
+
+ObjectPropertyAssertion(prop:headOf :Ali_bin_dahlan :Lombok_timur)
+ObjectPropertyAssertion(prop:letak :Selong_belanak :Lombok_tengah)
+ObjectPropertyAssertion(prop:letak :Pantai_pink :Lombok_timur)
+ObjectPropertyAssertion(prop:letak :Tanjung_an :Lombok_tengah)
+ObjectPropertyAssertion(prop:letak :Tanjung_ringgit :Lombok_timur)
+ObjectPropertyAssertion(prop:terletak_di :Senggigi :Lombok_utara)
+ObjectPropertyAssertion(prop:hasDestination :Kuta :Selong_belanak)
+ObjectPropertyAssertion(prop:letak :Kuta :Lombok_tengah)
+
+ClassAssertion(onto:Kabupaten :Lombok_timur)
+ClassAssertion(onto:Kabupaten :Lombok_tengah)
+ClassAssertion(onto:Kabupaten :Lombok_barat)
+ClassAssertion(onto:Kabupaten :Lombok_utara)
+
+ClassAssertion(onto:Kecamatan :Kuta)
+
+ClassAssertion(onto:Orang :Ali_bin_dahlan)
+ClassAssertion(onto:Orang :Zainul_majdi)
+
+ClassAssertion(onto:Makanan :Sate_bulayak)
+
+ClassAssertion(onto:Desa :Danger)
+ClassAssertion(onto:Desa :Kumbang)
+
+ClassAssertion(onto:Hotel :Senggigi_beach)
+
+ClassAssertion(onto:Pantai :Pantai_pink)
+ClassAssertion(onto:Pantai :Selong_belanak)
+ClassAssertion(onto:Pantai :Senggigi)
+ClassAssertion(onto:Pantai :Tanjung_an)
+ClassAssertion(onto:Pantai :Tanjung_ringgit)
+
+)

@@ -150,12 +150,6 @@
     <Declaration>
         <DataProperty IRI="/property#website"/>
     </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Lombok_timur"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#syamsul"/>
-    </Declaration>
     <EquivalentClasses>
         <Class IRI="#Badan"/>
         <ObjectIntersectionOf>
@@ -457,19 +451,6 @@
         <Class IRI="#Orang"/>
         <Class IRI="#Pemerintah_daerah"/>
     </DisjointClasses>
-    <ClassAssertion>
-        <Class IRI="#Kabupaten"/>
-        <NamedIndividual IRI="#Lombok_timur"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="#Orang"/>
-        <NamedIndividual IRI="#syamsul"/>
-    </ClassAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="/property#headOf"/>
-        <NamedIndividual IRI="#syamsul"/>
-        <NamedIndividual IRI="#Lombok_timur"/>
-    </ObjectPropertyAssertion>
     <EquivalentObjectProperties>
         <ObjectProperty IRI="/property#hasHead"/>
         <ObjectProperty IRI="/property#pimpinan"/>

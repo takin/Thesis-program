@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAxiom;
 import org.semanticweb.owlapi.model.OWLDataProperty;
@@ -189,6 +190,11 @@ public class OntologyMapper extends OntologyLoader {
 	
 	public String getShortForm(OWLEntity e){
 		return shortForm.getShortForm(e);
+	}
+	
+	public String getShortForm(String uri) {
+		OWLEntity entity = super.dataFactory.getOWLClass(IRI.create(uri));
+		return getShortForm(entity);
 	}
 	
 	public OWLObject getOWLObject(String name, String type){

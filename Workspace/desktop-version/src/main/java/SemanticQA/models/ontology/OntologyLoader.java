@@ -10,6 +10,7 @@ import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.HermiT.Reasoner.ReasonerFactory;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
@@ -29,15 +30,16 @@ public class OntologyLoader {
 	protected OWLOntology ontology;
 	protected OWLReasoner reasoner;
 	protected OWLOntologyManager manager;
+	protected OWLDataFactory dataFactory;
 	
 	public OntologyLoader() {
 		this.manager = OWLManager.createOWLOntologyManager();
-		
+		this.dataFactory = manager.getOWLDataFactory();
 		try {
 			manager.loadOntologyFromOntologyDocument(IRI.create("file:///Users/syamsul/Documents/Thesis-program/Ontologi/ontogeo.owl"));
 			manager.loadOntologyFromOntologyDocument(IRI.create("file:///Users/syamsul/Documents/Thesis-program/Ontologi/ontogov.owl"));
 			manager.loadOntologyFromOntologyDocument(IRI.create("file:///Users/syamsul/Documents/Thesis-program/Ontologi/ontopar.owl"));
-//			manager.loadOntologyFromOntologyDocument(IRI.create("file:///Users/syamsul/Documents/Thesis-program/Ontologi/dataset.owl"));
+			manager.loadOntologyFromOntologyDocument(IRI.create("file:///Users/syamsul/Documents/Thesis-program/Ontologi/dataset-functional.owl"));
 			
 			OWLOntologyMerger merger = new OWLOntologyMerger(manager);
 			ontology = merger.createMergedOntology(manager, IRI.create(Ontology.ONTO_MERGED_URI));
