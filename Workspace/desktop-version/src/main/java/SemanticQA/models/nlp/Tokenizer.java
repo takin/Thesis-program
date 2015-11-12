@@ -6,16 +6,9 @@
 
 package SemanticQA.models.nlp;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import SemanticQA.constant.Database;
 import SemanticQA.constant.Token;
 
 /* ==============================================================================
@@ -30,82 +23,59 @@ import SemanticQA.constant.Token;
  akan diberikan tag UN (unknwon)
  * @author syamsul
  * =============================================================================*/
-public class Tokenizer {
-	
-	private Connection CONNECTION;
+public class Tokenizer extends MorphologicalAnalyzer {
 	
 	public interface TokenizerListener {
 		public void onTokenizeSuccess(List<TokenModel> TOKEN);
 	}
     
-	public Tokenizer() {
-		CONNECTION = initDatabase();
-	}
-	
     public List<TokenModel> tokenize(String sentence){
-        	
-    	List<String> temporaryList = new ArrayList<>(Arrays.asList(sentence.split(" ")));
-    	final List<TokenModel> token = new ArrayList<TokenModel>();
+        
+    	// split kalimat menjadi token-token kata
+    	String[] splittedSentence = sentence.split(" ");
     	
-    	for(String word: temporaryList){
+    	///////////////////////////////////////////////////////////////
+    	// siapkan objek array list TokenModel yang akan digunakan   //
+    	// untuk menyimpan data hasil pengecekan kelas kata          //
+    	///////////////////////////////////////////////////////////////
+    	List<TokenModel> token = new ArrayList<TokenModel>();
+    	
+    	for(String word: splittedSentence){
+    		int num = -1;
+    		String wordType = null;
+    		//////////////////////////////////////////////////////////////////////
+    		// sebelum melakukan proses pengecekan tipe kata ke dalam 			//
+    		// database, cek terlebih dahulu apakah token tersebut 				//
+    		// berupa angka atau tidak.											//
+    		//																	//
+    		// jika berupa angka, maka kemungkinan angka tersebut adalah		//
+    		// tahun atau tanggal, sehingga tidak perlu dicek ke dalam database //
+    		// dan langsung diberikan tipe NUMERALIA.							//
+    		//																	//
+    		//////////////////////////////////////////////////////////////////////
+    		try {
+    			num = Integer.parseInt(word);
+    		} catch (NumberFormatException e) {
+    			e.getMessage();
+    		} 
     		
-			TokenModel tm = new TokenModel();
+    		wordType = ( num == -1 ) ? super.getWordType(word) : Token.TYPE_NUMERALIA; 
     		
+    		TokenModel tm = new TokenModel();
+    		// masukkan kata (token) dan tipe katanya
+    		// ke dalam objek tm
+    		tm.setTokenType(wordType);
     		tm.setToken(word);
-    		tm.setTokenType(checkWordType(word));
+    		
     		token.add(tm);    
     	}
-    	try {
-			CONNECTION.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+    	
+    	///////////////////////////////////////////////////////////////////
+    	//																 //
+    	// Pada stage ini, field TokenModel dalam array list yang terisi //
+    	// hanya kata dan tipe kata (hasil pengecekan ke dalam database  //
+    	//																 //
+    	///////////////////////////////////////////////////////////////////
     	return token;
-        
     }
-     
-    private String checkWordType(String word){
-    	
-    	String result = null;
-    	String sql = "SELECT kata,kode FROM katadasar WHERE kata='"+word+"'";
-    	
-		try {
-			Statement stmt = CONNECTION.createStatement();
-			ResultSet queryResult = stmt.executeQuery(sql);
-			
-			if(queryResult.isBeforeFirst()){
-				queryResult.absolute(1);
-				result = queryResult.getString("kode");
-			} else {
-				result = Token.TYPE_NOMINA;
-			}
-			
-			queryResult.close();
-		    stmt.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return result;
-    }
-    
-    private Connection initDatabase(){
-        
-        /**
-         * Lakukan inisialisasi koneksi ke database lexicon
-         * proses ini harus dilakukan setelah proses inisialisasi tokenizerListener
-         * agar apabila terjadi error pada tahapan ini, maka notifikasinya
-         * dapat di broadcast ke class subscriber
-         */
-         try{
-            Class.forName(Database.DB_DRIVER).newInstance();
-            
-            return DriverManager.getConnection(Database.DB_URL + Database.DB_NAME, Database.DB_USER, Database.DB_PASS);
-        }
-        catch( IllegalAccessException | ClassNotFoundException | InstantiationException | SQLException e ){
-            
-        }
-        return null;
-    }
-    
-    
 }

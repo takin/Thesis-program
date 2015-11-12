@@ -3,6 +3,7 @@ package SemanticQA.controllers;
 import java.util.List;
 import java.util.Scanner;
 
+import SemanticQA.models.nlp.MorphologicalAnalyzer;
 import SemanticQA.models.nlp.Parser;
 import SemanticQA.models.nlp.QuestionModel;
 import SemanticQA.models.nlp.TokenModel;
@@ -21,44 +22,44 @@ class ThesisDesktopVersion {
 //		String pertanyaan = s.nextLine(); 
 		
 		String[] pertanyaan = new String[]{
+				"siapa yang terpilih menjadi kepala desa danger tahun 2015",
+				"siapa nama kepala desa yang baiknya",
 				"di mana letak pantai selong belanak",
 				"di mana letak pantai tanjung an pantai mawun",
 				"siapa bupati kabupaten lombok timur",
 				"bupati kabupaten lombok timur siapa",
 				"apa saja wisata budaya di lombok",
 				"di lombok ada wisata budaya apa saja",
-				"siapa nama kepala desa danger",
+				"siapa yang menjadi kepala desa danger",
 				"apa saja destinasi wisata yang ada di lombok tengah",
 				"apa saja destinasi wisata lombok tengah"
 				};
 //		s.close();
 		
 		Tokenizer t = new Tokenizer();
+
+		List<TokenModel> token = t.tokenize(pertanyaan[1]);
 		
-		List<TokenModel> token = t.tokenize(pertanyaan[0]);
+		cetak(token);
 		
-//		cetak(token);
+//		Parser p = new Parser();
+//		List<QuestionModel> result = p.parse(token);
 		
-		Parser p = new Parser();
-		List<QuestionModel> result = p.parse(token);
+//		cetakKlausa(result);
 		
-		cetakKlausa(result);
-		
-		OntologyMapper mapper = new OntologyMapper(result);
-		List<QuestionModel> mapResult = mapper.map();
+//		OntologyMapper mapper = new OntologyMapper(result);
+//		List<QuestionModel> mapResult = mapper.map();
 		
 //		long startTime = System.currentTimeMillis();
-		cetakMap(mapResult);
+//		cetakMap(mapResult);
 		
 //		long endTime = System.currentTimeMillis();
 //		long executionTime = endTime - startTime;
 		
 //		System.out.println("Mapping is executed in: " + executionTime + " seconds");
 		
-		OntologyQuery q = new OntologyQuery(mapper);
-		q.execute(mapResult);
-		
-		
+//		OntologyQuery q = new OntologyQuery(mapper);
+//		q.execute(mapResult);
 	}	
 	
 	public static void cetak(List<TokenModel> token){
