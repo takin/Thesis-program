@@ -4,12 +4,15 @@
  * and open the template in the editor.
  */
 
-package SemanticQA.models.nlp;
+package SemanticQA.module.nlp;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import SemanticQA.constant.Token;
+import SemanticQA.constant.Type;
+import SemanticQA.interfaces.DBConnector;
+import SemanticQA.model.SemanticToken;
+
 
 /* ==============================================================================
  POSTagger merupakan bagian dari pre-process NLP
@@ -23,13 +26,13 @@ import SemanticQA.constant.Token;
  akan diberikan tag UN (unknwon)
  * @author syamsul
  * =============================================================================*/
-public class Tokenizer extends MorphologicalAnalyzer {
-	
-	public interface TokenizerListener {
-		public void onTokenizeSuccess(List<TokenModel> TOKEN);
-	}
+public class Tokenizer extends MorphologicalAnalyzer  {
     
-    public List<TokenModel> tokenize(String sentence){
+	public Tokenizer(DBConnector connector) {
+		super(connector);
+	}
+	
+    public List<SemanticToken> tokenize(String sentence){
         
     	// split kalimat menjadi token-token kata
     	String[] splittedSentence = sentence.split(" ");
@@ -38,11 +41,12 @@ public class Tokenizer extends MorphologicalAnalyzer {
     	// siapkan objek array list TokenModel yang akan digunakan   //
     	// untuk menyimpan data hasil pengecekan kelas kata          //
     	///////////////////////////////////////////////////////////////
-    	List<TokenModel> token = new ArrayList<TokenModel>();
+    	
+    	List<SemanticToken> token = new ArrayList<SemanticToken>();
     	
     	for(String word: splittedSentence){
     		int num = -1;
-    		String wordType = null;
+    		String type = null;
     		//////////////////////////////////////////////////////////////////////
     		// sebelum melakukan proses pengecekan tipe kata ke dalam 			//
     		// database, cek terlebih dahulu apakah token tersebut 				//
@@ -59,15 +63,15 @@ public class Tokenizer extends MorphologicalAnalyzer {
     			e.getMessage();
     		} 
     		
-    		wordType = ( num == -1 ) ? super.getWordType(word) : Token.TYPE_NUMERALIA; 
+    		type = ( num == -1 ) ? super.getWordType(word) : Type.Token.NUMERALIA; 
     		
-    		TokenModel tm = new TokenModel();
+    		SemanticToken tm = new SemanticToken();
     		// masukkan kata (token) dan tipe katanya
     		// ke dalam objek tm
-    		tm.setTokenType(wordType);
+    		tm.setType(type);
     		tm.setToken(word);
     		
-    		token.add(tm);    
+    		token.add(tm);   
     	}
     	
     	///////////////////////////////////////////////////////////////////

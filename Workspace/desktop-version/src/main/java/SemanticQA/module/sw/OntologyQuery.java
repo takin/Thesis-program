@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package SemanticQA.models.ontology;
+package SemanticQA.module.sw;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,10 +19,10 @@ import de.derivo.sparqldlapi.QueryResult;
 import de.derivo.sparqldlapi.exceptions.QueryEngineException;
 import de.derivo.sparqldlapi.exceptions.QueryParserException;
 import SemanticQA.constant.Ontology;
-import SemanticQA.constant.Token;
+import SemanticQA.constant.Type;
 import SemanticQA.helpers.StringManipulation;
-import SemanticQA.models.nlp.QuestionModel;
-import SemanticQA.models.nlp.TokenModel;
+import SemanticQA.model.SemanticToken;
+import SemanticQA.model.Sentence;
 
 /**
  *
@@ -38,7 +38,7 @@ public class OntologyQuery {
 		this.queryEngine =  QueryEngine.create(mapper.ontology.getOWLOntologyManager(), mapper.reasoner);
 	}
 	
-	public QueryResult execute(List<QuestionModel> model){
+	public QueryResult execute(List<Sentence> model){
 		
 		QueryResult result = null;
 		
@@ -73,40 +73,40 @@ public class OntologyQuery {
 	}
 	
 	
-	private String buildQuery(List<QuestionModel> model) throws QueryParserException{
+	private String buildQuery(List<Sentence> model) throws QueryParserException{
 		
 		String analyzedQuery = "";
 		
 		for ( int modelIndex = 0; modelIndex < model.size(); modelIndex++ ) {
 			
-			QuestionModel m = model.get(modelIndex);
+			Sentence m = model.get(modelIndex);
 			String pattern = "";
-			List<TokenModel> tm = m.getConstituents();
+			List<SemanticToken> tm = m.getConstituents();
 			
-			if ( !m.getType().matches("("+Token.TYPE_FRASA_PRONOMINAL + "|" + Token.TYPE_PRONOMINA + ")") ) {
+			if ( !m.getType().matches("("+Type.Phrase.FRASA_PRONOMINAL + "|" + Type.Token.PRONOMINA + ")") ) {
 				
 				List<OWLObject> ontologyObject = new ArrayList<OWLObject>();
 				
-				for ( TokenModel t:tm ) {
+				for ( SemanticToken t:tm ) {
 					
-					switch (t.getTokenOWLType()) {
+					switch (t.getOWLType()) {
 					case Ontology.TYPE_CLASS:
 						if ( !pattern.matches("C")  ) {
 							pattern += "C";
-							ontologyObject.add(t.getOntologyObject());
+							ontologyObject.add(t.getOWLPath());
 						}
 						break;
 					case Ontology.TYPE_OBJECT_PROPERTY:
 						pattern += "OP";
-						ontologyObject.add(t.getOntologyObject());
+						ontologyObject.add(t.getOWLPath());
 						break;
 					case Ontology.TYPE_DATATYPE_PROPERTY:
 						pattern += "DP";
-						ontologyObject.add(t.getOntologyObject());
+						ontologyObject.add(t.getOWLPath());
 						break;
 					case Ontology.TYPE_INDIVIDUAL:
 						pattern += "I";
-						ontologyObject.add(t.getOntologyObject());
+						ontologyObject.add(t.getOWLPath());
 						break;
 					}
 				}

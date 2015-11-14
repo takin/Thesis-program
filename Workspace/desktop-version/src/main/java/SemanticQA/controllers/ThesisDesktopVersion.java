@@ -1,16 +1,13 @@
 package SemanticQA.controllers;
 
 import java.util.List;
-import java.util.Scanner;
 
-import SemanticQA.models.nlp.MorphologicalAnalyzer;
-import SemanticQA.models.nlp.Parser;
-import SemanticQA.models.nlp.QuestionModel;
-import SemanticQA.models.nlp.TokenModel;
-import SemanticQA.models.nlp.Tokenizer;
-import SemanticQA.models.ontology.OntologyLoader;
-import SemanticQA.models.ontology.OntologyMapper;
-import SemanticQA.models.ontology.OntologyQuery;
+
+import SemanticQA.model.MySQLDatabase;
+import SemanticQA.model.SemanticToken;
+import SemanticQA.model.Sentence;
+import SemanticQA.module.nlp.Parser;
+import SemanticQA.module.nlp.Tokenizer;
 
 class ThesisDesktopVersion {
 	
@@ -32,20 +29,20 @@ class ThesisDesktopVersion {
 				"di lombok ada wisata budaya apa saja",
 				"siapa yang menjadi kepala desa danger",
 				"apa saja destinasi wisata yang ada di lombok tengah",
-				"apa saja destinasi wisata lombok tengah"
+				"apa destinasi wisata yang terdapat di lombok tengah"
 				};
 //		s.close();
 		
-		Tokenizer t = new Tokenizer();
+		Tokenizer t = new Tokenizer(new MySQLDatabase());
 
-		List<TokenModel> token = t.tokenize(pertanyaan[1]);
+		List<SemanticToken> tm = t.tokenize(pertanyaan[9]);
 		
-		cetak(token);
+		cetak(tm);
 		
-//		Parser p = new Parser();
-//		List<QuestionModel> result = p.parse(token);
+		Parser p = new Parser();
+		List<Sentence> result = p.parse(tm);
 		
-//		cetakKlausa(result);
+		cetakKlausa(result);
 		
 //		OntologyMapper mapper = new OntologyMapper(result);
 //		List<QuestionModel> mapResult = mapper.map();
@@ -62,44 +59,44 @@ class ThesisDesktopVersion {
 //		q.execute(mapResult);
 	}	
 	
-	public static void cetak(List<TokenModel> token){
+	public static void cetak(List<SemanticToken> token){
 		
 		System.out.println("--------------------------------------------------------------");
 		System.out.println("|                 Hasil Proses Tokenisasi                    |");
 		System.out.println("--------------------------------------------------------------");
 		System.out.println("[");
-		for(TokenModel t: token)
+		for(SemanticToken t: token)
 		{
-			System.out.println("    {kata:" + t.getToken()  + ", kelas:" + t.getTokenType() + "}");
+			System.out.println("    {kata:" + t.getToken()  + ", kelas:" + t.getType() + "}");
 		}
 		System.out.println("]");
 		System.out.println("--------------------------------------------------------------");
 	}
 	
-	public static void cetakKlausa(List<QuestionModel> token) {
+	public static void cetakKlausa(List<Sentence> token) {
 		
 		System.out.println("--------------------------------------------------------------");
 		System.out.println("|                    Hasil Proses Parsing                    |");
 		System.out.println("--------------------------------------------------------------");
 		System.out.println("[");
 		
-		for(QuestionModel m: token)
+		for(Sentence m: token)
 		{
-			System.out.println("    {kelasFrasa:" + m.getType()  + ", fungsi:"+ m.getSyntacticFunction() + ", konstituen:");
+			System.out.println("    {kelasFrasa:" + m.getType()  + ", fungsi:"+ m.getFunction() + ", konstituen:");
 			
-			List<TokenModel> tm = m.getConstituents();
+			List<SemanticToken> tm = m.getConstituents();
 			
 			if ( tm.size() == 1 ) {
 				
-				System.out.println("        [{kata:" + tm.get(0).getToken() + ", kelas:" + tm.get(0).getTokenType() + "}]");
+				System.out.println("        [{kata:" + tm.get(0).getToken() + ", kelas:" + tm.get(0).getType() + "}]");
 				
 			} else {
 				System.out.println("        [");
-				for ( TokenModel t: tm ) {
+				for ( SemanticToken t: tm ) {
 					if(t.equals(tm.get(tm.size() - 1))) {
-						System.out.println("            {kata:" + t.getToken() + ", kelas:" + t.getTokenType() + "}");
+						System.out.println("            {kata:" + t.getToken() + ", kelas:" + t.getType() + "}");
 					} else {
-						System.out.println("            {kata:" + t.getToken() + ", kelas:" + t.getTokenType() + "},");
+						System.out.println("            {kata:" + t.getToken() + ", kelas:" + t.getType() + "},");
 					}
 				}
 				System.out.println("        ]");
@@ -112,25 +109,25 @@ class ThesisDesktopVersion {
 		System.out.println("--------------------------------------------------------------");
 	}
 	
-	public static void cetakMap(List<QuestionModel> token){
+	public static void cetakMap(List<Sentence> token){
 		
 		System.out.println("--------------------------------------------------------------");
 		System.out.println("|                    Hasil Proses Mapping                    |");
 		System.out.println("--------------------------------------------------------------");
 		System.out.println("[");
 		
-		for(QuestionModel m: token)
+		for(Sentence m: token)
 		{
-			System.out.println("    {kelasFrasa:" + m.getType()  + ", fungsi:"+ m.getSyntacticFunction() + ", konstituen:");
+			System.out.println("    {kelasFrasa:" + m.getType()  + ", fungsi:"+ m.getFunction() + ", konstituen:");
 			
-			List<TokenModel> tm = m.getConstituents();
+			List<SemanticToken> tm = m.getConstituents();
 			
 			System.out.println("        [");
-			for ( TokenModel t: tm ) {
+			for ( SemanticToken t: tm ) {
 				if(t.equals(tm.get(tm.size() - 1))) {
-					System.out.println("            {kata:" + t.getToken() + ", kelas:" + t.getTokenType() + ", ontologi:" + t.getTokenOWLType() + "}");
+					System.out.println("            {kata:" + t.getToken() + ", kelas:" + t.getType() + ", ontologi:" + t.getOWLType() + "}");
 				} else {
-					System.out.println("            {kata:" + t.getToken() + ", kelas:" + t.getTokenType() + ", ontologi:" + t.getTokenOWLType() + "},");
+					System.out.println("            {kata:" + t.getToken() + ", kelas:" + t.getType() + ", ontologi:" + t.getOWLType() + "},");
 				}
 			}
 			System.out.println("        ]");

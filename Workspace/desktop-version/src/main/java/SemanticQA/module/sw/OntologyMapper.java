@@ -1,4 +1,4 @@
-package SemanticQA.models.ontology;
+package SemanticQA.module.sw;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,37 +20,37 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
 import SemanticQA.constant.Ontology;
-import SemanticQA.constant.Token;
+import SemanticQA.constant.Type;
 import SemanticQA.helpers.StringManipulation;
-import SemanticQA.models.nlp.QuestionModel;
-import SemanticQA.models.nlp.TokenModel;
+import SemanticQA.model.SemanticToken;
+import SemanticQA.model.Sentence;
 
 
 public class OntologyMapper extends OntologyLoader {
 	
 	private ShortFormProvider shortForm = new SimpleShortFormProvider();
-	private List<QuestionModel> questionModel;
+	private List<Sentence> questionModel;
 	
-	public OntologyMapper(List<QuestionModel> model) {
+	public OntologyMapper(List<Sentence> model) {
 		this.questionModel = model;
 	}
 	
-	public List<QuestionModel> map(){
+	public List<Sentence> map(){
 		
 		for ( int i = 0; i < this.questionModel.size(); i++ ) {
 			
-			QuestionModel m = this.questionModel.get(i);
+			Sentence m = this.questionModel.get(i);
 			
-			if (m.getType().equals(Token.TYPE_PRONOMINA) ||
-					m.getType().equals(Token.TYPE_FRASA_PRONOMINAL) ||
-					m.getType().equals(Token.TYPE_KONJUNGSI) ) {
+			if (m.getType().equals(Type.Token.PRONOMINA) ||
+					m.getType().equals(Type.Phrase.FRASA_PRONOMINAL) ||
+					m.getType().equals(Type.Token.KONJUNGSI) ) {
 				continue;
 			}
 			
-			List<TokenModel> originalConstituents = m.getConstituents();
+			List<SemanticToken> originalConstituents = m.getConstituents();
 			
 			if ( originalConstituents.size() > 0 ) {
-				List<TokenModel> constituents = checkType(new ArrayList<String>(), new ArrayList<TokenModel>(), originalConstituents);
+				List<SemanticToken> constituents = checkType(new ArrayList<String>(), new ArrayList<SemanticToken>(), originalConstituents);
 				
 				/**
 				 * Oleh karena proses mapping dalam method checkType dimulai dari 
@@ -75,10 +75,10 @@ public class OntologyMapper extends OntologyLoader {
 		return this.questionModel;
 	}
 	
-	private List<TokenModel> checkType(List<String> previousTokens, List<TokenModel> res, List<TokenModel> data) {
+	private List<SemanticToken> checkType(List<String> previousTokens, List<SemanticToken> res, List<SemanticToken> data) {
 		
-		TokenModel m = data.remove(data.size() - 1);
-		TokenModel lastInserted = res.size() > 0 ? res.get(res.size() - 1) : null;
+		SemanticToken m = data.remove(data.size() - 1);
+		SemanticToken lastInserted = res.size() > 0 ? res.get(res.size() - 1) : null;
 		
 		String token = m.getToken();
 		String tipe = getType(token);
@@ -105,8 +105,8 @@ public class OntologyMapper extends OntologyLoader {
 				if ( tipe != null ) {
 					
 					m.setToken(newToken);
-					m.setTokenOWLType(tipe);
-					m.setOntologyObject(getOWLObject(newToken, tipe));
+					m.setOWLType(tipe);
+					m.setOWLPath(getOWLObject(newToken, tipe));
 					
 					if (lastInserted != null && previousTokens.contains(lastInserted.getToken())){
 						res.set(res.size() - 1, m);
@@ -139,8 +139,8 @@ public class OntologyMapper extends OntologyLoader {
 		// Jika proses mapping berhasil
 		else {
 			
-			m.setTokenOWLType(tipe);
-			m.setOntologyObject(getOWLObject(token, tipe));
+			m.setOWLType(tipe);
+			m.setOWLPath(getOWLObject(token, tipe));
 			
 			if ( previousTokens.isEmpty() ) {
 				
@@ -158,8 +158,8 @@ public class OntologyMapper extends OntologyLoader {
 				if ( tipe != null ) {
 					
 					m.setToken(newToken);
-					m.setTokenOWLType(tipe);
-					m.setOntologyObject(getOWLObject(newToken, tipe));
+					m.setOWLType(tipe);
+					m.setOWLPath(getOWLObject(newToken, tipe));
 					
 					if (lastInserted != null && previousTokens.contains(lastInserted.getToken())){
 						res.set(res.size() - 1, m);
