@@ -29,13 +29,13 @@ class ThesisDesktopVersion {
 				"di lombok ada wisata budaya apa saja",
 				"siapa yang menjadi kepala desa danger",
 				"apa saja destinasi wisata yang ada di lombok tengah",
-				"apa destinasi wisata yang terdapat di lombok tengah"
+				"apa saja destinasi wisata yang terdapat di lombok tengah"
 				};
 //		s.close();
 		
 		Tokenizer t = new Tokenizer(new MySQLDatabase());
 
-		List<SemanticToken> tm = t.tokenize(pertanyaan[9]);
+		List<SemanticToken> tm = t.tokenize(pertanyaan[2]);
 		
 		cetak(tm);
 		

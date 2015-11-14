@@ -1,17 +1,27 @@
 package SemanticQA.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Sentence {
 
-	protected List<SemanticToken> semanticConstituents;
+	private List<SemanticToken> semanticConstituents;
+	private String syntacticFunction;
+	private String phraseType;
 	
 	public void setConstituent(List<SemanticToken> tokens) {
-		
+		this.semanticConstituents = tokens;
+	}
+	
+	public void putConstituents(List<SemanticToken> tokens) {
+		this.semanticConstituents.addAll(tokens);
 	}
 
 	public void putConstituent(SemanticToken token) {
-		
+		if ( semanticConstituents == null ) {
+			this.semanticConstituents = new ArrayList<SemanticToken>();
+		}
+		this.semanticConstituents.add(token);
 	}
 
 	public void replaceConstituent(List<SemanticToken> constituents) {
@@ -19,43 +29,37 @@ public class Sentence {
 	}
 	
 	public SemanticToken getContituent(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.semanticConstituents.get(index);
 	}
 
 	public List<SemanticToken> getConstituents() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.semanticConstituents;
 	}
 
 	public void setFunction(String f) {
-		// TODO Auto-generated method stub
-		
+		this.syntacticFunction = f;
 	}
 
 	public void setType(String type) {
-		// TODO Auto-generated method stub
-		
+		this.phraseType = type;
 	}
 
 	public String getFunction() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.syntacticFunction;
 	}
 
 	public String getType() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.phraseType;
 	}
 
 	public void clear() {
-		// TODO Auto-generated method stub
-		
+		this.semanticConstituents.clear();
+		this.phraseType = null;
+		this.syntacticFunction = null;
 	}
 
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.semanticConstituents.isEmpty() && this.phraseType == null && this.syntacticFunction == null;
 	}
 
 }

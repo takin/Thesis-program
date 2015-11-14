@@ -6,7 +6,6 @@ import java.util.List;
 import SemanticQA.constant.Type;
 import SemanticQA.model.SemanticToken;
 import SemanticQA.model.Sentence;
-import SemanticQA.model.Token;
 
 public class Parser {
 
@@ -21,8 +20,9 @@ public class Parser {
 	public List<Sentence> parse(List<SemanticToken> taggedToken){
 		
 		List<Sentence> phrases = createPhrase(null, taggedToken, new ArrayList<Sentence>());
-		
-		return phrases;
+		List<Sentence> clauses = createClause(null, phrases, new ArrayList<Sentence>());
+//		List<Sentence> result = analyzeSyntacticFunction(clauses);
+		return clauses;
 	}
 	
 	/**
@@ -41,7 +41,7 @@ public class Parser {
 		 * Dalam proses pengecekan token ada kemungkinan terjadinya perubahan tipe frasa
 		 * yang disebabkan oleh tipe kata yang sedang di proses saat ini.
 		 */
-		String temporaryPhraseType = null;
+		String tempPhraseType = null;
 		
 		/**
 		 * Ambil nilai index terakhir dari array list parseResult.
@@ -65,27 +65,60 @@ public class Parser {
 		if ( previousToken != null ) {
 			switch (currentToken.getType()) {
 			case Type.Token.ADVERBIA:
-				
 				if ( previousToken.getToken().matches(PRONOMINA_PENANYA_PATTERN) ) {
-					temporaryPhraseType = Type.Phrase.FRASA_PRONOMINAL;
+					tempPhraseType = Type.Phrase.FRASA_PRONOMINAL;
 				}
 
 				break;
 			case Type.Token.VERBA:
 				
+				if ( previousToken.getType().equals(Type.Token.NOMINA) ||
+						previousToken.getType().equals(Type.Token.KONJUNGSI) ) {
+					tempPhraseType = Type.Phrase.FRASA_VERBAL;
+				}
+				
+				break;
+			case Type.Token.NOMINA:
+				
+				if ( previousToken.getType().equals(Type.Token.NOMINA) ) {
+					tempPhraseType = (currentPhrase.getType() == null) ? Type.Phrase.FRASA_NOMINAL : currentPhrase.getType();
+				}
+				
+				if ( previousToken.getType().equals(Type.Token.PREPOSISI) ) {
+					tempPhraseType = Type.Phrase.FRASA_PREPOSISIONAL;
+				}
+				
+				break;
+			case Type.Token.PRONOMINA:
+				
+				if ( previousToken.getType().equals(Type.Token.PREPOSISI) ) {
+					tempPhraseType = Type.Phrase.FRASA_PRONOMINAL;
+				}
 				
 				break;
 			}
-		} else {
-			currentPhrase.putConstituent(currentToken);
-			result.add(currentPhrase);
 		}
 		
-		if ( temporaryPhraseType != null ) {
-			currentPhrase.setType(temporaryPhraseType);
+		if ( tempPhraseType != null ) {
+			
+			currentPhrase.setType(tempPhraseType);
 			currentPhrase.putConstituent(currentToken);
 			result.set(currentPhraseIndex, currentPhrase);
-		} 
+			
+		}
+		
+		if ( previousToken == null ) {
+
+			currentPhrase.putConstituent(currentToken);
+			result.add(currentPhrase);
+			
+		}
+		
+		if ( tempPhraseType == null && previousToken != null ) {
+			Sentence newPhrase = new Sentence();
+			newPhrase.putConstituent(currentToken);
+			result.add(newPhrase);
+		}
 		
 		if ( data.size() > 0 ) {
 			createPhrase(currentToken, data, result);
@@ -287,10 +320,48 @@ public class Parser {
 
 	private List<Sentence> createClause(Sentence prevPhrase, List<Sentence> models, List<Sentence> result) {
 		
-		Sentence currentModel = models.remove(0);
+		Sentence currentPhraseToProcess = models.remove(0);
+		Sentence currentPhraseResult = result.size() > 0 ? result.get(result.size() - 1) : null;
+		
+		String tempPhraseType = null;
+		
+		if ( prevPhrase != null ) {
+			switch (currentPhraseToProcess.getType()) {
+			case Type.Phrase.FRASA_VERBAL:
+				
+				if ( prevPhrase.getType().equals(Type.Phrase.FRASA_VERBAL) ) {
+					
+					///////////
+					// cek apakah konstituen pertama dari currentPhrase adalah verbal
+					// jika tidak maka tidak boleh digabungkan
+					//////////
+					SemanticToken firstConstituent = currentPhraseToProcess.getContituent(0);
+					if (firstConstituent.getType().equals(Type.Token.VERBA)) {
+						tempPhraseType = Type.Phrase.FRASA_VERBAL;
+					}
+					
+				}
+				
+				break;
+			case Type.Phrase.FRASA_PREPOSISIONAL:
+				
+				tempPhraseType = Type.Phrase.FRASA_VERBAL;
+				
+				break;
+			}
+		}
+		
+		if ( tempPhraseType != null ) {
+			currentPhraseResult.setType(tempPhraseType);
+			currentPhraseResult.putConstituents(currentPhraseToProcess.getConstituents());
+		}
+		
+		if ( prevPhrase == null || tempPhraseType == null ) {
+			result.add(currentPhraseToProcess);
+		}
 		
 		if ( models.size() > 0 ) {
-			createClause(prevPhrase, models, result);
+			createClause(currentPhraseToProcess, models, result);
 		}
 		
 		return result;
