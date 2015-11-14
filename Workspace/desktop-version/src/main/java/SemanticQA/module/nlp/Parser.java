@@ -21,8 +21,8 @@ public class Parser {
 		
 		List<Sentence> phrases = createPhrase(null, taggedToken, new ArrayList<Sentence>());
 		List<Sentence> clauses = createClause(null, phrases, new ArrayList<Sentence>());
-//		List<Sentence> result = analyzeSyntacticFunction(clauses);
-		return clauses;
+		List<Sentence> result = analyzeSyntacticFunction(clauses);
+		return result;
 	}
 	
 	/**
@@ -66,7 +66,7 @@ public class Parser {
 			switch (currentToken.getType()) {
 			case Type.Token.ADVERBIA:
 				if ( previousToken.getToken().matches(PRONOMINA_PENANYA_PATTERN) ) {
-					tempPhraseType = Type.Phrase.FRASA_PRONOMINAL;
+					tempPhraseType = Type.Phrase.PRONOMINAL;
 				}
 
 				break;
@@ -74,25 +74,25 @@ public class Parser {
 				
 				if ( previousToken.getType().equals(Type.Token.NOMINA) ||
 						previousToken.getType().equals(Type.Token.KONJUNGSI) ) {
-					tempPhraseType = Type.Phrase.FRASA_VERBAL;
+					tempPhraseType = Type.Phrase.VERBAL;
 				}
 				
 				break;
 			case Type.Token.NOMINA:
 				
 				if ( previousToken.getType().equals(Type.Token.NOMINA) ) {
-					tempPhraseType = (currentPhrase.getType() == null) ? Type.Phrase.FRASA_NOMINAL : currentPhrase.getType();
+					tempPhraseType = (currentPhrase.getType() == null) ? Type.Phrase.NOMINAL : currentPhrase.getType();
 				}
 				
 				if ( previousToken.getType().equals(Type.Token.PREPOSISI) ) {
-					tempPhraseType = Type.Phrase.FRASA_PREPOSISIONAL;
+					tempPhraseType = Type.Phrase.PREPOSISIONAL;
 				}
 				
 				break;
 			case Type.Token.PRONOMINA:
 				
 				if ( previousToken.getType().equals(Type.Token.PREPOSISI) ) {
-					tempPhraseType = Type.Phrase.FRASA_PRONOMINAL;
+					tempPhraseType = Type.Phrase.PRONOMINAL;
 				}
 				
 				break;
@@ -327,9 +327,9 @@ public class Parser {
 		
 		if ( prevPhrase != null ) {
 			switch (currentPhraseToProcess.getType()) {
-			case Type.Phrase.FRASA_VERBAL:
+			case Type.Phrase.VERBAL:
 				
-				if ( prevPhrase.getType().equals(Type.Phrase.FRASA_VERBAL) ) {
+				if ( prevPhrase.getType().equals(Type.Phrase.VERBAL) ) {
 					
 					///////////
 					// cek apakah konstituen pertama dari currentPhrase adalah verbal
@@ -337,15 +337,15 @@ public class Parser {
 					//////////
 					SemanticToken firstConstituent = currentPhraseToProcess.getContituent(0);
 					if (firstConstituent.getType().equals(Type.Token.VERBA)) {
-						tempPhraseType = Type.Phrase.FRASA_VERBAL;
+						tempPhraseType = Type.Phrase.VERBAL;
 					}
 					
 				}
 				
 				break;
-			case Type.Phrase.FRASA_PREPOSISIONAL:
+			case Type.Phrase.PREPOSISIONAL:
 				
-				tempPhraseType = Type.Phrase.FRASA_VERBAL;
+				tempPhraseType = Type.Phrase.VERBAL;
 				
 				break;
 			}
@@ -372,26 +372,24 @@ public class Parser {
 	 */
 	private List<Sentence> analyzeSyntacticFunction(List<Sentence> clause){
 		
-		List<Sentence> clauseResult = new ArrayList<Sentence>();
-		
 		/**
 		 * Jika jumlah frasa hanya dua, maka bentuk fungsi sintaksis hanya
 		 * P-S atau S-P.
-		 *
+		 */
 		if ( clause.size() == 2 ) {
 			
-			SentenceModel first = clause.get(0);
-			SentenceModel second = clause.get(1);
+			Sentence first = clause.get(0);
+			Sentence second = clause.get(1);
 			
-			if ( first.getType().equals(Type.TYPE_PRONOMINA) || 
-					first.getType().equals(Type.TYPE_FRASA_PREPOSISIONAL) ) {
+			if ( first.getType().equals(Type.Token.PRONOMINA) || 
+					first.getType().equals(Type.Phrase.PRONOMINAL) ) {
 				
-				first.setSyntacticFunction(Type.TYPE_PREDIKAT);
-				second.setSyntacticFunction(Type.TYPE_SUBJEK);
+				first.setFunction(Type.Phrase.Function.PREDIKAT);
+				second.setFunction(Type.Phrase.Function.SUBJEK);
 				
 			} else {
-				first.setSyntacticFunction(Type.TYPE_SUBJEK);
-				second.setSyntacticFunction(Type.TYPE_PREDIKAT);
+				first.setFunction(Type.Phrase.Function.SUBJEK);
+				second.setFunction(Type.Phrase.Function.PREDIKAT);
 			}
 			
 			clause.set(0, first);
@@ -401,11 +399,11 @@ public class Parser {
 			 * Jika jumlah frasa lebih dari dua, maka langkah untuk menentukan predikat adalah:
 			 * 1. cek tipe masing-masing frasa, jika ada FV atau FAdj maka itulah Predikat.
 			 * 2. Jika tidak ada, maka cek 
-			 *
+			 */
 			
 			
 		}
-		*/
-		return clauseResult;
+		
+		return clause;
 	}
 }

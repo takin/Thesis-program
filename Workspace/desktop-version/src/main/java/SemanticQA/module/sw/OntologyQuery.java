@@ -83,7 +83,7 @@ public class OntologyQuery {
 			String pattern = "";
 			List<SemanticToken> tm = m.getConstituents();
 			
-			if ( !m.getType().matches("("+Type.Phrase.FRASA_PRONOMINAL + "|" + Type.Token.PRONOMINA + ")") ) {
+			if ( !m.getType().matches("("+Type.Phrase.PRONOMINAL + "|" + Type.Token.PRONOMINA + ")") ) {
 				
 				List<OWLObject> ontologyObject = new ArrayList<OWLObject>();
 				

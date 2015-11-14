@@ -42,7 +42,7 @@ public class OntologyMapper extends OntologyLoader {
 			Sentence m = this.questionModel.get(i);
 			
 			if (m.getType().equals(Type.Token.PRONOMINA) ||
-					m.getType().equals(Type.Phrase.FRASA_PRONOMINAL) ||
+					m.getType().equals(Type.Phrase.PRONOMINAL) ||
 					m.getType().equals(Type.Token.KONJUNGSI) ) {
 				continue;
 			}

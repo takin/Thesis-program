@@ -23,20 +23,20 @@ public abstract class Type {
 	}
 	
 	public static class Phrase {
-		public static final String FRASA_NOMINAL = "FN";
-		public static final String FRASA_NUMERALIA = "FNUM";
-		public static final String FRASA_VERBAL = "FV";
-		public static final String FRASA_ADJECTIVAL = "FADJ";
-		public static final String FRASA_ADVERBIAL = "FADV";
-		public static final String FRASA_PREPOSISIONAL = "FPREP";
-		public static final String FRASA_PRONOMINAL = "FPRON";
+		public static final String NOMINAL = "FN";
+		public static final String NUMERALIA = "FNUM";
+		public static final String VERBAL = "FV";
+		public static final String ADJECTIVAL = "FADJ";
+		public static final String ADVERBIAL = "FADV";
+		public static final String PREPOSISIONAL = "FPREP";
+		public static final String PRONOMINAL = "FPRON";
 		
 		public static class Function {
-			public static final String SUBJEK = "S";
-			public static final String PREDIKAT = "P";
-			public static final String OBJEK = "O";
-			public static final String PELENGKAP = "Pel";
-			public static final String KETERANGAN = "Ket";
+			public static final String SUBJEK = "Subjek";
+			public static final String PREDIKAT = "Predikat";
+			public static final String OBJEK = "Objek";
+			public static final String PELENGKAP = "Pelengkap";
+			public static final String KETERANGAN = "Keterangan";
 		}
 	}
 }
