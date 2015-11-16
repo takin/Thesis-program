@@ -2,16 +2,11 @@ package SemanticQA.controllers;
 
 import java.util.List;
 
-import org.semanticweb.owlapi.model.OWLOntology;
-
-import SemanticQA.constant.Ontology;
 import SemanticQA.model.MySQLDatabase;
 import SemanticQA.model.SemanticToken;
 import SemanticQA.model.Sentence;
 import SemanticQA.module.nlp.Parser;
 import SemanticQA.module.nlp.Tokenizer;
-import SemanticQA.module.sw.OntologyLoader;
-import SemanticQA.module.sw.OntologyMapper;
 
 class ThesisDesktopVersion {
 	
@@ -25,10 +20,9 @@ class ThesisDesktopVersion {
 		
 		String[] pertanyaan = new String[]{
 				"siapa yang terpilih menjadi kepala desa danger tahun 2015",
-				"siapa nama kepala desa yang baiknya",
 				"di mana alamat kantor dinas pendidikan kabupaten lombok timur",
-				"di mana letak pantai tanjung an pantai mawun",
-				"siapa bupati kabupaten lombok timur",
+				"di mana letak pantai tanjung an",
+				"siapakah bupati kabupaten lombok timur",
 				"bupati kabupaten lombok timur siapa",
 				"apa saja wisata budaya di lombok",
 				"di lombok ada wisata budaya apa saja",
@@ -39,23 +33,24 @@ class ThesisDesktopVersion {
 //		s.close();
 		
 		Tokenizer t = new Tokenizer(new MySQLDatabase());
-
-		List<SemanticToken> tm = t.tokenize(pertanyaan[2]);
-		
-		cetak(tm);
-		
 		Parser p = new Parser();
+		
+		for ( String q: pertanyaan ){
+		List<SemanticToken> tm = t.tokenize(q);
+
 		List<Sentence> result = p.parse(tm);
 		
-//		cetakKlausa(result);
+//		cetak(tm);
+		cetakKlausa(result);
+		}
 		
-		String[] ontologies = new String[]{Ontology.Path.ONTOPAR, Ontology.Path.ONTOGEO, Ontology.Path.ONTOGOV,Ontology.Path.DATASET};
+//		String[] ontologies = new String[]{Ontology.Path.ONTOPAR, Ontology.Path.ONTOGEO, Ontology.Path.ONTOGOV,Ontology.Path.DATASET};
 		
-		OntologyMapper mapper = new OntologyMapper(ontologies, Ontology.Path.MERGED_URI);
-		List<Sentence> mapResult = mapper.map(result);
+//		OntologyMapper mapper = new OntologyMapper(ontologies, Ontology.Path.MERGED_URI);
+//		List<Sentence> mapResult = mapper.map(result);
 		
 //		long startTime = System.currentTimeMillis();
-		cetakMap(mapResult);
+//		cetakMap(mapResult);
 		
 //		long endTime = System.currentTimeMillis();
 //		long executionTime = endTime - startTime;

@@ -16,13 +16,14 @@ public class Parser {
 	private static final String PRONOMINA_PENJUNJUK_PATTERN = "(ini|itu)";
 	private static final String KONJUNGTOR_KLAUSA_PATTERN = "(dan|atau)";
 	private static final String PRONOMINA_PENANYA_PATTERN = "(apa|siapa|kapan)";
+	private static final String NOMINA_KETERANGAN = "(tahun|bulan|hari)";
 	
 	public List<Sentence> parse(List<SemanticToken> taggedToken){
 		
 		List<Sentence> phrases = createPhrase(null, taggedToken, new ArrayList<Sentence>());
-		List<Sentence> clauses = createClause(null, phrases, new ArrayList<Sentence>());
-		List<Sentence> result = analyzeSyntacticFunction(clauses);
-		return result;
+//					   phrases = createClause(null, phrases, new ArrayList<Sentence>());
+					   phrases = analyzeSyntacticFunction(phrases);
+		return phrases;
 	}
 	
 	/**
@@ -36,30 +37,30 @@ public class Parser {
 	 */
 	private List<Sentence> createPhrase(SemanticToken previousToken, List<SemanticToken> data, List<Sentence> result){
 		
-		/**
-		 * Temporary variable untuk menyimpan tipe frasa yang baru.
-		 * Dalam proses pengecekan token ada kemungkinan terjadinya perubahan tipe frasa
-		 * yang disebabkan oleh tipe kata yang sedang di proses saat ini.
-		 */
+		//////////////////////////////////////////////////////////////////////////////////////
+		// Temporary variable untuk menyimpan tipe frasa yang baru.							//
+		// Dalam proses pengecekan token ada kemungkinan terjadinya perubahan tipe frasa	//
+		// yang disebabkan oleh tipe kata yang sedang di proses saat ini.					//
+		//////////////////////////////////////////////////////////////////////////////////////
 		String tempPhraseType = null;
 		
-		/**
-		 * Ambil nilai index terakhir dari array list parseResult.
-		 * Index ini dibutuhkan untuk melakukan update terhadap objek frasa yang sedang di proses
-		 */
+		//////////////////////////////////////////////////////////////////////////////////////
+		// Ambil nilai index terakhir dari array list parseResult. Index ini dibutuhkan 	//
+		// untuk melakukan update terhadap objek frasa yang sedang di proses				//
+		//////////////////////////////////////////////////////////////////////////////////////
 		int currentPhraseIndex = result.isEmpty() ? -1 : result.size() - 1;
 		
-		/**
-		 * Ambil objek dari array list token untuk di proses.
-		 * Pengambilan dilakukan dengan cara memotong langsung current object segingga tidak perlu dilakukan 
-		 * pemotongan pada saat akan dilakukan proses rekursi di akhir.
-		 */
+		//////////////////////////////////////////////////////////////////////////////////////
+		// Ambil objek dari array list token untuk di proses. Pengambilan dilakukan 		//
+		// dengan cara memotong langsung current object segingga tidak perlu dilakukan 		//
+		// pemotongan pada saat akan dilakukan proses rekursi di akhir.						//
+		//////////////////////////////////////////////////////////////////////////////////////
 		SemanticToken currentToken = data.remove(0);
 		
-		/**
-		 * Ambil objek frasa yang terkahir sehingga memudahkan proses pembandingan dengan 
-		 * objek token yang sedang di proses.
-		 */
+		//////////////////////////////////////////////////////////////////////////////////////
+		// Ambil objek frasa yang terkahir sehingga memudahkan proses pembandingan dengan 	//
+		// objek token yang sedang di proses.												//
+		//////////////////////////////////////////////////////////////////////////////////////
 		Sentence currentPhrase = currentPhraseIndex == -1 ? new Sentence() : result.get(currentPhraseIndex);
 		
 		if ( previousToken != null ) {
@@ -72,20 +73,48 @@ public class Parser {
 				break;
 			case Type.Token.VERBA:
 				
-				if ( previousToken.getType().equals(Type.Token.NOMINA) ||
-						previousToken.getType().equals(Type.Token.KONJUNGSI) ) {
+				if ( (previousToken.getType().equals(Type.Token.NOMINA) && 
+						(currentPhrase.getType().equals(Type.Phrase.NOMINAL) ||
+								currentPhrase.getType().equals(Type.Token.NOMINA) ) ) ||
+						previousToken.getType().equals(Type.Token.KONJUNGSI) || 
+						previousToken.getType().equals(Type.Token.VERBA) ) {
+					
 					tempPhraseType = Type.Phrase.VERBAL;
 				}
 				
 				break;
 			case Type.Token.NOMINA:
 				
-				if ( previousToken.getType().equals(Type.Token.NOMINA) ) {
-					tempPhraseType = (currentPhrase.getType() == null) ? Type.Phrase.NOMINAL : currentPhrase.getType();
-				}
-				
-				if ( previousToken.getType().equals(Type.Token.PREPOSISI) ) {
-					tempPhraseType = Type.Phrase.PREPOSISIONAL;
+				if ( !currentToken.getToken().matches(NOMINA_KETERANGAN) ) {
+					
+					if ( previousToken.getType().equals(Type.Token.NOMINA) ) {
+						
+						if ( currentPhrase.getType().equals(Type.Phrase.PREPOSISIONAL) || 
+								currentPhrase.getType().equals(Type.Token.PREPOSISI) ) {
+							tempPhraseType = Type.Phrase.PREPOSISIONAL;
+						} else {
+							tempPhraseType = Type.Phrase.NOMINAL;
+						}
+					}
+					
+					if ( previousToken.getType().equals(Type.Token.PREPOSISI) ) {
+						
+						if ( currentPhrase.getType().equals(Type.Phrase.VERBAL) ) {
+							tempPhraseType = Type.Phrase.VERBAL;
+						} else {
+							tempPhraseType = Type.Phrase.PREPOSISIONAL;
+						}
+					}
+					
+					if ( previousToken.getType().equals(Type.Token.VERBA) ) {
+						
+						if ( currentPhrase.getType().equals(Type.Phrase.VERBAL) || 
+								currentPhrase.getType().equals(Type.Token.VERBA)) {
+							if ( !currentPhrase.getContituent(0).getType().equals(Type.Token.KONJUNGSI) ) {
+								tempPhraseType = Type.Phrase.VERBAL;
+							}
+						}
+					}
 				}
 				
 				break;
@@ -93,6 +122,28 @@ public class Parser {
 				
 				if ( previousToken.getType().equals(Type.Token.PREPOSISI) ) {
 					tempPhraseType = Type.Phrase.PRONOMINAL;
+				}
+				
+				break;
+			case Type.Token.NUMERALIA:
+				
+				if ( previousToken.getToken().matches(NOMINA_KETERANGAN) ||
+						previousToken.getType().equals(Type.Token.NUMERALIA) ){
+					tempPhraseType = Type.Phrase.NUMERALIA;
+				}
+				
+				break;
+			case Type.Token.PREPOSISI:
+				
+				if ( previousToken.getType().equals(Type.Token.VERBA) ) {
+					if ( currentPhrase.getType().equals(Type.Phrase.VERBAL) || 
+							currentPhrase.getType().equals(Type.Token.VERBA) ) {
+						
+						if ( currentPhrase.getContituent(0).getType().equals(Type.Token.KONJUNGSI) ) {
+							tempPhraseType = Type.Phrase.VERBAL;
+						}
+						
+					}
 				}
 				
 				break;
@@ -108,7 +159,7 @@ public class Parser {
 		}
 		
 		if ( previousToken == null ) {
-
+			currentPhrase.setType(currentToken.getType());
 			currentPhrase.putConstituent(currentToken);
 			result.add(currentPhrase);
 			
@@ -117,6 +168,7 @@ public class Parser {
 		if ( tempPhraseType == null && previousToken != null ) {
 			Sentence newPhrase = new Sentence();
 			newPhrase.putConstituent(currentToken);
+			newPhrase.setType(currentToken.getType());
 			result.add(newPhrase);
 		}
 		
@@ -328,14 +380,15 @@ public class Parser {
 		if ( prevPhrase != null ) {
 			switch (currentPhraseToProcess.getType()) {
 			case Type.Phrase.VERBAL:
+			case Type.Token.VERBA:
 				
 				if ( prevPhrase.getType().equals(Type.Phrase.VERBAL) ) {
-					
-					///////////
-					// cek apakah konstituen pertama dari currentPhrase adalah verbal
-					// jika tidak maka tidak boleh digabungkan
-					//////////
+					//////////////////////////////////////////////////////////////////////
+					// cek apakah konstituen pertama dari currentPhrase adalah verbal	//
+					// jika tidak maka tidak boleh digabungkan							//
+					//////////////////////////////////////////////////////////////////////
 					SemanticToken firstConstituent = currentPhraseToProcess.getContituent(0);
+					
 					if (firstConstituent.getType().equals(Type.Token.VERBA)) {
 						tempPhraseType = Type.Phrase.VERBAL;
 					}
@@ -345,7 +398,18 @@ public class Parser {
 				break;
 			case Type.Phrase.PREPOSISIONAL:
 				
-				tempPhraseType = Type.Phrase.VERBAL;
+//				if ( prevPhrase.getType().equals(anObject) )
+//				tempPhraseType = Type.Phrase.VERBAL;
+				break;
+			case Type.Phrase.NOMINAL:
+				// no break here!
+			case Type.Token.NOMINA:
+				
+				if ( prevPhrase.getType().equals(Type.Phrase.VERBAL) ) {
+					if ( prevPhrase.getConstituents().get(0).getToken().matches("yang") ) {
+						tempPhraseType = Type.Phrase.NOMINAL;
+					}
+				}
 				
 				break;
 			}
@@ -372,38 +436,93 @@ public class Parser {
 	 */
 	private List<Sentence> analyzeSyntacticFunction(List<Sentence> clause){
 		
-		/**
-		 * Jika jumlah frasa hanya dua, maka bentuk fungsi sintaksis hanya
-		 * P-S atau S-P.
-		 */
+		int predicatePosition = getPredicatePosition(clause);
+		
+		//////////////////////////////////////////////////////////////////////////
+		// Jika jumlah frasa hanya dua, maka bentuk fungsi sintaksis hanya		//
+		// P-S atau S-P.														//
+		//////////////////////////////////////////////////////////////////////////
 		if ( clause.size() == 2 ) {
-			
-			Sentence first = clause.get(0);
-			Sentence second = clause.get(1);
-			
-			if ( first.getType().equals(Type.Token.PRONOMINA) || 
-					first.getType().equals(Type.Phrase.PRONOMINAL) ) {
-				
-				first.setFunction(Type.Phrase.Function.PREDIKAT);
-				second.setFunction(Type.Phrase.Function.SUBJEK);
-				
+			if ( predicatePosition == 0 ) {
+				clause.get(0).setFunction(Type.Phrase.Function.PREDIKAT);
+				clause.get(1).setFunction(Type.Phrase.Function.SUBJEK);
 			} else {
-				first.setFunction(Type.Phrase.Function.SUBJEK);
-				second.setFunction(Type.Phrase.Function.PREDIKAT);
+				clause.get(0).setFunction(Type.Phrase.Function.SUBJEK);
+				clause.get(1).setFunction(Type.Phrase.Function.PREDIKAT);
+			}
+		}
+		
+		if ( clause.size() > 2 ) {
+			
+			if ( predicatePosition != 0 ) {
+				
+				clause.get(predicatePosition - 1).setFunction(Type.Phrase.Function.SUBJEK);
+				clause.get(predicatePosition).setFunction(Type.Phrase.Function.PREDIKAT);
+				
 			}
 			
-			clause.set(0, first);
-			clause.set(1, second);
-		} else {
-			/**
-			 * Jika jumlah frasa lebih dari dua, maka langkah untuk menentukan predikat adalah:
-			 * 1. cek tipe masing-masing frasa, jika ada FV atau FAdj maka itulah Predikat.
-			 * 2. Jika tidak ada, maka cek 
-			 */
-			
-			
+			// jika posisi predikat bukan di posisi terakhir
+			// maka lakukan analisa frasa yang berada di sebelah kanan predikat 
+			// untuk menentukan fungsi frasa tersebut (objek, keterangan atau pelengkap)
+			if ( predicatePosition != 0 && predicatePosition < clause.size() - 1 ) {
+				
+				Sentence tempSentence = clause.get(predicatePosition + 1);
+				String phraseType = tempSentence.getType(); 
+				
+				if ( phraseType.equals(Type.Phrase.NOMINAL) || 
+						phraseType.equals(Type.Token.NOMINA) ||
+						phraseType.equals(Type.Phrase.PRONOMINAL) ) {
+					
+					clause.get(predicatePosition + 1).setFunction(Type.Phrase.Function.OBJEK);
+					
+				}
+				
+				if ( clause.size() > predicatePosition + 2 ) {
+					
+					tempSentence = clause.get(predicatePosition + 2);
+					
+					if (tempSentence.getType().equals(Type.Phrase.NUMERALIA)){
+						clause.get(predicatePosition + 2).setFunction(Type.Phrase.Function.KETERANGAN); 
+					}
+				}
+			}
 		}
 		
 		return clause;
+	}
+	
+	
+	private int getPredicatePosition(List<Sentence> phrase){
+		int position = -1;
+		
+		if ( phrase.size() == 2 ) {
+			if ( phrase.get(0).getType().equals(Type.Token.PRONOMINA) || phrase.get(0).getType().equals(Type.Phrase.PRONOMINAL) ) {
+				phrase.get(0).setFunction(Type.Phrase.Function.PREDIKAT);
+				phrase.get(1).setFunction(Type.Phrase.Function.SUBJEK);
+			} else {
+				phrase.get(0).setFunction(Type.Phrase.Function.SUBJEK);
+				phrase.get(1).setFunction(Type.Phrase.Function.PREDIKAT);
+			}
+		}
+		
+		if ( phrase.size() > 2 ) {
+			for ( int i = 0; i < phrase.size() - 1; i++ ) {
+				Sentence currentPhrase = phrase.get(i);
+				if ( currentPhrase.getType().equals(Type.Token.VERBA) ||
+						currentPhrase.getType().equals(Type.Phrase.VERBAL) ) {
+					position = i;
+					break;
+				}
+			}
+			
+			// jika tidak ada frasa verbal
+			if ( position == -1 ){
+				for ( int i = 0; i < phrase.size() - 1; i++ ) {
+					
+				}
+			}
+		}
+		
+		return position == -1 ? 0 : position;
 	}
 }
