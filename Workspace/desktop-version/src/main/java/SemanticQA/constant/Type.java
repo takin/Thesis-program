@@ -39,4 +39,11 @@ public abstract class Type {
 			public static final String KETERANGAN = "Keterangan";
 		}
 	}
+	
+	public static class Ontology {
+		public static final String CLASS = "OWLClass";
+		public static final String OBJECT_PROPERTY = "OWLObjectPropery";
+		public static final String DATATYPE_PROPERTY = "OWLDataProperty";
+		public static final String INDIVIDUAL = "OWLNamedIndividual";
+	}
 }

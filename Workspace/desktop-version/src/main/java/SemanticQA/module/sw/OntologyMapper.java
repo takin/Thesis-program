@@ -1,7 +1,6 @@
 package SemanticQA.module.sw;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -19,7 +18,6 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyAxiom;
 import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
-import SemanticQA.constant.Ontology;
 import SemanticQA.constant.Type;
 import SemanticQA.helpers.StringManipulation;
 import SemanticQA.model.SemanticToken;
@@ -28,164 +26,199 @@ import SemanticQA.model.Sentence;
 
 public class OntologyMapper extends OntologyLoader {
 	
-	private ShortFormProvider shortForm = new SimpleShortFormProvider();
-	private List<Sentence> questionModel;
+	private ShortFormProvider shortForm;
 	
-	public OntologyMapper(List<Sentence> model) {
-		this.questionModel = model;
+	public OntologyMapper(String ontology) {
+		super(ontology);
+		shortForm = new SimpleShortFormProvider();
 	}
 	
-	public List<Sentence> map(){
+	public OntologyMapper(String[] ontologies, String mergedURI) {
+		super(ontologies, mergedURI);
+		shortForm = new SimpleShortFormProvider();
+	}
+	
+	public List<Sentence> map(List<Sentence> models){
+		return doMapping(new ArrayList<SemanticToken>(), models, new ArrayList<Sentence>());
+	}
+
+	private List<Sentence> doMapping(List<SemanticToken> prevToken, List<Sentence> models, List<Sentence> result) {
 		
-		for ( int i = 0; i < this.questionModel.size(); i++ ) {
+		Sentence currentPhrase = models.remove(0);
+		
+		//////////////////////////////////////////////////////////////////////////////////////////
+		// Lakukan proses mapping dengan ontologi hanya terhadap frasa selain frasa pronominal 	//
+		// atau pronomina karena frasa ini tidak mungkin memiliki mapping di dalam ontologi 	//
+		// sedangkan kehadirannya tetap dibutuhkan pada saat proses pembentukan query.			//
+		// Jika dilakukan proses mapping maka konstituennya akan hilang!						//
+		//////////////////////////////////////////////////////////////////////////////////////////
+		if ( !currentPhrase.getConstituents().isEmpty() && 
+				!currentPhrase.getType().equals(Type.Phrase.PRONOMINAL) && 
+				!currentPhrase.getType().equals(Type.Token.PRONOMINA) ) {
 			
-			Sentence m = this.questionModel.get(i);
-			
-			if (m.getType().equals(Type.Token.PRONOMINA) ||
-					m.getType().equals(Type.Phrase.PRONOMINAL) ||
-					m.getType().equals(Type.Token.KONJUNGSI) ) {
-				continue;
-			}
-			
-			List<SemanticToken> originalConstituents = m.getConstituents();
-			
-			if ( originalConstituents.size() > 0 ) {
-				List<SemanticToken> constituents = checkType(new ArrayList<String>(), new ArrayList<SemanticToken>(), originalConstituents);
-				
-				/**
-				 * Oleh karena proses mapping dalam method checkType dimulai dari 
-				 * token yang paling belakang, maka hasil proses mappingnya akan terbalik
-				 * sehingga perlu di balik untuk mendapatkan urutan aslinya.
-				 */
-				Collections.reverse(constituents);
-				/**
-				 * Ganti isi arraylist konstituen yang lama dengan konstituen yang sudah di mapping
-				 * hal ini harus dilakukan karena ada kemungkinan beberapa konstituen
-				 * digabungkan menjadi satu, misalnya:
-				 * 
-				 * lombok + timur, dalam proses mapping menjadi satu yaitu lombok_timur
-				 */
-				m.replaceConstituent(constituents);
-			}
-			
-			this.questionModel.set(i, m);
+			List<SemanticToken> constituents = checkType(new ArrayList<String>(), currentPhrase.getConstituents(), new ArrayList<SemanticToken>() );
+			//////////////////////////////////////////////////////////////////////////////////////////
+			// Ganti konstituen frasa yang bersangkutan dengan konstituen yang sudah di mapping!	//
+			// 																						//
+			// Note:																				//
+			// Konstituen harus diganti (bukan ditambahkan), karena ada kemungkinan beberapa		//
+			// konstituen akan berubah setelah mengalami proses mapping, misalanya lombok dan timur	//
+			// akan berubah menjadi lombok_timur													//
+			//////////////////////////////////////////////////////////////////////////////////////////
+			currentPhrase.replaceConstituent(constituents);
 		}
 		
+		result.add(currentPhrase);
 		
-		return this.questionModel;
+		if ( models.size() > 0 ) {
+			doMapping(currentPhrase.getConstituents(), models, result);
+		}
+		
+		return result;
 	}
 	
-	private List<SemanticToken> checkType(List<String> previousTokens, List<SemanticToken> res, List<SemanticToken> data) {
+	private List<SemanticToken> checkType(List<String> prevTokens, List<SemanticToken> tokensToProcess, List<SemanticToken> result) {
 		
-		SemanticToken m = data.remove(data.size() - 1);
-		SemanticToken lastInserted = res.size() > 0 ? res.get(res.size() - 1) : null;
+		SemanticToken currentToken = tokensToProcess.remove(0);
 		
-		String token = m.getToken();
-		String tipe = getType(token);
+		String currentTokenWord = currentToken.getToken(); 
+		String tokenOWLType = getType(currentTokenWord);
 		
-//		System.out.println("current -> " + token); 
-//		System.out.print("prev[" + previousTokens.size() + "] => ");
-//		for(String x:previousTokens) {
-//			if (x == previousTokens.get(previousTokens.size() - 1)) {
-//				System.out.print(x);
-//			} else {
-//				System.out.print(x+", ");
-//			}
-//		}
-//		System.out.println("");
-		
-		if ( tipe == null ) {
+		if ( tokenOWLType != null ) {
 			
-			if ( !previousTokens.isEmpty() ) {
-				
-				String newToken = token + "_" + String.join("_", previousTokens);
-				
-				tipe = getType(newToken);
-				
-				if ( tipe != null ) {
-					
-					m.setToken(newToken);
-					m.setOWLType(tipe);
-					m.setOWLPath(getOWLObject(newToken, tipe));
-					
-					if (lastInserted != null && previousTokens.contains(lastInserted.getToken())){
-						res.set(res.size() - 1, m);
-					} else {
-						res.add(m);
-					}
-					
-					previousTokens.add(token);
-				} else {
-					
-					/**
-					 * Jika setelah penggabungan tetap tidak ditemukan mappingnya,
-					 * maka cek terlebih dahulu apakah member dari previousTokens
-					 * ada di dalam array res.
-					 * 
-					 * Jika ada, artinya previous item pernah digunakan untuk menyambung
-					 * maka kosongkan array previousTokens karena kata tersebut sudah 
-					 * tidak mungkin memiliki mapping lagi di dalam ontologi.
-					 */
-					String prevTokenJoined = String.join("_", previousTokens);
-					if ( lastInserted != null && lastInserted.getToken().equals(prevTokenJoined) ) {
-//						System.out.println("must cleared");
-						previousTokens.clear();
-					}
-				}
-			}
+			SemanticToken token = setToken(currentToken, currentTokenWord, tokenOWLType);
+			result.add(token);
 			
-			previousTokens.add(token);
-		} 
-		// Jika proses mapping berhasil
-		else {
-			
-			m.setOWLType(tipe);
-			m.setOWLPath(getOWLObject(token, tipe));
-			
-			if ( previousTokens.isEmpty() ) {
-				
-				res.add(m);
-				previousTokens.add(token);
-				
-			} else {
-				
-				String newToken = token + "_" + String.join("_", previousTokens);
-				
-//				System.out.println(newToken);
-				
-				tipe = getType(newToken);
-				
-				if ( tipe != null ) {
-					
-					m.setToken(newToken);
-					m.setOWLType(tipe);
-					m.setOWLPath(getOWLObject(newToken, tipe));
-					
-					if (lastInserted != null && previousTokens.contains(lastInserted.getToken())){
-						res.set(res.size() - 1, m);
-					} else {
-						res.add(m);
-					}
-					
-					Collections.reverse(previousTokens);
-					previousTokens.add(token);
-					
-				} else {
-					res.add(m);
-					previousTokens.clear();
-					previousTokens.add(token);
+			// jika prevTokens tidak kosong, maka coba untuk melakukan konkatinasi
+			if ( !prevTokens.isEmpty() ) {
+				List<SemanticToken> concatinatedLists = doConcatination(prevTokens, currentToken);
+				if ( concatinatedLists.size() > 0 ) {
+					result.addAll(concatinatedLists);
 				}
 			}
 		}
 		
-//		System.out.println("");
-		
-		if ( data.size() > 0 ) {
-			Collections.reverse(previousTokens);
-			checkType(previousTokens, res, data);
+		if ( tokenOWLType == null && !prevTokens.isEmpty()) {
+			
+			List<SemanticToken> concatinatedLists = doConcatination(prevTokens, currentToken);
+			if ( concatinatedLists.size() > 0 ) {
+				result.addAll(concatinatedLists);
+			}
 		}
 		
-		return res;
+		//////////////////////////////////////////////////////////////////
+		// Batasi jumlah stack history token hanya 5					//
+		// sehingga proses konkatinasi hanya maksimal 5 suku kata		//
+		// jika sudah 5, maka buang token yang paling awal				//
+		//////////////////////////////////////////////////////////////////
+		if ( prevTokens.size() == 4 ){
+			prevTokens.remove(0);
+		}
+		prevTokens.add(currentTokenWord);
+		
+		if ( tokensToProcess.size() > 0 ) {
+			checkType(prevTokens, tokensToProcess, result);
+		}
+		
+		return result;
+	}
+	
+	private List<SemanticToken> doConcatination(List<String> tokenToConcate, SemanticToken currentToken) {
+		
+		List<SemanticToken> result = new ArrayList<SemanticToken>();
+		int tokenSize = tokenToConcate.size() - 1;
+		//////////////////////////////////////////////////////////////////////////////////////////
+		// simpan token asli ke dalam variabel cadangan.										//
+		// Tujuannya adalah untuk mempertahankan bentuk asli token								//
+		// Jika token diambil langsung dari objek current token, maka ada kemungkinan			//
+		// token tersebut sudah berubah menjadi token yang sudah di konkatinasi 				//
+		// sehingga ketika masih ada isi array tokenToConcat maka hasil konkatinasi				//
+		// tidak akan sempurna (akan ada redundansi)											//
+		//																						//
+		// contoh:																				//
+		// [dinas, pendidikan, kabupaten, lombok] dengan timur sebagai currentToken 			//
+		// Ketika proses pengecekan konkatinasi lombok_timur akan menghasilkan mapping			//
+		// jika menggunakan token yang berasal dari currentToken, maka konkatinasi berikutnya	//
+		// akan menjadi kabupaten_lombok_lombok_timur karena currentToken sudah berubah 		//
+		// menjadi lombok_timur																	//
+		//////////////////////////////////////////////////////////////////////////////////////////
+		String originalCurrentToken = currentToken.getToken();
+		
+		//////////////////////////////////////////////////////////////////////////////////////////
+		// Untuk masing-masing isi array dari tokenToConcate lakukan proses konkatinasi 		//
+		// dengan originalCurrentToken dimulai dari isi array yang paling akhir hingga semua 	//
+		// isi array di concate dengan originalCurrentToken										//
+		//																						//
+		// Note:																				//
+		// Batas maksimal jumlah element array tokenToConcate di batasi hanya 4 elemen 			//
+		// pembatasan di lakukan di dalam method checkType()									//
+		//////////////////////////////////////////////////////////////////////////////////////////
+		for ( int i = tokenSize; i >= 0; i-- ) {
+			
+			String concatinatedWord = null;
+			
+			//////////////////////////////////////////////////////////////////////////////
+			// Proses konkatinasi isi array dimulai dari elemen pertama dari posisi i	//
+			// misalnya:																//
+			// [dinas, pendidikan, kabupaten, lombok] 									//
+			// posisi i berada di kabupaten (i = 2), maka konkatinasinya menjadi:		//
+			// kabupaten_lombok															//
+			//////////////////////////////////////////////////////////////////////////////
+			for ( int j = i; j <= tokenSize; j++) {
+				//////////////////////////////////////////////////////////////////////////
+				// Untuk menghindari hasil konkatinasi menjadi null_kabupaten_lombok	//
+				//////////////////////////////////////////////////////////////////////////
+				if ( concatinatedWord == null ){
+					concatinatedWord = tokenToConcate.get(j);
+				} else {
+					concatinatedWord += "_" + tokenToConcate.get(j);
+				}
+			}
+			
+			//////////////////////////////////////////////////////////////////////////
+			// Setelah token dari array tokenToConcate di sambungkan				//
+			// maka sambung di bagian akhir dengan token original					//
+			// sehingga menjadi kata yang utuh.										//
+			//																		//
+			// contoh:																//
+			// [dinas, kabupaten, lombok] dg originalToken = timur					//
+			// misalnya j berada di posisi kabupaten, maka hasil konkatinasinya		//
+			// adalah kabupaten_lombok, dan setelah proses di bawah ini menjadi 	//
+			// kabupaten_lombok_timur												//
+			//////////////////////////////////////////////////////////////////////////
+			concatinatedWord += "_" + originalCurrentToken;
+			
+			// cek apakah token hasil konkatinasi memiliki mapping di dalam ontologi
+			String concatinatedOWLType = getType(concatinatedWord);
+			
+			//////////////////////////////////////////////////////////////////////////
+			// Jika token hasil konkatinasi memiliki mapping di dalam ontologi		//
+			// maka buat objek SemantoicToken yang baru dan masukkan ke dalam array	//
+			//////////////////////////////////////////////////////////////////////////
+			if ( concatinatedOWLType != null ) {
+				SemanticToken token = setToken(currentToken, concatinatedWord, concatinatedOWLType); 				
+				result.add(token);
+			}
+		}
+		
+		return result;
+	}
+	
+	private SemanticToken setToken(SemanticToken tokenObject, String word, String type) {
+		
+		//////////////////////////////////////////////////////////////////////////
+		// Oleh karena objek berbentuk pointer, jadi harus membuat objek baru	//
+		// Agar objek sebelumnya tidak ter-override oleh objek yang baru		//
+		//////////////////////////////////////////////////////////////////////////
+		SemanticToken newToken = new SemanticToken();
+		OWLObject OWLPath = getOWLPath(word, type);
+		
+		newToken.setToken(word);
+		newToken.setType(tokenObject.getType());
+		newToken.setOWLPath(OWLPath);
+		newToken.setOWLType(type);
+		
+		return newToken;
 	}
 	
 	public String getShortForm(OWLEntity e){
@@ -193,32 +226,33 @@ public class OntologyMapper extends OntologyLoader {
 	}
 	
 	public String getShortForm(String uri) {
-		OWLEntity entity = super.dataFactory.getOWLClass(IRI.create(uri));
+		IRI entityUri = IRI.create(uri);
+		OWLEntity entity = super.dataFactory.getOWLClass( entityUri);
 		return getShortForm(entity);
 	}
 	
-	public OWLObject getOWLObject(String name, String type){
+	public OWLObject getOWLPath(String name, String type){
 		
 		switch(type){
-		case Ontology.TYPE_CLASS:
+		case Type.Ontology.CLASS:
 			for(OWLClass obj: super.ontology.getClassesInSignature()){
 				if(getShortForm(obj).toString().toLowerCase().equals(name.toLowerCase())){
 					return obj;
 				}
 			}
-		case Ontology.TYPE_OBJECT_PROPERTY:
+		case Type.Ontology.OBJECT_PROPERTY:
 			for(OWLObjectProperty obj: super.ontology.getObjectPropertiesInSignature()){
 				if(getShortForm(obj).toString().toLowerCase().equals(name.toLowerCase())){
 					return obj;
 				}
 			}
-		case Ontology.TYPE_DATATYPE_PROPERTY:
+		case Type.Ontology.DATATYPE_PROPERTY:
 			for(OWLDataProperty obj: super.ontology.getDataPropertiesInSignature()){
 				if(getShortForm(obj).toString().toLowerCase().equals(name.toLowerCase())){
 					return obj;
 				}
 			}
-		case Ontology.TYPE_INDIVIDUAL:
+		case Type.Ontology.INDIVIDUAL:
 			for(OWLNamedIndividual obj: super.ontology.getIndividualsInSignature()){
 				if(getShortForm(obj).toString().toLowerCase().equals(name.toLowerCase())){
 					return obj;
@@ -231,19 +265,19 @@ public class OntologyMapper extends OntologyLoader {
 	
 	public String getType(String prop){
 		if(isClass(prop)){
-			return Ontology.TYPE_CLASS;
+			return Type.Ontology.CLASS;
 		}
 		
 		if(isDatatypeProperty(prop)){
-			return Ontology.TYPE_DATATYPE_PROPERTY;
+			return Type.Ontology.DATATYPE_PROPERTY;
 		}
 		
 		if(isObjectProperty(prop)){
-			return Ontology.TYPE_OBJECT_PROPERTY;
+			return Type.Ontology.OBJECT_PROPERTY;
 		}
 		
 		if(isIndividual(prop)){
-			return Ontology.TYPE_INDIVIDUAL;
+			return Type.Ontology.INDIVIDUAL;
 		}
 		
 		return null;
@@ -330,6 +364,10 @@ public class OntologyMapper extends OntologyLoader {
 		return false;
 	}
 	
+	private boolean isURI(String str){
+		return str.matches("^(https?://).*");
+	}
+	
 	public Set<OWLClassAxiom> getRestriction(OWLClass cls){
 		return ontology.getAxioms(cls);
 	}
@@ -345,9 +383,5 @@ public class OntologyMapper extends OntologyLoader {
 	public Set<OWLObjectPropertyAxiom> getRestriction(OWLObjectProperty op){
 		return ontology.getAxioms(op);
 	}
-	
-	private boolean isURI(String str){
-		return str.matches("^(https?://).*");
-	}
-	
+
 }

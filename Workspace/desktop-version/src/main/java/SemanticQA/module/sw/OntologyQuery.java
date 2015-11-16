@@ -18,7 +18,6 @@ import de.derivo.sparqldlapi.QueryEngine;
 import de.derivo.sparqldlapi.QueryResult;
 import de.derivo.sparqldlapi.exceptions.QueryEngineException;
 import de.derivo.sparqldlapi.exceptions.QueryParserException;
-import SemanticQA.constant.Ontology;
 import SemanticQA.constant.Type;
 import SemanticQA.helpers.StringManipulation;
 import SemanticQA.model.SemanticToken;
@@ -90,21 +89,21 @@ public class OntologyQuery {
 				for ( SemanticToken t:tm ) {
 					
 					switch (t.getOWLType()) {
-					case Ontology.TYPE_CLASS:
+					case Type.Ontology.CLASS:
 						if ( !pattern.matches("C")  ) {
 							pattern += "C";
 							ontologyObject.add(t.getOWLPath());
 						}
 						break;
-					case Ontology.TYPE_OBJECT_PROPERTY:
+					case Type.Ontology.OBJECT_PROPERTY:
 						pattern += "OP";
 						ontologyObject.add(t.getOWLPath());
 						break;
-					case Ontology.TYPE_DATATYPE_PROPERTY:
+					case Type.Ontology.DATATYPE_PROPERTY:
 						pattern += "DP";
 						ontologyObject.add(t.getOWLPath());
 						break;
-					case Ontology.TYPE_INDIVIDUAL:
+					case Type.Ontology.INDIVIDUAL:
 						pattern += "I";
 						ontologyObject.add(t.getOWLPath());
 						break;

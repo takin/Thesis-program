@@ -150,6 +150,12 @@
     <Declaration>
         <DataProperty IRI="/property#website"/>
     </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Lotim"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Syamsul"/>
+    </Declaration>
     <EquivalentClasses>
         <Class IRI="#Badan"/>
         <ObjectIntersectionOf>
@@ -451,6 +457,19 @@
         <Class IRI="#Orang"/>
         <Class IRI="#Pemerintah_daerah"/>
     </DisjointClasses>
+    <ClassAssertion>
+        <Class IRI="#Kabupaten"/>
+        <NamedIndividual IRI="#Lotim"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Syamsul"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="/property#headOf"/>
+        <NamedIndividual IRI="#Syamsul"/>
+        <NamedIndividual IRI="#Lotim"/>
+    </ObjectPropertyAssertion>
     <EquivalentObjectProperties>
         <ObjectProperty IRI="/property#hasHead"/>
         <ObjectProperty IRI="/property#pimpinan"/>
