@@ -39,4 +39,20 @@ public abstract class StringManipulation {
 		return str;
 	}
 	
+	public static String split(String stringToSplit) {
+		
+		return stringToSplit.replaceAll("[_]", " ");
+		
+	}
+	
+	public static String capitalize(String str) {
+		String[] strings = str.split(" ");
+		String[] capitalizedStrings = new String[strings.length];
+		
+		for ( int i = 0; i < strings.length; i++ ) {
+			capitalizedStrings[i] = strings[i].substring(0, 1).toUpperCase() + strings[i].substring(1, strings[i].length());
+		}
+		
+		return String.join(" ", capitalizedStrings);
+	}
 }

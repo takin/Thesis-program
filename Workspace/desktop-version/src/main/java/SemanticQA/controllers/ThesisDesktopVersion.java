@@ -2,11 +2,17 @@ package SemanticQA.controllers;
 
 import java.util.List;
 
+import org.semanticweb.HermiT.Reasoner;
+import org.semanticweb.owlapi.reasoner.OWLReasoner;
+
+import SemanticQA.constant.Ontology;
 import SemanticQA.model.MySQLDatabase;
 import SemanticQA.model.SemanticToken;
 import SemanticQA.model.Sentence;
 import SemanticQA.module.nlp.Parser;
 import SemanticQA.module.nlp.Tokenizer;
+import SemanticQA.module.sw.OntologyMapper;
+import SemanticQA.module.sw.OntologyQuery;
 
 class ThesisDesktopVersion {
 	
@@ -19,45 +25,51 @@ class ThesisDesktopVersion {
 //		String pertanyaan = s.nextLine(); 
 		
 		String[] pertanyaan = new String[]{
-				"siapa yang terpilih menjadi kepala desa danger tahun 2015",
-				"di mana alamat kantor dinas pendidikan kabupaten lombok timur",
+//				"siapa yang terpilih menjadi kepala desa danger tahun 2015",
+//				"di mana alamat kantor dinas pendidikan kabupaten lombok timur",
 				"di mana letak pantai tanjung an",
 				"siapakah bupati kabupaten lombok timur",
 				"bupati kabupaten lombok timur siapa",
-				"apa saja wisata budaya di lombok",
-				"di lombok ada wisata budaya apa saja",
-				"siapa yang menjadi kepala desa danger",
-				"apa saja destinasi wisata yang ada di lombok tengah",
-				"apa saja destinasi wisata yang terdapat di lombok tengah"
+//				"apa saja wisata budaya di lombok",
+//				"di lombok ada wisata budaya apa saja",
+//				"siapa yang menjadi kepala desa danger",
+//				"apa saja destinasi wisata yang ada di lombok tengah",
+//				"apa saja destinasi wisata yang terdapat di lombok tengah"
 				};
 //		s.close();
 		
+		String[] ontologies = new String[]{Ontology.Path.ONTOPAR, Ontology.Path.ONTOGEO, Ontology.Path.ONTOGOV,Ontology.Path.DATASET};
 		Tokenizer t = new Tokenizer(new MySQLDatabase());
 		Parser p = new Parser();
+		OntologyMapper mapper = new OntologyMapper(ontologies, Ontology.Path.MERGED_URI);
+		
+		OWLReasoner reasoner = new Reasoner(mapper.getOntology());
+		OntologyQuery query = new OntologyQuery(mapper, reasoner);
 		
 		for ( String q: pertanyaan ){
-		List<SemanticToken> tm = t.tokenize(q);
-
-		List<Sentence> result = p.parse(tm);
+//			try {
+				List<SemanticToken> tm = t.tokenize(q);
 		
-//		cetak(tm);
-		cetakKlausa(result);
+				List<Sentence> result = p.parse(tm);
+				List<Sentence> mapResult = mapper.map(result);
+				
+//				cetak(tm);
+//				cetakKlausa(result);
+//				cetakMap(mapResult);
+				query.execute(mapResult);
+//			} catch (Exception e) {
+//				System.out.println(e.getMessage());
+//			}
 		}
 		
-//		String[] ontologies = new String[]{Ontology.Path.ONTOPAR, Ontology.Path.ONTOGEO, Ontology.Path.ONTOGOV,Ontology.Path.DATASET};
-		
-//		OntologyMapper mapper = new OntologyMapper(ontologies, Ontology.Path.MERGED_URI);
-//		List<Sentence> mapResult = mapper.map(result);
 		
 //		long startTime = System.currentTimeMillis();
-//		cetakMap(mapResult);
 		
 //		long endTime = System.currentTimeMillis();
 //		long executionTime = endTime - startTime;
 		
 //		System.out.println("Mapping is executed in: " + executionTime + " seconds");
 		
-//		OntologyQuery q = new OntologyQuery(mapper);
 //		q.execute(mapResult);
 	}	
 	
