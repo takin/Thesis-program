@@ -1,15 +1,14 @@
 package SemanticQA.helpers;
 
+import org.codehaus.jettison.json.JSONObject;
+
 import de.derivo.sparqldlapi.QueryResult;
-import SemanticQA.model.Answer;
 
 public class AnswerBuilder {
-
-	public static Answer build(QueryResult result) {
 		
-		Answer answer = new Answer();
+	public static JSONObject json(QueryResult result){
+		JSONObject res = new JSONObject();
 		
-		return answer;
+		return res;
 	}
-	
 }

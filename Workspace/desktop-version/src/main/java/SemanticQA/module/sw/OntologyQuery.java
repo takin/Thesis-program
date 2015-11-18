@@ -7,20 +7,16 @@ package SemanticQA.module.sw;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 import de.derivo.sparqldlapi.Query;
-import de.derivo.sparqldlapi.QueryArgument;
-import de.derivo.sparqldlapi.QueryBinding;
 import de.derivo.sparqldlapi.QueryEngine;
 import de.derivo.sparqldlapi.QueryResult;
 import de.derivo.sparqldlapi.exceptions.QueryEngineException;
 import de.derivo.sparqldlapi.exceptions.QueryParserException;
 import SemanticQA.constant.Type;
-import SemanticQA.helpers.StringManipulation;
 import SemanticQA.model.SemanticToken;
 import SemanticQA.model.Sentence;
 
@@ -31,40 +27,18 @@ import SemanticQA.model.Sentence;
 public class OntologyQuery {
 
 	private QueryEngine queryEngine;
-	private OntologyMapper ontologyMapper;
+	private String queryPattern = "";
 	
 	public OntologyQuery(OntologyMapper mapper, OWLReasoner reasoner) {
-		this.ontologyMapper = mapper;
 		this.queryEngine =  QueryEngine.create(mapper.ontology.getOWLOntologyManager(), reasoner);
 	}
 	
 	public QueryResult execute(List<Sentence> model){
 		
 		QueryResult result = null;
-		
 		try {
-			
 			String q = buildQuery(model);
-			
-			System.out.println(q);
-			
-			result = queryEngine.execute(Query.create(q));
-			
-			for ( QueryBinding b:result ) {
-				Set<QueryArgument> arg = b.getBoundArgs();
-				for (QueryArgument a: arg) {
-					
-					String res = ontologyMapper.getShortForm(b.get(a).getValue());
-					
-					res = StringManipulation.split(res);
-					res = StringManipulation.capitalize(res);
-					
-					System.out.println(res);
-				}
-				
-			}
-			
-			
+			result = queryEngine.execute(Query.create(q)); 
 		} catch (QueryParserException | QueryEngineException e) {
 			System.out.println("Error: " + e.getMessage());
 		}
@@ -75,59 +49,88 @@ public class OntologyQuery {
 	private String buildQuery(List<Sentence> model) throws QueryParserException{
 		
 		String analyzedQuery = "";
+		List<OWLObject> ontologyObject = new ArrayList<OWLObject>();
 		
 		for ( int modelIndex = 0; modelIndex < model.size(); modelIndex++ ) {
 			
 			Sentence m = model.get(modelIndex);
-			String pattern = "";
 			List<SemanticToken> tm = m.getConstituents();
 			
+			String prevTokenType = null;
+			
 			if ( !m.getType().matches("("+Type.Phrase.PRONOMINAL + "|" + Type.Token.PRONOMINA + ")") ) {
-				
-				List<OWLObject> ontologyObject = new ArrayList<OWLObject>();
 				
 				for ( SemanticToken t:tm ) {
 					
 					switch (t.getOWLType()) {
 					case Type.Ontology.CLASS:
-						if ( !pattern.matches("C")  ) {
-							pattern += "C";
+						if ( queryPattern.matches("C")){
+							
+							if ( !prevTokenType.equals(Type.Token.NOMINA) ){
+								ontologyObject.set(ontologyObject.size() - 1, t.getOWLPath());								
+							}
+							
+						} else {
+							queryPattern += "C";							
 							ontologyObject.add(t.getOWLPath());
 						}
 						break;
 					case Type.Ontology.OBJECT_PROPERTY:
-						pattern += "OP";
+						queryPattern += "OP";
 						ontologyObject.add(t.getOWLPath());
 						break;
 					case Type.Ontology.DATATYPE_PROPERTY:
-						pattern += "DP";
+						queryPattern += "DP";
 						ontologyObject.add(t.getOWLPath());
 						break;
 					case Type.Ontology.INDIVIDUAL:
-						pattern += "I";
+						queryPattern += "I";
 						ontologyObject.add(t.getOWLPath());
 						break;
 					}
+					
+					prevTokenType = t.getType();
 				}
 				
-				switch (pattern) {
+				switch (queryPattern) {
 				case "CI":
-					analyzedQuery = "Type(?object," + ontologyObject.get(0) +"),"
-							+ "PropertyValue(?object, ?prop, " + ontologyObject.get(1) + ")";
+					analyzedQuery = "{\n"
+							+ "Type(?object," + ontologyObject.get(0) +"),\n"
+							+ "PropertyValue(?object, ?prop, " + ontologyObject.get(1) + ")"
+							+ "\n}";
 					break;
 				case "OPCI":
-					analyzedQuery = "Type(" + ontologyObject.get(2) + "," + ontologyObject.get(1) + "),"
-							+ "PropertyValue(" + ontologyObject.get(2) + ", " + ontologyObject.get(0) + ", ?object)";
+					analyzedQuery = "{\n"
+							+ "Type(" + ontologyObject.get(2) + "," + ontologyObject.get(1) + "),\n"
+							+ "PropertyValue(" + ontologyObject.get(2) + ", " + ontologyObject.get(0) + ", ?object),\n"
+							+ "DirectType(?object, ?type)"
+							+ "\n}";
+					break;
+				case "OPCOPI":
+					analyzedQuery = "{\n "
+							+ "Type(?subject,"+ontologyObject.get(1)+"),\n "
+							+ "PropertyValue(?subject, "+ontologyObject.get(2)+","+ontologyObject.get(3)+")"
+							+ "\n}";
+					break;
+				case "COPI":
+					analyzedQuery = "{\n "
+							+ "Type(?subject,"+ontologyObject.get(0)+"),\n "
+							+ "PropertyValue(?subject, "+ontologyObject.get(1)+","+ontologyObject.get(2)+")"
+							+ "\n}";
 					break;
 				case "DPCI":
-					analyzedQuery = "Type(?object," + ontologyObject.get(1) + "),"
-							+ "PropertyValue(?object," + ontologyObject.get(0) + ", " + ontologyObject.get(2) + ")";
+					analyzedQuery = "{\nType(?object," + ontologyObject.get(1) + "),\n"
+							+ "PropertyValue(?object," + ontologyObject.get(0) + ", " + ontologyObject.get(2) + ")\n}";
+					break;
+				case "I":
+					analyzedQuery = "{\nDirectType(" + ontologyObject.get(0) + ",?type),\n"
+							+ "PropertyValue("+ ontologyObject.get(0) +",?prop, ?value)\n}";
 					break;
 				}
 			}
 		}
 		
-		String query = "select distinct ?object where {\n" + analyzedQuery + "\n}";
+		String query = "select * where " + analyzedQuery;
 		return query;
 	}
 }

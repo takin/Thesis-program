@@ -242,13 +242,8 @@ public class Parser {
 		int position = -1;
 		
 		if ( phrase.size() == 2 ) {
-			if ( phrase.get(0).getType().equals(Type.Token.PRONOMINA) || phrase.get(0).getType().equals(Type.Phrase.PRONOMINAL) ) {
-				phrase.get(0).setFunction(Type.Phrase.Function.PREDIKAT);
-				phrase.get(1).setFunction(Type.Phrase.Function.SUBJEK);
-			} else {
-				phrase.get(0).setFunction(Type.Phrase.Function.SUBJEK);
-				phrase.get(1).setFunction(Type.Phrase.Function.PREDIKAT);
-			}
+			position = ( phrase.get(0).getType().equals(Type.Token.PRONOMINA) || 
+					phrase.get(0).getType().equals(Type.Phrase.PRONOMINAL) ) ? 0 : 1;
 		}
 		
 		if ( phrase.size() > 2 ) {

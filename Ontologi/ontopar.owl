@@ -125,6 +125,9 @@
         <ObjectProperty IRI="/property#letak"/>
     </Declaration>
     <Declaration>
+        <ObjectProperty IRI="/property#terdapat_di"/>
+    </Declaration>
+    <Declaration>
         <ObjectProperty IRI="/property#terletak_di"/>
     </Declaration>
     <Declaration>
@@ -192,6 +195,10 @@
     </Declaration>
     <EquivalentClasses>
         <Class IRI="#Budaya"/>
+        <Class IRI="#Wisata_budaya"/>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Budaya"/>
         <ObjectIntersectionOf>
             <Class IRI="#Produk"/>
             <ObjectComplementOf>
@@ -213,6 +220,10 @@
                 </ObjectUnionOf>
             </ObjectComplementOf>
         </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Kuliner"/>
+        <Class IRI="#Wisata_kuliner"/>
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#Kuliner"/>
@@ -255,6 +266,10 @@
                 <Class IRI="#Makanan"/>
             </ObjectComplementOf>
         </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Pantai"/>
+        <Class IRI="#Wisata_pantai"/>
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#Penginapan"/>
@@ -307,44 +322,17 @@
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#Wisata_alam"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="/property#hasDestination"/>
-            <ObjectUnionOf>
-                <Class IRI="#Gunung"/>
-                <Class IRI="#Pantai"/>
-            </ObjectUnionOf>
-        </ObjectSomeValuesFrom>
-    </EquivalentClasses>
-    <EquivalentClasses>
-        <Class IRI="#Wisata_belanja"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="/property#hasProduct"/>
-            <ObjectUnionOf>
-                <Class IRI="#Kuliner"/>
-                <Class IRI="#Souvenir"/>
-            </ObjectUnionOf>
-        </ObjectSomeValuesFrom>
-    </EquivalentClasses>
-    <EquivalentClasses>
-        <Class IRI="#Wisata_budaya"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="/property#hasRitual"/>
-            <Class IRI="#Budaya"/>
-        </ObjectSomeValuesFrom>
-    </EquivalentClasses>
-    <EquivalentClasses>
-        <Class IRI="#Wisata_kuliner"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="/property#hasProduct"/>
-            <Class IRI="#Kuliner"/>
-        </ObjectSomeValuesFrom>
-    </EquivalentClasses>
-    <EquivalentClasses>
-        <Class IRI="#Wisata_pantai"/>
-        <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="/property#hasDestination"/>
+        <ObjectUnionOf>
+            <Class IRI="#Gunung"/>
             <Class IRI="#Pantai"/>
-        </ObjectSomeValuesFrom>
+        </ObjectUnionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Wisata_belanja"/>
+        <ObjectUnionOf>
+            <Class IRI="#Kuliner"/>
+            <Class IRI="#Souvenir"/>
+        </ObjectUnionOf>
     </EquivalentClasses>
     <SubClassOf>
         <Class IRI="#Wisata_alam"/>
@@ -366,12 +354,6 @@
         <Class IRI="#Wisata_pantai"/>
         <Class IRI="#Wisata_alam"/>
     </SubClassOf>
-    <DisjointClasses>
-        <Class IRI="#Akomodasi"/>
-        <Class IRI="#Gunung"/>
-        <Class IRI="#Pantai"/>
-        <Class IRI="#Produk"/>
-    </DisjointClasses>
     <EquivalentObjectProperties>
         <ObjectProperty IRI="/property#ada_di"/>
         <ObjectProperty IRI="/property#berada_di"/>
@@ -385,12 +367,20 @@
         <ObjectProperty IRI="/property#letak"/>
     </EquivalentObjectProperties>
     <EquivalentObjectProperties>
+        <ObjectProperty IRI="/property#ada_di"/>
+        <ObjectProperty IRI="/property#terdapat_di"/>
+    </EquivalentObjectProperties>
+    <EquivalentObjectProperties>
         <ObjectProperty IRI="/property#berada_di"/>
         <ObjectProperty IRI="/property#hasLocation"/>
     </EquivalentObjectProperties>
     <EquivalentObjectProperties>
         <ObjectProperty IRI="/property#berada_di"/>
         <ObjectProperty IRI="/property#letak"/>
+    </EquivalentObjectProperties>
+    <EquivalentObjectProperties>
+        <ObjectProperty IRI="/property#berada_di"/>
+        <ObjectProperty IRI="/property#terdapat_di"/>
     </EquivalentObjectProperties>
     <EquivalentObjectProperties>
         <ObjectProperty IRI="/property#hasDestination"/>
@@ -401,8 +391,16 @@
         <ObjectProperty IRI="/property#letak"/>
     </EquivalentObjectProperties>
     <EquivalentObjectProperties>
+        <ObjectProperty IRI="/property#hasLocation"/>
+        <ObjectProperty IRI="/property#terdapat_di"/>
+    </EquivalentObjectProperties>
+    <EquivalentObjectProperties>
         <ObjectProperty IRI="/property#hasRitual"/>
         <ObjectProperty IRI="/property#hasTradition"/>
+    </EquivalentObjectProperties>
+    <EquivalentObjectProperties>
+        <ObjectProperty IRI="/property#letak"/>
+        <ObjectProperty IRI="/property#terdapat_di"/>
     </EquivalentObjectProperties>
     <SubObjectPropertyOf>
         <ObjectProperty IRI="/property#ada_di"/>
@@ -422,6 +420,10 @@
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
         <ObjectProperty IRI="/property#letak"/>
+        <ObjectProperty IRI="/property#terletak_di"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="/property#terdapat_di"/>
         <ObjectProperty IRI="/property#terletak_di"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
@@ -429,8 +431,8 @@
         <ObjectProperty IRI="/property#destinasi"/>
     </SubObjectPropertyOf>
     <InverseObjectProperties>
-        <ObjectProperty IRI="/property#hasLocation"/>
         <ObjectProperty IRI="/property#isLocationOf"/>
+        <ObjectProperty IRI="/property#hasLocation"/>
     </InverseObjectProperties>
     <EquivalentDataProperties>
         <DataProperty IRI="/property#bintang"/>
