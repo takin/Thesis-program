@@ -1,0 +1,10 @@
+body {
+	background-color: #eff5ff;
+}
+#container {
+	width: 600px;
+	margin: auto;
+}
+#formContainer {
+	background-color: #555;
+}
