@@ -2,6 +2,7 @@ package SemanticQA.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.codehaus.jettison.json.JSONObject;
 import org.semanticweb.HermiT.Reasoner;
@@ -24,6 +25,7 @@ class ThesisDesktopVersion {
 	
 	
 	public static void main(String args[]){
+//		OntologyQuery.findOnDBPedia();
 		
 		String[] ontologies = new String[]{
 				Ontology.Path.ONTOPAR, 
@@ -46,15 +48,18 @@ class ThesisDesktopVersion {
 				List<SemanticToken> tokenizerResult = tokenizer.tokenize(p);
 				List<Sentence> parsingResult = parser.parse(tokenizerResult);
 				List<Sentence> ps = clone(parsingResult);
+//				Printer.cetakKlausa(ps);
 				List<Sentence> mappingResult = ontologyMapper.map(parsingResult);
-				QueryResult queryResult = queryEngine.execute(mappingResult);
-				JSONObject finalResult = AnswerBuilder.json(ps,queryResult);
+				Map<String, Object> queryResult = queryEngine.execute(mappingResult);
+//				JSONObject finalResult = AnswerBuilder.json(ps,queryResult);
 			
-				System.out.println(finalResult);
+//				Printer.cetakMap(mappingResult);
+//				System.out.println(finalResult);
 			}
 		} catch (Exception e) {
 			
 		}
+		
 	}
 	
 	public static List<Sentence> clone(List<Sentence> items){
@@ -81,16 +86,18 @@ class ThesisDesktopVersion {
 	public static String[] pertanyaan(){
 		String[] pertanyaan = new String[]{
 				"siapakah ali bin dahlan",
+//				"apa itu kabupaten lombok timur"
+//				"di mana letak pantai senggigi"
 //				"siapa yang terpilih menjadi kepala desa danger tahun 2015",
 //				"di mana alamat kantor dinas pendidikan kabupaten lombok timur",
-				"di mana letak pantai tanjung an",
-				"siapakah bupati kabupaten lombok timur",
-				"bupati kabupaten lombok timur siapa",
+//				"di mana letak pantai tanjung an",
+//				"siapakah bupati kabupaten lombok timur",
+//				"bupati kabupaten lombok timur siapa",
 //				"apa saja wisata budaya di lombok",
 //				"di lombok ada wisata budaya apa saja",
 //				"siapa yang menjadi kepala desa danger",
-				"apa saja destinasi wisata yang ada di lombok tengah",
-				"apa saja destinasi wisata yang terdapat di lombok tengah"
+//				"apa saja destinasi wisata yang ada di lombok tengah",
+//				"apa saja destinasi wisata yang terdapat di lombok tengah"
 				};
 		return pertanyaan;
 	}

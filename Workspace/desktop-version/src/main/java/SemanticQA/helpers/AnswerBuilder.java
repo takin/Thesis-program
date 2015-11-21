@@ -68,8 +68,10 @@ public class AnswerBuilder {
 	}
 	
 	private static String normalize(String str) {
+		
 		String arrNormalized[] = str.split("_");
 		String normalized[] = new String[arrNormalized.length];
+		
 		for (int i = 0; i < arrNormalized.length; i++) {
 			String n = arrNormalized[i];
 			normalized[i] = n.substring(0, 1).toUpperCase() + n.substring(1, n.length());
@@ -79,15 +81,19 @@ public class AnswerBuilder {
 	}
 	
 	private static String getSubject(List<Sentence> question) {
+		
 		List<String> str = new ArrayList<String>();
+		
 		for ( Sentence s:question ) {
+			
 			if ( !s.getType().equals(Type.Token.PRONOMINA) && 
 					!s.getType().equals(Type.Phrase.PRONOMINAL) ) {
+				
 				List<SemanticToken> constituents = s.getConstituents();
 				
 				for ( SemanticToken c : constituents ) {
 					String token = c.getToken();
-					if ( c.getType().equals(Type.Token.NOMINA) ) {
+					if ( str.isEmpty() || c.getType().equals(Type.Token.NOMINA) ) {
 						token = normalize(token);
 					}
 					str.add(token); 

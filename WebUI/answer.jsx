@@ -3,7 +3,10 @@ import React,{Component} from 'react';
 export default class AnswerUI extends Component {
 
 	render() {
-		return(<div className="answerModule">{this.props.answer}</div>);
+		if ( this.props.answer === '' ) {
+			return(<div></div>);
+		}
+		return(<div id="answerContainer">{this.props.answer.toString()}</div>);
 	}
 
 }

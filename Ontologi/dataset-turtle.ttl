@@ -1,0 +1,277 @@
+@prefix : <http://semanticweb.techtalk.web.id/ontology/dataset#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dbpe: <http://id.dbpedia.org/resource/> .
+@prefix onto: <http://semanticweb.techtalk.web.id/ontology#> .
+@prefix prop: <http://semanticweb.techtalk.web.id/ontology/property#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://semanticweb.techtalk.web.id/resources> .
+
+<http://semanticweb.techtalk.web.id/resources> rdf:type owl:Ontology ;
+                                               
+                                               rdfs:comment "RDF data kabupaten di Nusa Tenggara Barat. Data terdiri dari data pariwisata, pemerintahan dan informasi geografis" .
+
+
+#################################################################
+#
+#    Object Properties
+#
+#################################################################
+
+
+###  http://semanticweb.techtalk.web.id/ontology/property#hasDestination
+
+prop:hasDestination rdf:type owl:ObjectProperty .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/property#headOf
+
+prop:headOf rdf:type owl:ObjectProperty .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/property#letak
+
+prop:letak rdf:type owl:ObjectProperty .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/property#terdapat_di
+
+prop:terdapat_di rdf:type owl:ObjectProperty .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/property#terletak_di
+
+prop:terletak_di rdf:type owl:ObjectProperty .
+
+
+
+
+
+#################################################################
+#
+#    Data properties
+#
+#################################################################
+
+
+###  http://semanticweb.techtalk.web.id/ontology/property#nama
+
+prop:nama rdf:type owl:DatatypeProperty .
+
+
+
+
+
+#################################################################
+#
+#    Classes
+#
+#################################################################
+
+
+###  http://semanticweb.techtalk.web.id/ontology#Desa
+
+onto:Desa rdf:type owl:Class .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology#Hotel
+
+onto:Hotel rdf:type owl:Class .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology#Kabupaten
+
+onto:Kabupaten rdf:type owl:Class .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology#Kecamatan
+
+onto:Kecamatan rdf:type owl:Class .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology#Makanan
+
+onto:Makanan rdf:type owl:Class .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology#Orang
+
+onto:Orang rdf:type owl:Class .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology#Pantai
+
+onto:Pantai rdf:type owl:Class .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology#Tradisi
+
+onto:Tradisi rdf:type owl:Class .
+
+
+
+
+
+#################################################################
+#
+#    Individuals
+#
+#################################################################
+
+
+###  http://id.dbpedia.org/resource/Kabupaten_Lombok_Barat
+
+dbpe:Kabupaten_Lombok_Barat rdf:type onto:Kabupaten ,
+                                     owl:NamedIndividual .
+
+
+
+###  http://id.dbpedia.org/resource/Kabupaten_Lombok_Tengah
+
+dbpe:Kabupaten_Lombok_Tengah rdf:type onto:Kabupaten ,
+                                      owl:NamedIndividual .
+
+
+
+###  http://id.dbpedia.org/resource/Kabupaten_Lombok_Timur
+
+dbpe:Kabupaten_Lombok_Timur rdf:type onto:Kabupaten ,
+                                     owl:NamedIndividual .
+
+
+
+###  http://id.dbpedia.org/resource/Kabupaten_Lombok_Utara
+
+dbpe:Kabupaten_Lombok_Utara rdf:type onto:Kabupaten ,
+                                     owl:NamedIndividual .
+
+
+
+###  http://id.dbpedia.org/resource/Pantai_Senggigi
+
+dbpe:Pantai_Senggigi rdf:type onto:Pantai ,
+                              owl:NamedIndividual ;
+                     
+                     prop:letak dbpe:Kabupaten_Lombok_Utara ;
+                     
+                     owl:sameAs :Senggigi .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Ali_bin_dahlan
+
+:Ali_bin_dahlan rdf:type onto:Orang ,
+                         owl:NamedIndividual ;
+                
+                prop:nama "Muhammad Ali bin Dahlan"^^xsd:string ;
+                
+                rdfs:comment "Ali Bin Dahlan adalah bupati kabupaten lombok timur yang berasal dari Desa Labuhan Haji Lombok Timur"@id ;
+                
+                prop:headOf dbpe:Kabupaten_Lombok_Timur .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Bau_nyale
+
+:Bau_nyale rdf:type onto:Tradisi ,
+                    owl:NamedIndividual .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Danger
+
+:Danger rdf:type onto:Desa ,
+                 owl:NamedIndividual .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Kumbang
+
+:Kumbang rdf:type onto:Desa ,
+                  owl:NamedIndividual .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Kuta
+
+:Kuta rdf:type onto:Kecamatan ,
+               owl:NamedIndividual ;
+      
+      prop:hasDestination :Selong_belanak .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Pantai_pink
+
+:Pantai_pink rdf:type onto:Pantai ,
+                      owl:NamedIndividual ;
+             
+             prop:letak dbpe:Kabupaten_Lombok_Timur .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Sate_bulayak
+
+:Sate_bulayak rdf:type onto:Makanan ,
+                       owl:NamedIndividual .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Selong_belanak
+
+:Selong_belanak rdf:type onto:Pantai ,
+                         owl:NamedIndividual .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Senggigi
+
+:Senggigi rdf:type onto:Pantai ,
+                   owl:NamedIndividual .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Senggigi_beach
+
+:Senggigi_beach rdf:type onto:Hotel ,
+                         owl:NamedIndividual .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Tanjung_an
+
+:Tanjung_an rdf:type onto:Pantai ,
+                     owl:NamedIndividual .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Tanjung_ringgit
+
+:Tanjung_ringgit rdf:type onto:Pantai ,
+                          owl:NamedIndividual .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Zainul_majdi
+
+:Zainul_majdi rdf:type onto:Orang ,
+                       owl:NamedIndividual .
+
+
+
+
+###  Generated by the OWL API (version 3.5.0) http://owlapi.sourceforge.net
+

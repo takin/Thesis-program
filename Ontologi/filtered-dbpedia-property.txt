@@ -1,0 +1,13 @@
+property yang akan di ekstrak dari dbpedia:
+
+PREFIX dbpedia2: <http://dbpedia.org/property/>
+
+1. dbpedia2:populationTotal
+2. dbpedia2:populationAsOf
+3. dbpedia2:nativeName
+4. dbpedia2:motto
+5. dbpedia2:website
+6. dbpedia2:seat (ibu kota kabupaten)
+7. dbpedia2:areaTotalKm
+8. dbpedia2:areaCode
+9. dbpedia:ontology/country

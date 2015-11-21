@@ -1,6 +1,10 @@
 import React,{Component} from 'react';
 import ReactDOM from 'react-dom';
+import ReactTransition from 'react-addons-css-transition-group';
+import $ from 'jquery';
+
 import AnswerUI from './answer.jsx';
+import {} from './style.css';
 
 class Thesis extends Component {
 
@@ -17,18 +21,18 @@ class Thesis extends Component {
 
 	handleSearch(e) {
 		e.preventDefault();
-		fetch(this.props.serverApi)
-		.then(res => {
-			return res.json();
-		})
-		.then(res => {
-			console.log(res);
-			if ( res.code === 200 ){
+		
+		$.ajax({
+			url:this.props.serverApi + this.state.searchQuery,
+			dataType: 'json',
+			success: function(res) {
 				this.setState({
-					answerText:res.answer,
-					searchQuery: ''
+					answerText:res.answer
 				});
-			}
+			}.bind(this),
+			error: function (xhr, status, err) {
+				console.log(xhr);
+			}.bind(this)
 		});
 	}
 
@@ -38,22 +42,20 @@ class Thesis extends Component {
 
 	render() {
 		return(
-			<h1 className="header">{this.props.title}</h1>
-			<div id="formContainer">
-				<form onSubmit={this.handleSearch}>
-					<input onChange={this.readInput} placeholder="Masukkan pertanyaan.." type="text" />
-					<input type="submit" onClick={this.handleSearch} value="Cari" />
-				</form>
+			<div id="mainContainer">
+				<div id="formContainer">
+					<h1 className="header">Question Aswering<br/>Data Kabupaten di Nusa Tenggara Barat</h1>
+					<form onSubmit={this.handleSearch}>
+						<input onChange={this.readInput} placeholder="Masukkan pertanyaan.." type="text" />
+						<button onClick={this.handleSearch}>Cari</button>
+					</form>
+				</div>
+				<ReactTransition transitionName="example" transitionEnterTimeout={600} transitionLeaveTimeout={500}>
+					<AnswerUI answer={this.state.answerText} />
+				</ReactTransition>
 			</div>
-			<AnswerUI answer={this.state.answerText} />
 		);
 	}
 }
 
-Thesis.defaultProps = {
-	title: "Sistem Question Aswering Data Kabupaten di Nusa Tenggara Barat",
-	serverApi: "/data.json"
-};
-
-var node = document.getElementById('container');
-ReactDOM.render(<Thesis />, node);
+ReactDOM.render(<Thesis serverApi="http://localhost:8090/web-version/api/qa?q=" />, document.getElementById('container'));

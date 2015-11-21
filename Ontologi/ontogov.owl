@@ -139,6 +139,9 @@
         <DataProperty IRI="/property#kode_pos"/>
     </Declaration>
     <Declaration>
+        <DataProperty IRI="/property#nama"/>
+    </Declaration>
+    <Declaration>
         <DataProperty IRI="/property#postCode"/>
     </Declaration>
     <Declaration>

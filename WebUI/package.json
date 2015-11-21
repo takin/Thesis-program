@@ -4,13 +4,15 @@
   "description": "semantic web based question answering",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --presets",
+    "start": "webpack-dev-server --output-path=thesisfinal --output-file=bundle.js --progress --color",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "syamsul muttaqin",
   "license": "MIT",
   "dependencies": {
+    "jquery": "^2.1.4",
     "react": "^0.14.2",
+    "react-addons-css-transition-group": "^0.14.3",
     "react-bootstrap": "^0.28.1",
     "react-dom": "^0.14.2"
   },
