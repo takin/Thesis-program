@@ -15,7 +15,7 @@ class Thesis extends Component {
 		this.readInput = this.readInput.bind(this);
 		this.state = {
 			searchQuery: '',
-			answerText: ''
+			answerObject: ''
 		};
 	}
 
@@ -27,7 +27,7 @@ class Thesis extends Component {
 			dataType: 'json',
 			success: function(res) {
 				this.setState({
-					answerText:res.answer
+					answerObject:res.answer
 				});
 			}.bind(this),
 			error: function (xhr, status, err) {
@@ -51,7 +51,7 @@ class Thesis extends Component {
 					</form>
 				</div>
 				<ReactTransition transitionName="example" transitionEnterTimeout={600} transitionLeaveTimeout={500}>
-					<AnswerUI answer={this.state.answerText} />
+					<AnswerUI answer={this.state.answerObject} />
 				</ReactTransition>
 			</div>
 		);

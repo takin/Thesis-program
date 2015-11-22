@@ -35,7 +35,7 @@ import sun.net.www.protocol.http.HttpURLConnection;
 @Path("/qa")
 public class Main {
 	
-	private static JSONObject query(String question) throws JSONException {
+	private static JSONObject query(String question) throws Exception {
 		
 		JSONObject finalResult = new JSONObject();
 		String[] ontologies = new String[]{
@@ -60,7 +60,7 @@ public class Main {
 		
 		Map<String, Object> queryResult = queryEngine.execute(mappingResult);
 		finalResult = AnswerBuilder.json(bufferPrseResult, queryResult);
-			
+		
 		return finalResult;
 	}
 	
@@ -81,7 +81,7 @@ public class Main {
 		try {
 			JSONObject finalResult = query(question);
 			responseObject = createResponse(finalResult, header, HttpURLConnection.HTTP_OK);
-		} catch (JSONException e) {
+		} catch (Exception e) {
 			responseObject = createResponse(e.getMessage(), header, HttpURLConnection.HTTP_INTERNAL_ERROR);
 		}
 		
@@ -89,6 +89,26 @@ public class Main {
 	}
 	
 	private static Response createResponse(JSONObject res, String requestHeader, int code) {
+		
+		JSONObject response = new JSONObject();
+		try {
+			response.put("code", code);
+			
+			///////////////
+			// Jika proses error
+			// maka isi field message dengan pesan error
+			/////////////////
+			if ( res.has("message") ) {
+				response.put("message", res.get("message"));
+			} else {
+				response.put("message", "OK");
+				response.put("answer", res);				
+			}
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
 		ResponseBuilder rb = Response.ok()
 								.header("Access-Control-Allow-Origin", "*")
 								.header("Access-Control-Allow-Methods", "GET");
@@ -97,13 +117,12 @@ public class Main {
 			rb.header("Access-Control-Allow-Headers", requestHeader);
 		}
 		
-		return rb.status(200).entity(res).build();
+		return rb.status(200).entity(response).build();
 	}
 	
 	private static Response createResponse(String errorMessage, String requestHeader, int code) {
 		JSONObject obj = new JSONObject();
 		try {
-			obj.put("code", code);
 			obj.put("message", errorMessage);
 		} catch (JSONException e) {
 			e.printStackTrace();

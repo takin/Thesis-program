@@ -15,7 +15,7 @@ body {
 }
 
 #formContainer {
-	margin: auto;
+	margin: 0 auto 40px auto;
 }
 
 #formContainer input[type=text] {
@@ -40,9 +40,9 @@ body {
 #formContainer button:hover {
 	background-color: #9acf77;
 }
-#answerContainer {
+.answerContainer {
 	text-align: left;
-	margin-top: 40px;
+	margin: 10px 0;
 	background-color: #f5fcf5;
 	padding: 10px;
 	box-shadow: 0 0 1px #cfffcf;
