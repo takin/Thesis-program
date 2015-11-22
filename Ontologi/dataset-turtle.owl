@@ -142,14 +142,18 @@ dbpe:Kabupaten_Lombok_Barat rdf:type onto:Kabupaten ,
 ###  http://id.dbpedia.org/resource/Kabupaten_Lombok_Tengah
 
 dbpe:Kabupaten_Lombok_Tengah rdf:type onto:Kabupaten ,
-                                      owl:NamedIndividual .
+                                      owl:NamedIndividual ;
+                             
+                             owl:sameAs :Lombok_Tengah .
 
 
 
 ###  http://id.dbpedia.org/resource/Kabupaten_Lombok_Timur
 
 dbpe:Kabupaten_Lombok_Timur rdf:type onto:Kabupaten ,
-                                     owl:NamedIndividual .
+                                     owl:NamedIndividual ;
+                            
+                            owl:sameAs :Lombok_Timur .
 
 
 
@@ -168,6 +172,24 @@ dbpe:Pantai_Senggigi rdf:type onto:Pantai ,
                      prop:letak dbpe:Kabupaten_Lombok_Utara ;
                      
                      owl:sameAs :Senggigi .
+
+
+
+###  http://id.dbpedia.org/resource/Tanjung_Ringgit
+
+dbpe:Tanjung_Ringgit rdf:type onto:Pantai ,
+                              owl:NamedIndividual ;
+                     
+                     prop:letak dbpe:Kabupaten_Lombok_Timur .
+
+
+
+###  http://id.dbpedia.org/resource/Pantai_Kuta,_Lombok
+
+<http://id.dbpedia.org/resource/Pantai_Kuta,_Lombok> rdf:type onto:Pantai ,
+                                                              owl:NamedIndividual ;
+                                                     
+                                                     prop:letak dbpe:Kabupaten_Lombok_Tengah .
 
 
 
@@ -214,6 +236,27 @@ dbpe:Pantai_Senggigi rdf:type onto:Pantai ,
 
 
 
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Lombok_Tengah
+
+:Lombok_Tengah rdf:type onto:Kabupaten ,
+                        owl:NamedIndividual .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Lombok_Timur
+
+:Lombok_Timur rdf:type onto:Pantai ,
+                       owl:NamedIndividual .
+
+
+
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Pantai_Kuta
+
+:Pantai_Kuta rdf:type onto:Pantai ,
+                      owl:NamedIndividual .
+
+
+
 ###  http://semanticweb.techtalk.web.id/ontology/dataset#Pantai_pink
 
 :Pantai_pink rdf:type onto:Pantai ,
@@ -251,17 +294,12 @@ dbpe:Pantai_Senggigi rdf:type onto:Pantai ,
 
 
 
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Tanjung_an
+###  http://semanticweb.techtalk.web.id/ontology/dataset#Tanjung_An
 
-:Tanjung_an rdf:type onto:Pantai ,
-                     owl:NamedIndividual .
-
-
-
-###  http://semanticweb.techtalk.web.id/ontology/dataset#Tanjung_ringgit
-
-:Tanjung_ringgit rdf:type onto:Pantai ,
-                          owl:NamedIndividual .
+:Tanjung_An rdf:type onto:Pantai ,
+                     owl:NamedIndividual ;
+            
+            prop:letak dbpe:Kabupaten_Lombok_Tengah .
 
 
 

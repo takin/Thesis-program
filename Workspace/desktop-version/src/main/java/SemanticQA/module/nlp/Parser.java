@@ -119,7 +119,7 @@ public class Parser {
 				break;
 			case Type.Token.PRONOMINA:
 				
-				if ( previousToken.getType().equals(Type.Token.PREPOSISI) ) {
+				if ( previousToken.getType().matches("(Preposisi|Pronomina)") ) {
 					tempPhraseType = Type.Phrase.PRONOMINAL;
 				}
 				
@@ -201,6 +201,65 @@ public class Parser {
 		
 		if ( clause.size() > 2 ) {
 			
+			clause.get(predicatePosition).setFunction(Type.Phrase.Function.PREDIKAT);
+			
+			///////
+			// jika posisi predikat bukan di urutan pertama dan terahir (ada di tengah2 kalimat)
+			/////
+			if ( (predicatePosition > 0) && (predicatePosition < (clause.size() - 1))) {
+				
+				
+				
+				if ( clause.get(predicatePosition).getType().matches("(F?V)")) {
+					/////
+					// tentukan fungsi frasa yang ada di sebelah kiri predikat
+					///////
+					switch (clause.get(predicatePosition - 1).getType()) {
+					case Type.Token.PREPOSISI:
+					case Type.Phrase.PREPOSISIONAL:
+						clause.get(predicatePosition - 1).setFunction(Type.Phrase.Function.OBJEK);
+						break;
+						
+					case Type.Token.PRONOMINA:
+					case Type.Phrase.PRONOMINAL:
+					case Type.Phrase.NOMINAL:
+					case Type.Token.NOMINA:
+					default:
+						clause.get(predicatePosition - 1).setFunction(Type.Phrase.Function.SUBJEK);
+						break;
+					}
+					
+					switch (clause.get(predicatePosition + 1).getType()) {
+					case Type.Token.NOMINA:
+					case Type.Phrase.NOMINAL:
+					default:
+						if ( clause.get(predicatePosition - 1).getFunction().equals(Type.Phrase.Function.SUBJEK) ) {
+							clause.get(predicatePosition + 1).setFunction(Type.Phrase.Function.OBJEK);
+						} else {
+							clause.get(predicatePosition + 1).setFunction(Type.Phrase.Function.SUBJEK);
+						}
+						break;
+					case Type.Token.NUMERALIA:
+					case Type.Phrase.NUMERALIA:
+					case Type.Token.PREPOSISI:
+					case Type.Phrase.PREPOSISIONAL:
+						clause.get(predicatePosition + 1).setFunction(Type.Phrase.Function.KETERANGAN);
+						break;
+					}
+					
+					if ( clause.size() > (predicatePosition + 2 ) ) {
+						if(clause.get(predicatePosition + 2).getType().matches("(Numeralia|FNUM)")) {
+							clause.get(predicatePosition + 2).setFunction(Type.Phrase.Function.KETERANGAN);
+						} else {
+							clause.get(predicatePosition + 2).setFunction(Type.Phrase.Function.PELENGKAP);
+						}
+					}
+				}
+				
+			}
+			
+			
+			/*
 			if ( predicatePosition != 0 ) {
 				
 				clause.get(predicatePosition - 1).setFunction(Type.Phrase.Function.SUBJEK);
@@ -233,6 +292,7 @@ public class Parser {
 					}
 				}
 			}
+			*/
 		}
 		
 		return clause;

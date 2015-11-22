@@ -2,13 +2,17 @@ package SemanticQA.helpers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import SemanticQA.constant.Type;
+import SemanticQA.model.QueryResultModel;
 import SemanticQA.model.SemanticToken;
 import SemanticQA.model.Sentence;
+import SemanticQA.module.sw.OntologyQuery.ResultKey;
 import de.derivo.sparqldlapi.QueryArgument;
 import de.derivo.sparqldlapi.QueryBinding;
 import de.derivo.sparqldlapi.QueryResult;
@@ -16,45 +20,82 @@ import de.derivo.sparqldlapi.types.QueryArgumentType;
 
 public class AnswerBuilder {
 	
-	public static JSONObject json(List<Sentence> question, QueryResult query) {
+	public static JSONObject json(List<Sentence> question, Map<String, Object> result) {
+		
 		JSONObject res = new JSONObject();
+		JSONArray inferedFacts = new JSONArray();
 		
 		String answer = getSubject(question) + " adalah";
 		
+		QueryResult query = (QueryResult) result.get(ResultKey.SPARQLDL);
+		List<QueryResultModel> inferedObjects = (List<QueryResultModel>) result.get(ResultKey.INFERED_DATA);
+		
+		for ( QueryResultModel resultModel : inferedObjects ) {
+			
+			JSONObject item = new JSONObject();
+			JSONObject itemData = new JSONObject();
+			
+			Map<String,String> props = resultModel.getData();
+			
+			for( String key : props.keySet() ) {
+				String shortenedKey = shorten(key);
+				String shortnedValue = shorten(props.get(key));
+				if ( !shortenedKey.matches("(type)") ) {
+					try {
+					itemData.put(shortenedKey, shortnedValue);
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			
+			
+			if ( itemData.length() > 0 ) {
+				try {
+					item.put("about", shorten(resultModel.getSubject()));
+					item.put("data", itemData);
+					inferedFacts.put(item);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+			
+		}
+		
+		boolean classNotBeenAdded = true;
+		boolean subjectNotBeenAdded = true;
+		boolean objectNotBeenAdded = true;
+		
 		for ( QueryBinding b:query ) {
-			QueryArgument cls = new QueryArgument(QueryArgumentType.VAR, "type");
+			QueryArgument cls = new QueryArgument(QueryArgumentType.VAR, "class");
 			QueryArgument sub = new QueryArgument(QueryArgumentType.VAR, "subject");
-			QueryArgument ind = new QueryArgument(QueryArgumentType.VAR, "object");
-			QueryArgument val = new QueryArgument(QueryArgumentType.VAR, "value");
-	
-			if ( b.isBound(sub) ) {
+			QueryArgument obj = new QueryArgument(QueryArgumentType.VAR, "object");
+			
+			if ( b.isBound(sub) && subjectNotBeenAdded ) {
 				String s = shorten(b.get(sub).toString());
 				s = normalize(s);
-				answer += " <b>" + s + "</b>";
+				answer += " " + s;
+				subjectNotBeenAdded = false;
 			}
 			
-			if ( b.isBound(cls) ) {
+			if ( b.isBound(cls) && classNotBeenAdded ) {
 				String c = shorten(b.get(cls).toString());
 				c = normalize(c);
-				answer += " <b>" + c + "</b>";
+				answer += " " + c;
+				classNotBeenAdded = false;
 			}
 			
-			if ( b.isBound(ind) ) {
-				String i = shorten(b.get(ind).toString());
+			if ( b.isBound(obj) && objectNotBeenAdded ) {
+				String i = shorten(b.get(obj).toString());
 				i = normalize(i);
-				answer += " <b>" + i + "</b>";
-			}
-			
-			if (b.isBound(val)) {
-				String v = shorten(b.get(val).toString());
-				v = normalize(v);
-				answer += "<b>" + v + "</b>";
+				answer += " " + i;
+				objectNotBeenAdded = false;
 			}
 		}
 		
 		try {
-			res.put("statusCode", 200);
-			res.put("answer", answer);
+			res.put("text", answer);
+			res.put("inferedFacts", inferedFacts);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -63,7 +104,7 @@ public class AnswerBuilder {
 	}
 	
 	private static String shorten(String uri) {
-		String sf = uri.replaceAll("^[a-z].*.#", "");
+		String sf = uri.replaceAll("^[a-z].*.(#|/)", "");
 		return sf;
 	}
 	

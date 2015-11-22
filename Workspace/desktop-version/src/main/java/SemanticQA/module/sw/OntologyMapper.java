@@ -41,7 +41,7 @@ public class OntologyMapper extends OntologyLoader {
 	public List<Sentence> map(List<Sentence> models){
 		return doMapping(new ArrayList<SemanticToken>(), models, new ArrayList<Sentence>());
 	}
-
+	
 	private List<Sentence> doMapping(List<SemanticToken> prevToken, List<Sentence> models, List<Sentence> result) {
 		
 		Sentence currentPhrase = models.remove(0);
@@ -64,8 +64,26 @@ public class OntologyMapper extends OntologyLoader {
 			// Konstituen harus diganti (bukan ditambahkan), karena ada kemungkinan beberapa		//
 			// konstituen akan berubah setelah mengalami proses mapping, misalanya lombok dan timur	//
 			// akan berubah menjadi lombok_timur													//
+			//																						//
+			// Sebelum melakukan penggantian, cek terlebih dahulu isi dari array list,				//
+			// buang token yang berdekatan yang memiliki tipe yang sama, karena secara logika 		//
+			// keduanya kemungkinan besar merupakan individual yang sama (memliki hubungan owl:sameAs)
+			// misal:																				//
+			// [terdapat_di, kabuaten, lombok_tengah, kabupaten_lombok_tengah]						//
+			// maka buang token lombok_tengah. Tujuan dari proses ini adalah untuk mengurangi		// 
+			// tingkat kompleksitas proses pembentukan query SPARQL-DL								//
 			//////////////////////////////////////////////////////////////////////////////////////////
-			currentPhrase.replaceConstituent(constituents);
+			
+			List<SemanticToken> cleanToken = new ArrayList<SemanticToken>();
+			
+			for ( int i = 0; i < constituents.size(); i++ ) {
+				
+				SemanticToken currentToken = constituents.get(i);
+				if ( cleanToken.isEmpty() || !currentToken.getOWLType().equals(cleanToken.get(cleanToken.size() - 1).getOWLType()) ) {
+					cleanToken.add(currentToken);
+				}
+			}
+			currentPhrase.replaceConstituent(cleanToken);
 		}
 		
 		result.add(currentPhrase);
@@ -73,7 +91,6 @@ public class OntologyMapper extends OntologyLoader {
 		if ( models.size() > 0 ) {
 			doMapping(currentPhrase.getConstituents(), models, result);
 		}
-		
 		return result;
 	}
 	
@@ -92,6 +109,7 @@ public class OntologyMapper extends OntologyLoader {
 			// jika prevTokens tidak kosong, maka coba untuk melakukan konkatinasi
 			if ( !prevTokens.isEmpty() ) {
 				List<SemanticToken> concatinatedLists = doConcatination(prevTokens, currentToken);
+				
 				if ( concatinatedLists.size() > 0 ) {
 					result.addAll(concatinatedLists);
 				}
@@ -236,25 +254,25 @@ public class OntologyMapper extends OntologyLoader {
 		switch(type){
 		case Type.Ontology.CLASS:
 			for(OWLClass obj: super.ontology.getClassesInSignature()){
-				if(getShortForm(obj).toString().toLowerCase().equals(name.toLowerCase())){
+				if(getShortForm(obj).toString().toLowerCase().equalsIgnoreCase(name.toLowerCase())){
 					return obj;
 				}
 			}
 		case Type.Ontology.OBJECT_PROPERTY:
 			for(OWLObjectProperty obj: super.ontology.getObjectPropertiesInSignature()){
-				if(getShortForm(obj).toString().toLowerCase().equals(name.toLowerCase())){
+				if(getShortForm(obj).toString().toLowerCase().equalsIgnoreCase(name.toLowerCase())){
 					return obj;
 				}
 			}
 		case Type.Ontology.DATATYPE_PROPERTY:
 			for(OWLDataProperty obj: super.ontology.getDataPropertiesInSignature()){
-				if(getShortForm(obj).toString().toLowerCase().equals(name.toLowerCase())){
+				if(getShortForm(obj).toString().toLowerCase().equalsIgnoreCase(name.toLowerCase())){
 					return obj;
 				}
 			}
 		case Type.Ontology.INDIVIDUAL:
 			for(OWLNamedIndividual obj: super.ontology.getIndividualsInSignature()){
-				if(getShortForm(obj).toString().toLowerCase().equals(name.toLowerCase())){
+				if(getShortForm(obj).toString().toLowerCase().equalsIgnoreCase(name.toLowerCase())){
 					return obj;
 				}
 			}
@@ -285,16 +303,21 @@ public class OntologyMapper extends OntologyLoader {
 	
 	public boolean isClass(String prop){
 		
+		Set<OWLClass> classes = super.ontology.getClassesInSignature();
+		
 		if(isURI(prop)){
-			for(OWLClass cls: super.ontology.getClassesInSignature()){
-				if(cls.getIRI().toString().equals(prop)){
+			for(OWLClass cls: classes){
+				if(cls.getIRI().toString().equalsIgnoreCase(prop)){
 					return true;
 				}
 			}
 		} else {
-			prop = StringManipulation.concate(prop, StringManipulation.MODEL_UNDERSCORE);
-			for(OWLClass cls: super.ontology.getClassesInSignature()){
-				if(shortForm.getShortForm(cls).equals(prop)){
+			
+			if ( prop.contains(" ") ) {
+				prop = StringManipulation.concate(prop, StringManipulation.MODEL_UNDERSCORE);
+			}
+			for(OWLClass cls: classes){
+				if(shortForm.getShortForm(cls).equalsIgnoreCase(prop)){
 					return true;
 				}
 			}
@@ -304,17 +327,22 @@ public class OntologyMapper extends OntologyLoader {
 	
 	public boolean isDatatypeProperty(String prop){
 		
+		Set<OWLDataProperty> datatypeProperties = super.ontology.getDataPropertiesInSignature();
+		
 		if(isURI(prop)){
-			for(OWLDataProperty dp: super.ontology.getDataPropertiesInSignature()){
-				if(dp.getIRI().toString().equals(prop)){
+			for(OWLDataProperty dp: datatypeProperties){
+				if(dp.getIRI().toString().equalsIgnoreCase(prop)){
 					return true;
 				}
 			}
 		} else {
-			prop = StringManipulation.concate(prop, StringManipulation.MODEL_CAMELCASE);
 			
-			for(OWLDataProperty dp: super.ontology.getDataPropertiesInSignature()){
-				if(shortForm.getShortForm(dp).equals(prop)){
+			if ( prop.contains(" ") ) {
+				prop = StringManipulation.concate(prop, StringManipulation.MODEL_CAMELCASE);
+			}
+			
+			for(OWLDataProperty dp: datatypeProperties){
+				if(shortForm.getShortForm(dp).equalsIgnoreCase(prop)){
 					return true;
 				}
 			}
@@ -325,17 +353,21 @@ public class OntologyMapper extends OntologyLoader {
 	
 	public boolean isObjectProperty(String prop){
 		
+		Set<OWLObjectProperty> objectProperties = super.ontology.getObjectPropertiesInSignature();
+		
 		if(isURI(prop)){
-			for(OWLObjectProperty op: ontology.getObjectPropertiesInSignature()){
-				if(op.getIRI().toString().equals(prop)){
+			for(OWLObjectProperty op: objectProperties){
+				if(op.getIRI().toString().equalsIgnoreCase(prop)){
 					return true;
 				}
 			}
 		} else {
-			prop = StringManipulation.concate(prop, StringManipulation.MODEL_CAMELCASE);
+			if ( prop.contains(" ") ) {
+				prop = StringManipulation.concate(prop, StringManipulation.MODEL_CAMELCASE);
+			}
 			
-			for(OWLObjectProperty op: ontology.getObjectPropertiesInSignature()){
-				if(shortForm.getShortForm(op).equals(prop)){
+			for(OWLObjectProperty op: objectProperties){
+				if(shortForm.getShortForm(op).equalsIgnoreCase(prop)){
 					return true;
 				}
 			}
@@ -345,17 +377,22 @@ public class OntologyMapper extends OntologyLoader {
 	
 	public boolean isIndividual(String prop){
 		
+		Set<OWLNamedIndividual> individuals = super.ontology.getIndividualsInSignature();
+		
 		if(isURI(prop)){
-			for(OWLNamedIndividual in: ontology.getIndividualsInSignature()){
-				if(in.getIRI().toString().equals(prop)){
+			for(OWLNamedIndividual in: individuals){
+				if(in.getIRI().toString().equalsIgnoreCase(prop)){
 					return true;
 				}
 			}
 		} else {
-			prop = StringManipulation.concate(prop, StringManipulation.MODEL_UNDERSCORE);
 			
-			for(OWLNamedIndividual in: ontology.getIndividualsInSignature()){
-				if(shortForm.getShortForm(in).equals(prop)){
+			if ( prop.contains(" ") ) {
+				prop = StringManipulation.concate(prop, StringManipulation.MODEL_UNDERSCORE);
+			}
+			
+			for(OWLNamedIndividual in:individuals){
+				if(shortForm.getShortForm(in).equalsIgnoreCase(prop)){
 					return true;
 				}
 			}

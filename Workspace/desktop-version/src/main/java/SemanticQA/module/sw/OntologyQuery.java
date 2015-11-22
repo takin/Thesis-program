@@ -6,35 +6,27 @@
 package SemanticQA.module.sw;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.openrdf.OpenRDFException;
 import org.openrdf.model.Value;
-import org.openrdf.model.vocabulary.OWL;
-import org.openrdf.model.vocabulary.RDF;
-import org.openrdf.model.vocabulary.RDFS;
-import org.openrdf.query.Binding;
 import org.openrdf.query.BindingSet;
 import org.openrdf.query.QueryLanguage;
 import org.openrdf.query.TupleQuery;
 import org.openrdf.query.TupleQueryResult;
-import org.openrdf.query.algebra.Str;
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryConnection;
-import org.openrdf.repository.RepositoryException;
-import org.openrdf.repository.config.RepositoryConfigSchema;
 import org.openrdf.repository.sail.SailRepository;
 import org.openrdf.repository.sparql.SPARQLRepository;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.sail.memory.MemoryStore;
-import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
@@ -45,9 +37,9 @@ import de.derivo.sparqldlapi.QueryEngine;
 import de.derivo.sparqldlapi.QueryResult;
 import de.derivo.sparqldlapi.exceptions.QueryEngineException;
 import de.derivo.sparqldlapi.exceptions.QueryParserException;
-import de.derivo.sparqldlapi.types.QueryArgumentType;
 import SemanticQA.constant.Ontology;
 import SemanticQA.constant.Type;
+import SemanticQA.model.QueryResultModel;
 import SemanticQA.model.SemanticToken;
 import SemanticQA.model.Sentence;
 
@@ -61,12 +53,8 @@ public class OntologyQuery {
 	private String queryPattern = "";
 	
 	public static abstract class ResultKey {
-		public static final String MAIN = "main";
-		public static final String MAIN_TEXT = "mainText";
-		public static final String MAIN_DATA = "mainData";
-		public static final String ADDITIONAL = "additional";
-		public static final String ADDITIONAL_INSTANCE = "additionalInstance";
-		public static final String ADDITIONAL_DATA = "additionalData";
+		public static final String SPARQLDL = "sparqldl";
+		public static final String INFERED_DATA = "inferedData";
 	}
 	
 	///////////////////////////
@@ -75,10 +63,15 @@ public class OntologyQuery {
 	// tentang subjek yang bersangkutan
 	// URI ini didapatkan pada saat proses pembentukan query dalam method buidQuery()
 	////////////////////////////////////////////////
-	private OWLObject subjectPath;
+	private List<String> inferredData;
+	private OWLReasoner reasoner;
+	private OntologyMapper mapper;
 	
 	public OntologyQuery(OntologyMapper mapper, OWLReasoner reasoner) {
 		this.queryEngine =  QueryEngine.create(mapper.ontology.getOWLOntologyManager(), reasoner);
+		this.reasoner = reasoner;
+		this.mapper = mapper;
+		inferredData = new ArrayList<String>();
 	}
 	
 	public Map<String, Object> execute(List<Sentence> model){
@@ -89,14 +82,9 @@ public class OntologyQuery {
 		// ----------------------------
 		// data terdiri berupa:
 		// {
-		//		main: { // hashmap
-		//			text:[] // arraylist pembentuk jawaban
-		//			data:{ // hashmap
-						// data hasil query sparql
-		//			}
-		//		}
-		//		additional: [ list map
-		//			instance: // nama instance
+		//		text:[] // array list "answerText" hasil query sparql dl,
+		//		additionalData: [ list map
+		//			about: // nama instance
 		//			data:{ // hashmap
 		//			}
 		//		]
@@ -107,22 +95,20 @@ public class OntologyQuery {
 		/////////////////////////
 		Map<String,Object> result = new HashMap<String, Object>();
 		
-		List<String> mainAnswerText = new ArrayList<String>();
+		///////////////////////////////////////////
+		//		listOfAdditionalData: [ list map
+		//			about: // nama instance
+		//			data:{ // hashmap
+		//			}
+		//		]
+		//////////////////////////////////////////
+		List<QueryResultModel> listOfInferedData = new ArrayList<QueryResultModel>();
 		
-		///////////////////
-		// Arraylist untuk menyimpan URI dari instance hasil query
-		// yang berkaitan dengan subjek pertanyaan.
-		//
-		// URI ini selanjutnya akan digunakan untuk melakukan query untuk mengambil
-		// data mengenai objek yang bersangkutan, data ini nantinya akan menjadi 
-		// data additional dalam hashmap result
-		//////////////////////
-		List<String> additionalInfoPath = new ArrayList<String>();
+		QueryResult sparqldlQueryResult = null;
 		
 		try {
 			Query query = buildQuery(model);
-			QueryResult sparqldlQueryResult = queryEngine.execute(query); 
-			
+			sparqldlQueryResult = queryEngine.execute(query);
 			
 			for ( QueryBinding queryBinding : sparqldlQueryResult ) {
 				
@@ -137,11 +123,6 @@ public class OntologyQuery {
 					
 						String itemValue = item.getValue();
 						
-						////////////////////////
-						// masukkan semua hasil binding ke dalam array mainAnswerText
-						// karena objek ini akan digunakan untuk membentuk text jawaban
-						////////////////////////
-						mainAnswerText.add(itemValue);
 						
 						////////////////////
 						// Untuk objek yang akan dimasukkan ke dalam array additional info
@@ -152,46 +133,96 @@ public class OntologyQuery {
 						// sesame API.
 						// 
 						// Adapun query yang dilakukan nantinya dapat berupa query internal ontologi
-						// ataupun terhadap endpoint DPBEDIA Indonesia (tergantung URI dari objek yang berssangkutan
+						// ataupun terhadap endpoint DBPEDIA Indonesia (tergantung URI dari objek yang berssangkutan
 						/////////////////////////////////
 						if ( arg.getValue().matches("(subject|object)") ) {
-							additionalInfoPath.add(itemValue);
+							inferredData.add(itemValue);
 						}
 					}
 				}
 			}
 			
-			
-			Map<String, String> additionalData = null;
-			
-			for ( String additionalObject : additionalInfoPath ) {
-				additionalData = doSPARQLQuery(additionalObject);
+			for ( String inferredObject : inferredData ) {
+				
+				////////////////////////////////
+				// Jika individu bukan berasal dari dbpedia
+				// maka lakukan pengecekan untuk mencari individu yang sama
+				// (individu dengan property owl:sameAs) yang berasal dari dbpedia
+				// Jika ditemukan, maka lakukan query sparql terhadap individu yang 
+				// berasal dari dbpedia!!
+				//////////////////////////////////
+				if ( !inferredObject.matches("^(<?http://id.dbpedia).*") ) {
+					
+					if( inferredObject.startsWith("<") ) {
+						inferredObject = inferredObject.substring(1, inferredObject.length());
+					}
+					
+					if ( inferredObject.endsWith(">") ) {
+						inferredObject = inferredObject.substring(0, inferredObject.length() - 1);
+					}
+					
+					IRI iri = IRI.create(inferredObject);
+					
+					OWLNamedIndividual i = mapper.dataFactory.getOWLNamedIndividual(iri);
+					Set<OWLNamedIndividual> listOfSameIndividuals = this.reasoner.getSameIndividuals(i).getEntities();
+					
+					if (  listOfSameIndividuals.size() > 0 ) {
+						for ( OWLNamedIndividual individu : listOfSameIndividuals ) {
+							if ( individu.toString().matches("^(<?http://id.dbpedia).*") ) {
+								
+								String stringify = individu.toString();
+								stringify = stringify.substring(1, stringify.length() - 1);
+								/////////
+								// cek apakah individual yang sama sudah ada di dalam arraylist inferedList atau tidak
+								// Jika ada maka abaikan
+								////////////
+								if ( !inferredData.contains(stringify) ){
+									inferredObject = stringify;
+								}
+								
+								break;
+							}
+						}
+					}
+					
+				}
+				
+				
+				QueryResultModel queryResultModel = doSPARQLQuery(inferredObject);
+				listOfInferedData.add(queryResultModel);
 			}
-			
-			Map<String,String> subjectData = doSPARQLQuery(subjectPath);
-			
-			for ( String key:subjectData.keySet() ) {
-				System.out.println("mainData -> " + key + " <-> " + subjectData.get(key));
-			}
-			
-			for ( String key: additionalData.keySet() ) {
-				System.out.println("addData -> " + key + " <-> " + additionalData.get(key));
-			}
-
 			
 		} catch (QueryParserException | QueryEngineException e) {
-			System.out.println("Error: " + e.getMessage());
+			System.out.println("Failed to construct query, due to Error: " + e.getMessage());
 		}
+		
+		result.put(ResultKey.SPARQLDL, sparqldlQueryResult);
+		result.put(ResultKey.INFERED_DATA, listOfInferedData);
 		
 		return result;
 	}
 	
-	
-	private Map<String, String> doSPARQLQuery(String instancePath) {
-		Map<String, String> result = new HashMap<String, String>();
+	private QueryResultModel doSPARQLQuery(String instancePath) {
+		QueryResultModel result = new QueryResultModel();
+		Map<String, String> data = new HashMap<String, String>();
+		
 		String query = "";
 		Repository repo = null;
 		RepositoryConnection conn = null;
+		
+		///////////////////////////
+		// karena default kembalian hasil mapping di dalam ontology adalah
+		// <http://foo.bar/>
+		// maka untuk menyeragamkan uri dengan hasil query dari dpbedia,
+		// hapus "<" dan ">" agar proses pembentukan query seragam
+		////////////////////////////
+		if ( instancePath.startsWith("<") ) {
+			instancePath = instancePath.substring(1, instancePath.length());
+		}
+		
+		if ( instancePath.endsWith(">") ) {
+			instancePath = instancePath.substring(0, instancePath.length() - 1);
+		}
 		
 		if ( instancePath.matches("^(http://id.dbpedia.org).*") ) {
 			
@@ -213,7 +244,7 @@ public class OntologyQuery {
 		if ( !instancePath.matches("^(http://id.dbpedia.org).*") ) {
 			
 			try {
-				File location = new File("/Users/syamsul/Documents/Thesis-program/Ontologi/dataset-turtle.ttl");
+				File location = new File("/Users/syamsul/Documents/Thesis-program/Ontologi/dataset-turtle.owl");
 				
 				repo = new SailRepository(new MemoryStore());
 				repo.initialize();
@@ -231,9 +262,9 @@ public class OntologyQuery {
 					+ "<" + instancePath + "> ?prop ?value . \n"
 					+ "}";
 		}
+		
 		try {
-
-			
+	
 			TupleQuery tquery = conn.prepareTupleQuery(QueryLanguage.SPARQL, query);
 			
 			try(TupleQueryResult tr = tquery.evaluate()) {
@@ -252,7 +283,7 @@ public class OntologyQuery {
 						// ambil hanya property yang memiliki nilai
 						///////
 						if ( val.stringValue().matches("[a-zA-Z0-9]+.*") ) {
-							result.put(prop.stringValue(), val.stringValue());
+							data.put(prop.stringValue(), val.stringValue());
 						}
 					}					
 				}
@@ -265,21 +296,10 @@ public class OntologyQuery {
 			System.out.println(e.getMessage());
 		}
 		
+		result.setSubject(instancePath);
+		result.addData(data);
+		
 		return result;
-	}
-	
-	private Map<String, String> doSPARQLQuery(OWLObject instancePath) {
-		String ip = instancePath.toString();
-		
-		///////////////////////////
-		// karena default kembalian hasil mapping di dalam ontology adalah
-		// <http://foo.bar/>
-		// maka untuk menyeragamkan uri dengan hasil query dari dpbedia,
-		// hapus "<" dan ">" agar proses pembentukan query seragam
-		////////////////////////////
-		ip = ip.substring(1, ip.length() - 1);
-		
-		return doSPARQLQuery(ip);
 	}
 	
 	private Query buildQuery(List<Sentence> model) throws QueryParserException {
@@ -328,10 +348,11 @@ public class OntologyQuery {
 					prevTokenType = t.getType();
 				}
 				
+
 				switch (queryPattern) {
 				case "CI":
 					
-					subjectPath = listOfObjects.get(1);
+					inferredData.add(listOfObjects.get(1).toString());
 					
 					analyzedQuery = "{\n"
 							+ "Type(?subject," + listOfObjects.get(0) +"),\n"
@@ -340,7 +361,7 @@ public class OntologyQuery {
 					break;
 				case "OPCI":
 					
-					subjectPath = listOfObjects.get(2);
+					inferredData.add(listOfObjects.get(2).toString());
 					
 					analyzedQuery = "{\n"
 							+ "Type(" + listOfObjects.get(2) + "," + listOfObjects.get(1) + "),\n"
@@ -350,7 +371,7 @@ public class OntologyQuery {
 					break;
 				case "OPCOPI":
 					
-					subjectPath = listOfObjects.get(3);
+					inferredData.add(listOfObjects.get(3).toString());
 					
 					analyzedQuery = "{\n "
 							+ "Type(?subject," + listOfObjects.get(1) + "),\n "
@@ -359,7 +380,7 @@ public class OntologyQuery {
 					break;
 				case "COPI":
 					
-					subjectPath = listOfObjects.get(2);
+					inferredData.add(listOfObjects.get(2).toString());
 					
 					analyzedQuery = "{\n "
 							+ "Type(?subject," + listOfObjects.get(0) + "),\n "
@@ -368,14 +389,22 @@ public class OntologyQuery {
 					break;
 				case "DPCI":
 					
-					subjectPath = listOfObjects.get(2);
+					inferredData.add(listOfObjects.get(2).toString());
 					
 					analyzedQuery = "{\nType(?subject," + listOfObjects.get(1) + "),\n"
 							+ "PropertyValue(?subject," + listOfObjects.get(0) + ", " + listOfObjects.get(2) + ")\n}";
 					break;
+				case "COPCI":
+					
+					inferredData.add(listOfObjects.get(3).toString());
+					
+					analyzedQuery = "{Type(?subject, " + listOfObjects.get(0) + "),"
+									+ "PropertyValue(?subject, " + listOfObjects.get(1) + ", " + listOfObjects.get(3) + ")"
+							+ "}";
+					break;
 				case "I":
 					
-					subjectPath = listOfObjects.get(0);
+					inferredData.add(listOfObjects.get(0).toString());
 					
 					analyzedQuery = "{\nDirectType(" + listOfObjects.get(0) + ",?class),\n"
 							+ "PropertyValue("+ listOfObjects.get(0) +",?prop, ?object)\n}";
@@ -383,7 +412,7 @@ public class OntologyQuery {
 				}
 			}
 		}
-		
+
 		String query = "select * where " + analyzedQuery;
 		return Query.create(query);
 	}

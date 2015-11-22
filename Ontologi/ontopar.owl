@@ -98,13 +98,7 @@
         <ObjectProperty IRI="/property#berada_di"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="/property#destinasi"/>
-    </Declaration>
-    <Declaration>
         <ObjectProperty IRI="/property#hasAttraction"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="/property#hasDestination"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="/property#hasLocation"/>
@@ -129,9 +123,6 @@
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="/property#terletak_di"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="/property#tujuan"/>
     </Declaration>
     <Declaration>
         <DataProperty IRI="/property#alamat"/>
@@ -383,10 +374,6 @@
         <ObjectProperty IRI="/property#terdapat_di"/>
     </EquivalentObjectProperties>
     <EquivalentObjectProperties>
-        <ObjectProperty IRI="/property#hasDestination"/>
-        <ObjectProperty IRI="/property#tujuan"/>
-    </EquivalentObjectProperties>
-    <EquivalentObjectProperties>
         <ObjectProperty IRI="/property#hasLocation"/>
         <ObjectProperty IRI="/property#letak"/>
     </EquivalentObjectProperties>
@@ -411,10 +398,6 @@
         <ObjectProperty IRI="/property#terletak_di"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
-        <ObjectProperty IRI="/property#hasDestination"/>
-        <ObjectProperty IRI="/property#destinasi"/>
-    </SubObjectPropertyOf>
-    <SubObjectPropertyOf>
         <ObjectProperty IRI="/property#hasLocation"/>
         <ObjectProperty IRI="/property#terletak_di"/>
     </SubObjectPropertyOf>
@@ -425,10 +408,6 @@
     <SubObjectPropertyOf>
         <ObjectProperty IRI="/property#terdapat_di"/>
         <ObjectProperty IRI="/property#terletak_di"/>
-    </SubObjectPropertyOf>
-    <SubObjectPropertyOf>
-        <ObjectProperty IRI="/property#tujuan"/>
-        <ObjectProperty IRI="/property#destinasi"/>
     </SubObjectPropertyOf>
     <InverseObjectProperties>
         <ObjectProperty IRI="/property#isLocationOf"/>
