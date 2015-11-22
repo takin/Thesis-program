@@ -2,6 +2,7 @@ package SemanticQA.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
@@ -18,7 +19,6 @@ import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
-import de.derivo.sparqldlapi.QueryResult;
 import SemanticQA.constant.Ontology;
 import SemanticQA.helpers.AnswerBuilder;
 import SemanticQA.model.MySQLDatabase;
@@ -58,7 +58,7 @@ public class Main {
 		List<Sentence> bufferPrseResult = clone(parsingResult);
 		List<Sentence> mappingResult = ontologyMapper.map(parsingResult);
 		
-		QueryResult queryResult = queryEngine.execute(mappingResult);
+		Map<String, Object> queryResult = queryEngine.execute(mappingResult);
 		finalResult = AnswerBuilder.json(bufferPrseResult, queryResult);
 			
 		return finalResult;
