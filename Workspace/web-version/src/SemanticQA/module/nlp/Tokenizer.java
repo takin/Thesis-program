@@ -32,7 +32,7 @@ public class Tokenizer extends MorphologicalAnalyzer  {
 		super(connector);
 	}
 	
-    public List<SemanticToken> tokenize(String sentence) {
+    public List<SemanticToken> tokenize(String sentence) throws Exception {
         
     	// split kalimat menjadi token-token kata
     	String[] splittedSentence = sentence.split(" ");
@@ -61,7 +61,11 @@ public class Tokenizer extends MorphologicalAnalyzer  {
     			num = Integer.parseInt(word);
     		} catch (NumberFormatException e) {} 
     		
-    		type = ( num == -1 ) ? super.getWordType(word) : Type.Token.NUMERALIA; 
+    		try {
+    			type = ( num == -1 ) ? super.getWordType(word) : Type.Token.NUMERALIA;
+    		} catch (Exception e) {
+    			throw new Exception("Gagal melakukan proses tokenisasi kalimat");
+    		}
     		
     		SemanticToken tm = new SemanticToken();
     		// masukkan kata (token) dan tipe katanya

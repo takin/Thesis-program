@@ -11,7 +11,7 @@ public abstract class MorphologicalAnalyzer {
 		this.DB = db;
 	}
 
-	protected String getWordType(String token) {
+	protected String getWordType(String token) throws Exception {
 		
 		String type = DB.query(token);
 		
@@ -29,7 +29,7 @@ public abstract class MorphologicalAnalyzer {
 		return type;
 	}
 	
-	private boolean isAdverbia( String token ) {
+	private boolean isAdverbia( String token ) throws Exception {
 		
 		if ( token.matches("^(se)?([a-z]*)(nya)+$") ) {
 			
@@ -43,7 +43,7 @@ public abstract class MorphologicalAnalyzer {
 		return false;
 	}
 	
-	private boolean isAdjectiva(String token) {
+	private boolean isAdjectiva(String token) throws Exception {
 		
 		if ( token.matches("^(pen?)+.*") ) {
 			token = token.replaceAll("^(pen?)", "");
@@ -56,7 +56,7 @@ public abstract class MorphologicalAnalyzer {
 		return false;
 	}
 	
-	private boolean isVerba(String token) {
+	private boolean isVerba(String token) throws Exception {
 
 		if ( token.matches("^(me[mng?]?|ter)+.*") ){
 			

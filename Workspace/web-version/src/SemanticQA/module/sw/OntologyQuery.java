@@ -202,7 +202,7 @@ public class OntologyQuery {
 		return result;
 	}
 	
-	private QueryResultModel doSPARQLQuery(String instancePath) {
+	private QueryResultModel doSPARQLQuery(String instancePath) throws Exception {
 		QueryResultModel result = new QueryResultModel();
 		Map<String, String> data = new HashMap<String, String>();
 		
@@ -232,7 +232,7 @@ public class OntologyQuery {
 			try {
 				conn = repo.getConnection();
 			} catch (OpenRDFException e) {
-				System.out.println(e.getMessage());
+				throw new Exception("Tidak dapat menghubungi DBPedia Endpoint");
 			}
 			
 			query = "SELECT * WHERE {"
@@ -251,11 +251,10 @@ public class OntologyQuery {
 				conn = repo.getConnection(); 
 				
 				String localPath = "http://semanticweb.techtalk.web.id/ontology/dataset";
-				
 				conn.add(location, localPath, RDFFormat.TURTLE);
 				
 			} catch (OpenRDFException | IOException e) {
-				System.out.println(e.getMessage());
+				throw new Exception("Tidak dapat me-load dataset lokal");
 			}
 			
 			query = "SELECT * WHERE {\n"
@@ -289,11 +288,11 @@ public class OntologyQuery {
 				}
 			}
 			catch (Exception e) {
-				System.out.println(e.getMessage());
+				throw new Exception("Proses pembentukan hasil query SPARQL gagal");
 			}
 			
 		} catch (OpenRDFException e ) {
-			System.out.println(e.getMessage());
+			throw new Exception("Proses Query SPARQL Gagagl");
 		}
 		
 		result.setSubject(instancePath);
