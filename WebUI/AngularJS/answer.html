@@ -1,0 +1,16 @@
+<div class="mainAnswerContainer">{{ mainAnswer  }}</div>
+<div class="answerContainer" ng-repeat="fact in facts">
+	<table>
+		<tr>
+			<th colspan="2"><h4>Berikut adalah beberapa informasi tentang {{ fact.about }}:</h4></th>
+		</tr>
+		<tr valign="top" ng-repeat="data in fact.data">			
+			<td>
+				{{ data.name }}
+			</td>
+			<td>
+				<span ng-bind-html="data.value"></span>
+			</td>
+		</tr>
+	</table>
+</div>
