@@ -13,4 +13,4 @@ Workspace/.recommenders/
 Workspace/Servers/
 Workspace/.settings/*
 Workspace/SemanticQA/.settings/*
-WebUI/node_modules/*
+WebUI/ReactJS/node_modules/*

@@ -135,14 +135,27 @@ public class OntologyQuery {
 						// Adapun query yang dilakukan nantinya dapat berupa query internal ontologi
 						// ataupun terhadap endpoint DBPEDIA Indonesia (tergantung URI dari objek yang berssangkutan
 						/////////////////////////////////
-						if ( arg.getValue().matches("(subject|object)") ) {
+						if ( arg.getValue().equals("subject") ) {
+							inferredData.add(0,itemValue);
+						}
+						
+						if ( arg.getValue().equals("object") ) {
 							inferredData.add(itemValue);
 						}
 					}
 				}
 			}
 			
-			for ( String inferredObject : inferredData ) {
+			///////////
+			// Proses query pencarian tambahan informasi dilakukan 
+			// mulai dari isi array yang paling belakang karena posisi data yang
+			// relevan dengan subjek berada di paling depan sehingga kalau dilakkukan
+			// query mulai dari yang paling depan, list data hasil query akan menempatkan 
+			// data yang paling relevan (subjek) menjadi posisi yang paling bawah
+			////////////////
+			for ( int i = 0; i < inferredData.size(); i++ ) {
+				
+				String inferredObject = inferredData.get(i);
 				
 				////////////////////////////////
 				// Jika individu bukan berasal dari dbpedia
@@ -163,8 +176,8 @@ public class OntologyQuery {
 					
 					IRI iri = IRI.create(inferredObject);
 					
-					OWLNamedIndividual i = mapper.dataFactory.getOWLNamedIndividual(iri);
-					Set<OWLNamedIndividual> listOfSameIndividuals = this.reasoner.getSameIndividuals(i).getEntities();
+					OWLNamedIndividual newIndividual = mapper.dataFactory.getOWLNamedIndividual(iri);
+					Set<OWLNamedIndividual> listOfSameIndividuals = this.reasoner.getSameIndividuals(newIndividual).getEntities();
 					
 					if (  listOfSameIndividuals.size() > 0 ) {
 						for ( OWLNamedIndividual individu : listOfSameIndividuals ) {
@@ -186,7 +199,6 @@ public class OntologyQuery {
 					}
 					
 				}
-				
 				
 				QueryResultModel queryResultModel = doSPARQLQuery(inferredObject);
 				listOfInferedData.add(queryResultModel);

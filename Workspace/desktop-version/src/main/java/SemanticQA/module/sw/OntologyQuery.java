@@ -74,7 +74,7 @@ public class OntologyQuery {
 		inferredData = new ArrayList<String>();
 	}
 	
-	public Map<String, Object> execute(List<Sentence> model){
+	public Map<String, Object> execute(List<Sentence> model) throws Exception{
 		
 		////////////////////
 		// ----------------------------
@@ -135,14 +135,27 @@ public class OntologyQuery {
 						// Adapun query yang dilakukan nantinya dapat berupa query internal ontologi
 						// ataupun terhadap endpoint DBPEDIA Indonesia (tergantung URI dari objek yang berssangkutan
 						/////////////////////////////////
-						if ( arg.getValue().matches("(subject|object)") ) {
+						if ( arg.getValue().equals("subject") ) {
+							inferredData.add(0,itemValue);
+						}
+						
+						if ( arg.getValue().equals("object") ) {
 							inferredData.add(itemValue);
 						}
 					}
 				}
 			}
 			
-			for ( String inferredObject : inferredData ) {
+			///////////
+			// Proses query pencarian tambahan informasi dilakukan 
+			// mulai dari isi array yang paling belakang karena posisi data yang
+			// relevan dengan subjek berada di paling depan sehingga kalau dilakkukan
+			// query mulai dari yang paling depan, list data hasil query akan menempatkan 
+			// data yang paling relevan (subjek) menjadi posisi yang paling bawah
+			////////////////
+			for ( int i = 0; i < inferredData.size(); i++ ) {
+				
+				String inferredObject = inferredData.get(i);
 				
 				////////////////////////////////
 				// Jika individu bukan berasal dari dbpedia
@@ -163,8 +176,8 @@ public class OntologyQuery {
 					
 					IRI iri = IRI.create(inferredObject);
 					
-					OWLNamedIndividual i = mapper.dataFactory.getOWLNamedIndividual(iri);
-					Set<OWLNamedIndividual> listOfSameIndividuals = this.reasoner.getSameIndividuals(i).getEntities();
+					OWLNamedIndividual newIndividual = mapper.dataFactory.getOWLNamedIndividual(iri);
+					Set<OWLNamedIndividual> listOfSameIndividuals = this.reasoner.getSameIndividuals(newIndividual).getEntities();
 					
 					if (  listOfSameIndividuals.size() > 0 ) {
 						for ( OWLNamedIndividual individu : listOfSameIndividuals ) {
@@ -187,13 +200,12 @@ public class OntologyQuery {
 					
 				}
 				
-				
 				QueryResultModel queryResultModel = doSPARQLQuery(inferredObject);
 				listOfInferedData.add(queryResultModel);
 			}
 			
 		} catch (QueryParserException | QueryEngineException e) {
-			System.out.println("Failed to construct query, due to Error: " + e.getMessage());
+			throw new Exception("Tidak dapat melakukan query terhadap basis pengetahuan!");
 		}
 		
 		result.put(ResultKey.SPARQLDL, sparqldlQueryResult);
@@ -202,7 +214,7 @@ public class OntologyQuery {
 		return result;
 	}
 	
-	private QueryResultModel doSPARQLQuery(String instancePath) {
+	private QueryResultModel doSPARQLQuery(String instancePath) throws Exception {
 		QueryResultModel result = new QueryResultModel();
 		Map<String, String> data = new HashMap<String, String>();
 		
@@ -232,7 +244,7 @@ public class OntologyQuery {
 			try {
 				conn = repo.getConnection();
 			} catch (OpenRDFException e) {
-				System.out.println(e.getMessage());
+				throw new Exception("Tidak dapat menghubungi DBPedia Endpoint");
 			}
 			
 			query = "SELECT * WHERE {"
@@ -251,11 +263,10 @@ public class OntologyQuery {
 				conn = repo.getConnection(); 
 				
 				String localPath = "http://semanticweb.techtalk.web.id/ontology/dataset";
-				
 				conn.add(location, localPath, RDFFormat.TURTLE);
 				
 			} catch (OpenRDFException | IOException e) {
-				System.out.println(e.getMessage());
+				throw new Exception("Tidak dapat me-load dataset lokal");
 			}
 			
 			query = "SELECT * WHERE {\n"
@@ -289,11 +300,11 @@ public class OntologyQuery {
 				}
 			}
 			catch (Exception e) {
-				System.out.println(e.getMessage());
+				throw new Exception("Proses pembentukan hasil query SPARQL gagal");
 			}
 			
 		} catch (OpenRDFException e ) {
-			System.out.println(e.getMessage());
+			throw new Exception("Proses Query SPARQL Gagagl");
 		}
 		
 		result.setSubject(instancePath);

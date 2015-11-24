@@ -20,15 +20,79 @@ import de.derivo.sparqldlapi.types.QueryArgumentType;
 
 public class AnswerBuilder {
 	
+	private static List<String> questionConstituents;
+	
 	public static JSONObject json(List<Sentence> question, Map<String, Object> result) {
 		
 		JSONObject res = new JSONObject();
 		JSONArray inferedFacts = new JSONArray();
-		
 		String answer = getSubject(question) + " adalah";
+		
+		boolean classNotBeenAdded = true;
+		boolean subjectNotBeenAdded = true;
+		boolean objectNotBeenAdded = true;
+		List<String> orderOfBoundedVars = new ArrayList<String>();
 		
 		QueryResult query = (QueryResult) result.get(ResultKey.SPARQLDL);
 		List<QueryResultModel> inferedObjects = (List<QueryResultModel>) result.get(ResultKey.INFERED_DATA);
+		
+		for ( int queryBindingIndex = 0; queryBindingIndex < query.size(); queryBindingIndex++ ) {
+			
+			QueryBinding binding = query.get(queryBindingIndex);
+			
+			QueryArgument cls = new QueryArgument(QueryArgumentType.VAR, "class");
+			QueryArgument sub = new QueryArgument(QueryArgumentType.VAR, "subject");
+			QueryArgument obj = new QueryArgument(QueryArgumentType.VAR, "object");
+			
+			if ( binding.isBound(sub)) {
+				String subject = binding.get(sub).toString();
+				String s = shorten(subject);
+				s = normalize(s);
+				
+				/////////
+				// pertimbangkan implikasi kejamakan
+				/////////
+				if ( AnswerBuilder.questionConstituents.contains("saja") || subjectNotBeenAdded) {
+					if ( query.size() > 0 && queryBindingIndex > 0 && queryBindingIndex < query.size() - 1 ) {
+						answer += ", " + s;
+					} else if ( query.size() > 0 && queryBindingIndex > 0 && queryBindingIndex == query.size() - 1 ) {
+						answer += " dan " + s;
+					} else {
+						answer += " " + s;
+					}
+					orderOfBoundedVars.add(subject);
+					subjectNotBeenAdded = false;
+				}
+			}
+			
+			if ( binding.isBound(cls) && classNotBeenAdded ) {
+				String c = shorten(binding.get(cls).toString());
+				c = normalize(c);
+				answer += " " + c;
+				classNotBeenAdded = false;
+			}
+			
+			if ( binding.isBound(obj) ){
+				String object = binding.get(obj).toString();
+				String i = shorten(object);
+				i = normalize(i);
+				//////
+				// pertimbangkan implikasi kejamakan
+				//////
+				if ( AnswerBuilder.questionConstituents.contains("saja") || objectNotBeenAdded) {
+					if ( query.size() > 0 && queryBindingIndex > 0 && queryBindingIndex < query.size() - 1 ) {
+						answer += ", " + i;
+					} else if ( query.size() > 0 && queryBindingIndex > 0 && queryBindingIndex == query.size() - 1 ) {
+						answer += " dan " + i;
+					} else {
+						answer += " " + i;
+					}
+					orderOfBoundedVars.add(object);
+					objectNotBeenAdded = false;
+				}
+			}
+		}
+		
 		
 		for ( QueryResultModel resultModel : inferedObjects ) {
 			
@@ -38,16 +102,14 @@ public class AnswerBuilder {
 			Map<String,String> props = resultModel.getData();
 			
 			for( String key : props.keySet() ) {
-				
 				String value = props.get(key);
-				
 				String shortenedKey = shorten(key);
 				//////
 				// jika key adalah http://id.dbpedia.org/property/web atau 
 				// value dari item berekstensi jpeg/jpg/gif, jangan di shorten
 				// karena alamat aslinya dibutuhkan
 				///////
-				String shortnedValue  = ( shortenedKey.matches("(web|depiction)") || value.matches("(jpe?g|gif)$") ) ?
+				String shortnedValue  = ( shortenedKey.matches("(web|depiction)") || value.matches("(jpe?g|gif|png)$") ) ?
 					value : normalize(shorten(value));
 				
 				if ( !shortenedKey.matches("(type)") ) {
@@ -59,50 +121,27 @@ public class AnswerBuilder {
 				}
 			}
 			
-			
 			if ( itemData.length() > 0 ) {
 				try {
 					String topic = shorten(resultModel.getSubject());
 					topic = normalize(topic);
 					item.put("about", topic);
 					item.put("data", itemData);
-					inferedFacts.put(item);
+					
+					////////
+					// pertimbangkan order list sesuai dengan urutan jawaban 
+					////
+					int pos = orderOfBoundedVars.indexOf(resultModel.getSubject());
+					if ( pos != -1 ) {
+						inferedFacts.put(pos, item);
+					} else {
+						inferedFacts.put(item);
+					}
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
 			}
 			
-		}
-		
-		boolean classNotBeenAdded = true;
-		boolean subjectNotBeenAdded = true;
-		boolean objectNotBeenAdded = true;
-		
-		for ( QueryBinding b:query ) {
-			QueryArgument cls = new QueryArgument(QueryArgumentType.VAR, "class");
-			QueryArgument sub = new QueryArgument(QueryArgumentType.VAR, "subject");
-			QueryArgument obj = new QueryArgument(QueryArgumentType.VAR, "object");
-			
-			if ( b.isBound(sub) && subjectNotBeenAdded ) {
-				String s = shorten(b.get(sub).toString());
-				s = normalize(s);
-				answer += " " + s;
-				subjectNotBeenAdded = false;
-			}
-			
-			if ( b.isBound(cls) && classNotBeenAdded ) {
-				String c = shorten(b.get(cls).toString());
-				c = normalize(c);
-				answer += " " + c;
-				classNotBeenAdded = false;
-			}
-			
-			if ( b.isBound(obj) && objectNotBeenAdded ) {
-				String i = shorten(b.get(obj).toString());
-				i = normalize(i);
-				answer += " " + i;
-				objectNotBeenAdded = false;
-			}
 		}
 		
 		try {
@@ -129,8 +168,8 @@ public class AnswerBuilder {
 			String n = arrNormalized[i];
 			normalized[i] = n.substring(0, 1).toUpperCase() + n.substring(1, n.length());
 		}
-		
-		return String.join(" ", normalized);
+		String concatinatedNormalized = String.join(" ", normalized);
+		return concatinatedNormalized.replaceAll("(,)", "");
 	}
 	
 	private static String getSubject(List<Sentence> question) {
@@ -152,6 +191,15 @@ public class AnswerBuilder {
 					str.add(token); 
 				}	
 			}
+			
+			if ( s.getType().matches("(" + Type.Token.PRONOMINA + "|" + Type.Phrase.PRONOMINAL + ")") ) {
+				List<SemanticToken> qConstituents = s.getConstituents();
+				AnswerBuilder.questionConstituents = new ArrayList<String>(qConstituents.size());
+				for ( int qsize = 0; qsize < qConstituents.size(); qsize++ ) {
+					AnswerBuilder.questionConstituents.add(qConstituents.get(qsize).getToken());
+				}
+			}
+			
 		}
 		
 		return String.join(" ", str);
