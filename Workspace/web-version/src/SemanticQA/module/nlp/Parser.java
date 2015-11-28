@@ -257,42 +257,6 @@ public class Parser {
 				}
 				
 			}
-			
-			
-			/*
-			if ( predicatePosition != 0 ) {
-				
-				clause.get(predicatePosition - 1).setFunction(Type.Phrase.Function.SUBJEK);
-				clause.get(predicatePosition).setFunction(Type.Phrase.Function.PREDIKAT);
-				
-			}
-			
-			// jika posisi predikat bukan di posisi terakhir
-			// maka lakukan analisa frasa yang berada di sebelah kanan predikat 
-			// untuk menentukan fungsi frasa tersebut (objek, keterangan atau pelengkap)
-			if ( predicatePosition != 0 && predicatePosition < clause.size() - 1 ) {
-				
-				Sentence tempSentence = clause.get(predicatePosition + 1);
-				String phraseType = tempSentence.getType(); 
-				
-				if ( phraseType.equals(Type.Phrase.NOMINAL) || 
-						phraseType.equals(Type.Token.NOMINA) ||
-						phraseType.equals(Type.Phrase.PRONOMINAL) ) {
-					
-					clause.get(predicatePosition + 1).setFunction(Type.Phrase.Function.OBJEK);
-					
-				}
-				
-				if ( clause.size() > predicatePosition + 2 ) {
-					
-					tempSentence = clause.get(predicatePosition + 2);
-					
-					if (tempSentence.getType().equals(Type.Phrase.NUMERALIA)){
-						clause.get(predicatePosition + 2).setFunction(Type.Phrase.Function.KETERANGAN); 
-					}
-				}
-			}
-			*/
 		}
 		
 		return clause;

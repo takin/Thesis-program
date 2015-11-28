@@ -1,5 +1,6 @@
 package SemanticQA.helpers;
 
+
 import java.util.List;
 
 import SemanticQA.model.SemanticToken;
@@ -28,30 +29,30 @@ public class Printer {
 		System.out.println("--------------------------------------------------------------");
 		System.out.println("[");
 		
-		for(Sentence m: token)
+		for(Sentence s: token)
 		{
-			System.out.println("    {kelasFrasa:" + m.getType()  + ", fungsi:"+ m.getFunction() + ", konstituen:");
-			
-			List<SemanticToken> tm = m.getConstituents();
-			
-			if ( tm.size() == 1 ) {
+				System.out.println("    {kelasFrasa:" + s.getType()  + ", fungsi:"+ s.getFunction() + ", konstituen:");
 				
-				System.out.println("        [{kata:" + tm.get(0).getToken() + ", kelas:" + tm.get(0).getType() + "}]");
+				List<SemanticToken> tm = s.getConstituents();
 				
-			} else {
-				System.out.println("        [");
-				for ( SemanticToken t: tm ) {
-					if(t.equals(tm.get(tm.size() - 1))) {
-						System.out.println("            {kata:" + t.getToken() + ", kelas:" + t.getType() + "}");
-					} else {
-						System.out.println("            {kata:" + t.getToken() + ", kelas:" + t.getType() + "},");
+				if ( tm.size() == 1 ) {
+					
+					System.out.println("        [{kata:" + tm.get(0).getToken() + ", kelas:" + tm.get(0).getType() + "}]");
+					
+				} else {
+					System.out.println("        [");
+					for ( SemanticToken t: tm ) {
+						if(t.equals(tm.get(tm.size() - 1))) {
+							System.out.println("            {kata:" + t.getToken() + ", kelas:" + t.getType() + "}");
+						} else {
+							System.out.println("            {kata:" + t.getToken() + ", kelas:" + t.getType() + "},");
+						}
 					}
+					System.out.println("        ]");
 				}
-				System.out.println("        ]");
+				
+				System.out.println("    },");
 			}
-			
-			System.out.println("    },");
-		}
 		
 		System.out.println("]");
 		System.out.println("--------------------------------------------------------------");

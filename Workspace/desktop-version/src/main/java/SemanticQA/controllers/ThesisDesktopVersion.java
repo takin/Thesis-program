@@ -47,44 +47,54 @@ class ThesisDesktopVersion {
 				System.out.println(p);
 				OntologyQuery queryEngine = new OntologyQuery(ontologyMapper, reasoner);
 				List<SemanticToken> tokenizerResult = tokenizer.tokenize(p);
-				List<Sentence> parsingResult = parser.parse(tokenizerResult);
-				List<Sentence> ps = clone(parsingResult);
+//				Printer.cetak(tokenizerResult);
+				List<List<Sentence>> parsingResult = parser.parse(tokenizerResult);
+//				List<List<Sentence>> ps = clone(parsingResult);
 //				Printer.cetakKlausa(ps);
-				List<Sentence> mappingResult = ontologyMapper.map(parsingResult);
-				Map<String, Object> queryResult = queryEngine.execute(mappingResult);
-				JSONObject finalResult = AnswerBuilder.json(ps,queryResult);
+//				List<Sentence> mappingResult = ontologyMapper.map(parsingResult);
+//				Map<String, Object> queryResult = queryEngine.execute(mappingResult);
+//				JSONObject finalResult = AnswerBuilder.json(ps,queryResult);
 			
 //				Printer.cetakMap(mappingResult);
-				System.out.println(finalResult);
+//				System.out.println(finalResult);
 			}
 		} catch (Exception e) {
 			
 		}
 	}
 	
-	public static List<Sentence> clone(List<Sentence> items){
-		List<Sentence> clone = new ArrayList<Sentence>(items.size());
-		for ( Sentence s:items ) {
-			Sentence st = new Sentence();
-			List<SemanticToken> tk = s.getConstituents();
-			List<SemanticToken> ntk = new ArrayList<SemanticToken>();
-			for ( SemanticToken t:tk ) {
-				SemanticToken stk = new SemanticToken();
-				stk.setToken(t.getToken());
-				stk.setType(t.getType());
-				ntk.add(stk);
-			}
+	public static List<List<Sentence>> clone(List<List<Sentence>> items){
+		List<List<Sentence>> clone = new ArrayList<List<Sentence>>(items.size());
+		
+		for ( List<Sentence> sentences : items ) {
 			
-			st.setConstituent(ntk);
-			st.setFunction(s.getFunction());
-			st.setType(s.getType());
-			clone.add(st);
+			List<Sentence> newSentences = new ArrayList<Sentence>();
+			
+			for ( Sentence sentence:sentences ) {
+				
+				Sentence newSentence = new Sentence();
+				List<SemanticToken> newConstituents = new ArrayList<SemanticToken>();
+				List<SemanticToken> constituents = sentence.getConstituents();
+				
+				for ( SemanticToken token : constituents ) {
+					SemanticToken newToken = new SemanticToken();
+					newToken.setToken(token.getToken());
+					newToken.setType(token.getType());
+					newConstituents.add(newToken);					
+				}
+				
+				newSentence.setConstituent(newConstituents);
+				newSentence.setFunction(sentence.getFunction());
+				newSentence.setType(sentence.getType());
+			}
+			clone.add(newSentences);			
 		}
 		return clone;
 	}
 	
 	public static String[] pertanyaan(){
 		String[] pertanyaan = new String[]{
+				"siapa bupati kabupaten lombok timur dan bupati kabupaten lombok tengah"
 //				"siapakah ali bin dahlan",
 //				"apa itu kabupaten lombok timur",
 //				"di mana letak pantai senggigi",
@@ -93,7 +103,7 @@ class ThesisDesktopVersion {
 //				"di mana letak pantai tanjung an",
 //				"siapakah bupati kabupaten lombok timur",
 //				"bupati kabupaten lombok timur siapa",
-				"apa wisata pantai terbaik yang ada di kabupaten lombok tengah",
+//				"apa wisata pantai terbaik yang ada di kabupaten lombok tengah",
 //				"di kabupaten lombok tengah ada wisata budaya apa saja",
 //				"siapa yang menjadi kepala desa danger",
 //				"apa saja destinasi wisata yang ada di lombok tengah",

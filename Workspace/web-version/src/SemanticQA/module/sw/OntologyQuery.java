@@ -7,6 +7,7 @@ package SemanticQA.module.sw;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +29,7 @@ import org.openrdf.sail.memory.MemoryStore;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
+import org.semanticweb.owlapi.model.OWLOntologyFormat;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 import de.derivo.sparqldlapi.Query;
@@ -256,15 +258,13 @@ public class OntologyQuery {
 		if ( !instancePath.matches("^(http://id.dbpedia.org).*") ) {
 			
 			try {
-				File location = new File("/Users/syamsul/Documents/Thesis-program/Ontologi/dataset-turtle.owl");
-				
+				URL location = new URL(Ontology.Path.DATASET);
 				repo = new SailRepository(new MemoryStore());
 				repo.initialize();
 				conn = repo.getConnection(); 
 				
 				String localPath = "http://semanticweb.techtalk.web.id/ontology/dataset";
 				conn.add(location, localPath, RDFFormat.TURTLE);
-				
 			} catch (OpenRDFException | IOException e) {
 				throw new Exception("Tidak dapat me-load dataset lokal");
 			}

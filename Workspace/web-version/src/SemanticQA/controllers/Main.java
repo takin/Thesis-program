@@ -32,7 +32,7 @@ import sun.net.www.protocol.http.HttpURLConnection;
 
 
 @SuppressWarnings("restriction")
-@Path("/qa")
+@Path("/")
 public class Main {
 	
 	private static JSONObject query(String question) throws Exception {
@@ -65,6 +65,13 @@ public class Main {
 	}
 	
 	@GET
+	@Produces(MediaType.TEXT_HTML)
+	public String index() {
+		return "<h1>Silahkan kirim pertanyaan ke /q?=<pertanyaan></h1>";
+	}
+	
+	@GET
+	@Path("/ask")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response search(@HeaderParam("Access-Control-Request-Headers") String header, @QueryParam("q") String question) throws JSONException{
 		

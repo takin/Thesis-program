@@ -3,7 +3,9 @@ package SemanticQA.module.nlp;
 import java.util.ArrayList;
 import java.util.List;
 
+import ch.qos.logback.core.subst.Token;
 import SemanticQA.constant.Type;
+import SemanticQA.helpers.Printer;
 import SemanticQA.model.SemanticToken;
 import SemanticQA.model.Sentence;
 
@@ -18,11 +20,11 @@ public class Parser {
 	private static final String PRONOMINA_PENANYA_PATTERN = "(apa|siapa|kapan)";
 	private static final String NOMINA_KETERANGAN = "(tahun|bulan|hari)";
 	
-	public List<Sentence> parse(List<SemanticToken> taggedToken){
+	public List<List<Sentence>> parse(List<SemanticToken> taggedToken){
 		
 		List<Sentence> phrases = createPhrase(null, taggedToken, new ArrayList<Sentence>());
-					   phrases = analyzeSyntacticFunction(phrases);
-		return phrases;
+		List<List<Sentence>> parseResult = analyzeSyntacticFunction(phrases);
+		return parseResult;
 	}
 	
 	/**
@@ -146,6 +148,15 @@ public class Parser {
 				}
 				
 				break;
+			case Type.Token.KONJUNGSI:
+				
+				if ( currentToken.getToken().matches("yang") ) {
+					if ( previousToken.getType().equals(Type.Token.NOMINA) ) {
+						tempPhraseType = Type.Phrase.NOMINAL;
+					}
+				}
+				
+				break;
 			}
 		}
 		
@@ -181,9 +192,38 @@ public class Parser {
 	/**
 	 * Method untuk menganalisa fungsi sintaksis dari masing-masing frasa
 	 */
-	private List<Sentence> analyzeSyntacticFunction(List<Sentence> clause){
+	private List<List<Sentence>> analyzeSyntacticFunction(List<Sentence> clause){
+		Printer.cetakKlausa(clause);
+		List<List<Sentence>> results = new ArrayList<List<Sentence>>();
 		
+		int konjungtorPosition = -1;
+		
+		for ( Sentence s : clause ) {
+			if ( s.getType().equals(Type.Token.KONJUNGTOR_KLAUSA) ) {
+				konjungtorPosition = clause.indexOf(s);
+				break;
+			}
+		}
+		
+		if ( konjungtorPosition != -1 ) {
+			List<Sentence> s1 = new ArrayList<Sentence>();
+			List<Sentence> konjungtor = new ArrayList<Sentence>();
+			List<Sentence> s2 = new ArrayList<Sentence>();
+			
+			s1.addAll(clause.subList(0, konjungtorPosition - 1));
+			konjungtor.add(clause.get(konjungtorPosition));
+			s2.addAll(clause.subList(konjungtorPosition + 1, clause.size()));
+			
+			results.add(s1);
+			results.add(konjungtor);
+			results.add(s2);
+		} else {
+			results.add(clause);
+		}
+		
+		/*
 		int predicatePosition = getPredicatePosition(clause);
+		boolean sentenceIsPlural = false;
 		
 		//////////////////////////////////////////////////////////////////////////
 		// Jika jumlah frasa hanya dua, maka bentuk fungsi sintaksis hanya		//
@@ -210,7 +250,7 @@ public class Parser {
 				
 				
 				
-				if ( clause.get(predicatePosition).getType().matches("(F?V)")) {
+				if ( clause.get(predicatePosition).getType().matches("(FV|Verba)")) {
 					/////
 					// tentukan fungsi frasa yang ada di sebelah kiri predikat
 					///////
@@ -256,6 +296,13 @@ public class Parser {
 					}
 				}
 				
+				////////
+				// jika predikat berupa Pronomina
+				///////
+				if ( clause.get(predicatePosition).getType().matches("Pronominal?") ) {
+					
+				}
+				
 			}
 			
 			
@@ -292,10 +339,11 @@ public class Parser {
 					}
 				}
 			}
-			*/
+			
 		}
+		*/
 		
-		return clause;
+		return results;
 	}
 		
 	private int getPredicatePosition(List<Sentence> phrase){

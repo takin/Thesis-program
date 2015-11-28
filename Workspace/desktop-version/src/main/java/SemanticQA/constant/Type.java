@@ -18,6 +18,7 @@ public abstract class Type {
 		public static final String ADVERBIA = "Adverbia";
 		public static final String PREPOSISI = "Preposisi";
 		public static final String KONJUNGSI = "Konjungsi";
+		public static final String KONJUNGTOR_KLAUSA = "Konjungtor Klausa";
 		public static final String PRONOMINA = "Pronomina";
 		public static final String NUMERALIA = "Numeralia";
 	}

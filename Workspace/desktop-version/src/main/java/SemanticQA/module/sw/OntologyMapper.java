@@ -28,12 +28,12 @@ public class OntologyMapper extends OntologyLoader {
 	
 	private ShortFormProvider shortForm;
 	
-	public OntologyMapper(String ontology) {
+	public OntologyMapper(String ontology) throws Exception {
 		super(ontology);
 		shortForm = new SimpleShortFormProvider();
 	}
 	
-	public OntologyMapper(String[] ontologies, String mergedURI) {
+	public OntologyMapper(String[] ontologies, String mergedURI) throws Exception {
 		super(ontologies, mergedURI);
 		shortForm = new SimpleShortFormProvider();
 	}
@@ -54,7 +54,8 @@ public class OntologyMapper extends OntologyLoader {
 		//////////////////////////////////////////////////////////////////////////////////////////
 		if ( !currentPhrase.getConstituents().isEmpty() && 
 				!currentPhrase.getType().equals(Type.Phrase.PRONOMINAL) && 
-				!currentPhrase.getType().equals(Type.Token.PRONOMINA) ) {
+				!currentPhrase.getType().equals(Type.Token.PRONOMINA) && 
+				!currentPhrase.getType().equals(Type.Token.KONJUNGSI)) {
 			
 			List<SemanticToken> constituents = checkType(new ArrayList<String>(), currentPhrase.getConstituents(), new ArrayList<SemanticToken>() );
 			//////////////////////////////////////////////////////////////////////////////////////////
