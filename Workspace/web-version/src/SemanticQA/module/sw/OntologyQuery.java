@@ -7,6 +7,7 @@ package SemanticQA.module.sw;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -256,7 +257,7 @@ public class OntologyQuery {
 		if ( !instancePath.matches("^(http://id.dbpedia.org).*") ) {
 			
 			try {
-				File location = new File("/Users/syamsul/Documents/Thesis-program/Ontologi/dataset-turtle.owl");
+				URL location = new URL(Ontology.Path.DATASET);
 				
 				repo = new SailRepository(new MemoryStore());
 				repo.initialize();

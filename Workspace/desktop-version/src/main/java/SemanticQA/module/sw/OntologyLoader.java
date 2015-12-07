@@ -27,7 +27,6 @@ public class OntologyLoader {
 		this.manager = OWLManager.createOWLOntologyManager();
 		
 		try {
-			
 			IRI ontologyIRI = IRI.create(path);
 			manager.loadOntology(ontologyIRI);
 			ontology = manager.getOntology(ontologyIRI);

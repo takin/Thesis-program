@@ -32,7 +32,7 @@ import sun.net.www.protocol.http.HttpURLConnection;
 
 
 @SuppressWarnings("restriction")
-@Path("/qa")
+@Path("/ask")
 public class Main {
 	
 	private static JSONObject query(String question) throws Exception {
