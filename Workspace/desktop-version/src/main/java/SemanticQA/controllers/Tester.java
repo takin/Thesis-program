@@ -22,9 +22,7 @@ public class Tester {
 			Ontology.Path.ONTOPAR
 		};
 		
-//		validateOntologiesClasses(paths);
-		validateMegedOntologies(paths);
-		
+		validateOntologiesClasses(paths);
 	}
 	
 	public static void validateOntologies(String[] paths) {

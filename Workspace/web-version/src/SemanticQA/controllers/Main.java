@@ -21,6 +21,7 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 import SemanticQA.constant.Ontology;
 import SemanticQA.helpers.AnswerBuilder;
+import SemanticQA.helpers.Printer;
 import SemanticQA.model.MySQLDatabase;
 import SemanticQA.model.SemanticToken;
 import SemanticQA.model.Sentence;
@@ -59,6 +60,8 @@ public class Main {
 		List<Sentence> mappingResult = ontologyMapper.map(parsingResult);
 		
 		Map<String, Object> queryResult = queryEngine.execute(mappingResult);
+		
+		
 		finalResult = AnswerBuilder.json(bufferPrseResult, queryResult);
 		
 		return finalResult;

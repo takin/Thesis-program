@@ -93,11 +93,12 @@ class ThesisDesktopVersion {
 //				"di mana letak pantai tanjung an",
 //				"siapakah bupati kabupaten lombok timur",
 //				"bupati kabupaten lombok timur siapa",
-				"apa wisata pantai terbaik yang ada di kabupaten lombok tengah",
+//				"apa wisata pantai terbaik yang ada di kabupaten lombok tengah",
 //				"di kabupaten lombok tengah ada wisata budaya apa saja",
 //				"siapa yang menjadi kepala desa danger",
-//				"apa saja destinasi wisata yang ada di lombok tengah",
+//				"apa saja destinasi wisata yang ada di lombok timur",
 //				"apa saja destinasi wisata yang terdapat di kabupaten lombok tengah"
+				"di mana letak pantai tangsi"
 				};
 		return pertanyaan;
 	}

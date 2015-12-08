@@ -21,12 +21,14 @@ import de.derivo.sparqldlapi.types.QueryArgumentType;
 public class AnswerBuilder {
 	
 	private static List<String> questionConstituents;
+	private static String questionString;
 	
+	@SuppressWarnings("unchecked")
 	public static JSONObject json(List<Sentence> question, Map<String, Object> result) {
 		
 		JSONObject res = new JSONObject();
 		JSONArray inferedFacts = new JSONArray();
-		String answer = getSubject(question) + " adalah";
+		StringBuffer summryText = getSubject(question);
 		
 		boolean classNotBeenAdded = true;
 		boolean subjectNotBeenAdded = true;
@@ -35,6 +37,14 @@ public class AnswerBuilder {
 		
 		QueryResult query = (QueryResult) result.get(ResultKey.SPARQLDL);
 		List<QueryResultModel> inferedObjects = (List<QueryResultModel>) result.get(ResultKey.INFERED_DATA);
+		
+		if ( query.size() > 0 ) {
+			if ( questionString.matches("^di.*") ) {
+				summryText.append("adalah di");
+			} else {
+				summryText.append("adalah");
+			}
+		}
 		
 		for ( int queryBindingIndex = 0; queryBindingIndex < query.size(); queryBindingIndex++ ) {
 			
@@ -54,11 +64,11 @@ public class AnswerBuilder {
 				/////////
 				if ( AnswerBuilder.questionConstituents.contains("saja") || subjectNotBeenAdded) {
 					if ( query.size() > 0 && queryBindingIndex > 0 && queryBindingIndex < query.size() - 1 ) {
-						answer += ", " + s;
+						summryText.append(", " + s);
 					} else if ( query.size() > 0 && queryBindingIndex > 0 && queryBindingIndex == query.size() - 1 ) {
-						answer += " dan " + s;
+						summryText.append(" dan " + s);
 					} else {
-						answer += " " + s;
+						summryText.append(" " + s);
 					}
 					orderOfBoundedVars.add(subject);
 					subjectNotBeenAdded = false;
@@ -68,7 +78,7 @@ public class AnswerBuilder {
 			if ( binding.isBound(cls) && classNotBeenAdded ) {
 				String c = shorten(binding.get(cls).toString());
 				c = normalize(c);
-				answer += " " + c;
+				summryText.append(" " + c);
 				classNotBeenAdded = false;
 			}
 			
@@ -81,14 +91,14 @@ public class AnswerBuilder {
 				//////
 				if ( AnswerBuilder.questionConstituents.contains("saja") || objectNotBeenAdded) {
 					if ( query.size() > 0 && queryBindingIndex > 0 && queryBindingIndex < query.size() - 1 ) {
-						answer += ", " + i;
+						summryText.append(", " + i);
 					} else if ( query.size() > 0 && queryBindingIndex > 0 && queryBindingIndex == query.size() - 1 ) {
-						answer += " dan " + i;
+						summryText.append(" dan " + i);
 					} else {
-						answer += " " + i;
+						summryText.append(" " + i);
 					}
 					orderOfBoundedVars.add(object);
-					objectNotBeenAdded = false;
+//					objectNotBeenAdded = false;
 				}
 			}
 		}
@@ -104,11 +114,11 @@ public class AnswerBuilder {
 			for( String key : props.keySet() ) {
 				String value = props.get(key);
 				String shortenedKey = shorten(key);
-				//////
-				// jika key adalah http://id.dbpedia.org/property/web atau 
-				// value dari item berekstensi jpeg/jpg/gif, jangan di shorten
-				// karena alamat aslinya dibutuhkan
-				///////
+				//////////////////////////////////////////////////////////////////////
+				// jika key adalah http://id.dbpedia.org/property/web atau 			//
+				// value dari item berekstensi jpeg/jpg/gif, jangan di shorten		//
+				// karena alamat aslinya dibutuhkan									//
+				//////////////////////////////////////////////////////////////////////
 				String shortnedValue  = ( shortenedKey.matches("(web|depiction)") || value.matches("(jpe?g|gif|png)$") ) ?
 					value : normalize(shorten(value));
 				
@@ -145,7 +155,31 @@ public class AnswerBuilder {
 		}
 		
 		try {
-			res.put("text", answer);
+			
+			////////////////
+			// ada kemungkinan summry text memiliki kata dobel akibat dari nama kelas dan 
+			// individual yang mirip misalnya kelas Kabupaten dengan individual Kabupaten_Lombok_Timur
+			// akan menghasilkan summry text "Kabupaten Kabupaten Lombok Timur". Untuk mencegah
+			// masalah ini, maka lakukan pemeriksaan terhadap teks, jika dua kata yang berdekatan 
+			// sama, maka buang salah satunya!
+			///////////////
+			
+			String str = summryText.toString();
+			StringBuffer cleanString = new StringBuffer();
+			
+			String[] arr_str = str.split(" ");
+			for ( int i = 0; i < arr_str.length; i++ ) {
+				String current = arr_str[i];
+				String prev = i > 0 ? arr_str[i - 1] : null;
+				if ( i == 0 || !current.equals(prev)) {
+					if ( i == arr_str.length ) {
+						cleanString.append(current);
+					} else {
+						cleanString.append(current + " ");
+					}
+				}
+			}
+			res.put("text", cleanString.toString());
 			res.put("inferedFacts", inferedFacts);
 		} catch (JSONException e) {
 			e.printStackTrace();
@@ -172,11 +206,21 @@ public class AnswerBuilder {
 		return concatinatedNormalized.replaceAll("(,)", "");
 	}
 	
-	private static String getSubject(List<Sentence> question) {
+	private static StringBuffer getSubject(List<Sentence> question) {
 		
-		List<String> str = new ArrayList<String>();
+		StringBuffer returnedString = new StringBuffer();
 		
 		for ( Sentence s:question ) {
+			
+			if ( s.getType().equals(Type.Token.PRONOMINA) || s.getType().equals(Type.Phrase.PRONOMINAL) ) {
+				List<SemanticToken> constituents = s.getConstituents();
+				StringBuffer sb = new StringBuffer(constituents.size());
+				for ( SemanticToken t:constituents ) {
+					sb.append(t.getToken());
+				}
+				
+				questionString = sb.toString();
+			}
 			
 			if ( !s.getType().equals(Type.Token.PRONOMINA) && 
 					!s.getType().equals(Type.Phrase.PRONOMINAL) ) {
@@ -185,10 +229,10 @@ public class AnswerBuilder {
 				
 				for ( SemanticToken c : constituents ) {
 					String token = c.getToken();
-					if ( str.isEmpty() || c.getType().equals(Type.Token.NOMINA) ) {
+					if ( returnedString.length() == 0 || c.getType().equals(Type.Token.NOMINA) ) {
 						token = normalize(token);
 					}
-					str.add(token); 
+					returnedString.append(token + " "); 
 				}	
 			}
 			
@@ -202,6 +246,6 @@ public class AnswerBuilder {
 			
 		}
 		
-		return String.join(" ", str);
+		return returnedString;
 	}
 }

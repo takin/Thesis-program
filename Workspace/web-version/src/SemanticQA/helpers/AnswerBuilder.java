@@ -36,6 +36,8 @@ public class AnswerBuilder {
 		QueryResult query = (QueryResult) result.get(ResultKey.SPARQLDL);
 		List<QueryResultModel> inferedObjects = (List<QueryResultModel>) result.get(ResultKey.INFERED_DATA);
 		
+		System.out.println(query.toJSON());
+		
 		for ( int queryBindingIndex = 0; queryBindingIndex < query.size(); queryBindingIndex++ ) {
 			
 			QueryBinding binding = query.get(queryBindingIndex);

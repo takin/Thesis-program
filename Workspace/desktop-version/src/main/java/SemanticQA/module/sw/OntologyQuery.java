@@ -7,8 +7,10 @@ package SemanticQA.module.sw;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -103,25 +105,45 @@ public class OntologyQuery {
 		//		]
 		//////////////////////////////////////////
 		List<QueryResultModel> listOfInferedData = new ArrayList<QueryResultModel>();
+		List<OWLNamedIndividual> boundedIndividuals = new ArrayList<OWLNamedIndividual>();
 		
 		QueryResult sparqldlQueryResult = null;
 		
 		try {
 			Query query = buildQuery(model);
+			//////////////////////////////////////////////////
+			// Do PARQL-DL Query							//
+			//////////////////////////////////////////////////
 			sparqldlQueryResult = queryEngine.execute(query);
 			
 			for ( QueryBinding queryBinding : sparqldlQueryResult ) {
-				
-				// ambil semua variabel binding dari query sparqldl
+				//////////////////////////////////////////////////////
+				// ambil semua variabel binding dari query sparqldl	//
+				//////////////////////////////////////////////////////
 				Set<QueryArgument> args = queryBinding.getBoundArgs();
 				
 				for ( QueryArgument arg:args ) {
 					
 					QueryArgument item = queryBinding.get(arg);
 					
-					if ( item.isURI() ) {
-					
+					if ( item.isURI() && arg.getValue().matches("(sub|ob)ject")) {		
+						
 						String itemValue = item.getValue();
+						
+						if ( !boundedIndividuals.contains(itemValue) ) {
+							IRI currentIndividualIRI = IRI.create(itemValue);
+							OWLNamedIndividual currentIndividual = mapper.dataFactory.getOWLNamedIndividual(currentIndividualIRI);
+							Set<OWLNamedIndividual> listOfSameIndividuals = reasoner.getSameIndividuals(currentIndividual).getEntities();
+							
+							if ( listOfSameIndividuals.size() > 0 ) {
+							
+								
+								
+								for ( OWLNamedIndividual individual : listOfSameIndividuals ) {
+									boundedIndividuals.add(individual);
+								}
+							}
+						}
 						
 						
 						////////////////////
@@ -199,9 +221,9 @@ public class OntologyQuery {
 					}
 					
 				}
-				
-				QueryResultModel queryResultModel = doSPARQLQuery(inferredObject);
-				listOfInferedData.add(queryResultModel);
+				LinkedHashMap<String, String> sparqlQueryResult = doSPARQLQuery(inferredObject);
+//				QueryResultModel queryResultModel = doSPARQLQuery(inferredObject);
+//				listOfInferedData.add(queryResultModel);
 			}
 			
 		} catch (QueryParserException | QueryEngineException e) {
@@ -214,9 +236,10 @@ public class OntologyQuery {
 		return result;
 	}
 	
-	private QueryResultModel doSPARQLQuery(String instancePath) throws Exception {
-		QueryResultModel result = new QueryResultModel();
-		Map<String, String> data = new HashMap<String, String>();
+	private LinkedHashMap<String, String> doSPARQLQuery(String instancePath) throws Exception {
+//		QueryResultModel result = new QueryResultModel();
+//		Map<String, String> data = new HashMap<String, String>();
+		LinkedHashMap<String, String> data = new LinkedHashMap<String, String>();
 		
 		String query = "";
 		Repository repo = null;
@@ -256,7 +279,7 @@ public class OntologyQuery {
 		if ( !instancePath.matches("^(http://id.dbpedia.org).*") ) {
 			
 			try {
-				File location = new File("/Users/syamsul/Documents/Thesis-program/Ontologi/dataset-turtle.owl");
+				URL location = new URL(Ontology.Path.DATASET);
 				
 				repo = new SailRepository(new MemoryStore());
 				repo.initialize();
@@ -307,10 +330,10 @@ public class OntologyQuery {
 			throw new Exception("Proses Query SPARQL Gagagl");
 		}
 		
-		result.setSubject(instancePath);
-		result.addData(data);
+//		result.setSubject(instancePath);
+//		result.addData(data);
 		
-		return result;
+		return data;
 	}
 	
 	private Query buildQuery(List<Sentence> model) throws QueryParserException {
