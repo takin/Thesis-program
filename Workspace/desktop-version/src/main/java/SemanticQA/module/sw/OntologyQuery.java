@@ -5,11 +5,11 @@
  */
 package SemanticQA.module.sw;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,16 +18,17 @@ import java.util.Set;
 import org.openrdf.OpenRDFException;
 import org.openrdf.model.Value;
 import org.openrdf.query.BindingSet;
-import org.openrdf.query.QueryLanguage;
 import org.openrdf.query.TupleQuery;
 import org.openrdf.query.TupleQueryResult;
 import org.openrdf.repository.Repository;
 import org.openrdf.repository.RepositoryConnection;
+import org.openrdf.repository.RepositoryException;
 import org.openrdf.repository.sail.SailRepository;
 import org.openrdf.repository.sparql.SPARQLRepository;
 import org.openrdf.rio.RDFFormat;
 import org.openrdf.sail.memory.MemoryStore;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
@@ -41,6 +42,7 @@ import de.derivo.sparqldlapi.exceptions.QueryEngineException;
 import de.derivo.sparqldlapi.exceptions.QueryParserException;
 import SemanticQA.constant.Ontology;
 import SemanticQA.constant.Type;
+import SemanticQA.model.QueryResultData;
 import SemanticQA.model.QueryResultModel;
 import SemanticQA.model.SemanticToken;
 import SemanticQA.model.Sentence;
@@ -53,10 +55,11 @@ public class OntologyQuery {
 
 	private QueryEngine queryEngine;
 	private String queryPattern = "";
+	private static final String DBPEDIA_PROPERTY_FILTER = "(id.dbpedia.org/property|(rdf-schema#[(comment|label)])|depiction)";
 	
 	public static abstract class ResultKey {
-		public static final String SPARQLDL = "sparqldl";
-		public static final String INFERED_DATA = "inferedData";
+		public static final String DATA = "data";
+		public static final String OBJECT = "object";
 	}
 	
 	///////////////////////////
@@ -65,7 +68,7 @@ public class OntologyQuery {
 	// tentang subjek yang bersangkutan
 	// URI ini didapatkan pada saat proses pembentukan query dalam method buidQuery()
 	////////////////////////////////////////////////
-	private List<String> inferredData;
+	private Map<String, String> inferredItem;
 	private OWLReasoner reasoner;
 	private OntologyMapper mapper;
 	
@@ -73,39 +76,17 @@ public class OntologyQuery {
 		this.queryEngine =  QueryEngine.create(mapper.ontology.getOWLOntologyManager(), reasoner);
 		this.reasoner = reasoner;
 		this.mapper = mapper;
-		inferredData = new ArrayList<String>();
+		inferredItem = new HashMap<String, String>();
 	}
 	
-	public Map<String, Object> execute(List<Sentence> model) throws Exception{
+	public Map<String, List<? extends QueryResultModel>> execute(List<Sentence> model) throws Exception {
 		
-		////////////////////
-		// ----------------------------
-		// Hashmap data hasil query
-		// ----------------------------
-		// data terdiri berupa:
-		// {
-		//		text:[] // array list "answerText" hasil query sparql dl,
-		//		additionalData: [ list map
-		//			about: // nama instance
-		//			data:{ // hashmap
-		//			}
-		//		]
-		// }
-		//
-		// objek ini selanjutnya akan di proses menjadi objek JSON
-		// di dalam method AnswerBuilder
-		/////////////////////////
-		Map<String,Object> result = new HashMap<String, Object>();
+		Map<String, List<? extends QueryResultModel>> result = new HashMap<String, List<? extends QueryResultModel>>();
 		
-		///////////////////////////////////////////
-		//		listOfAdditionalData: [ list map
-		//			about: // nama instance
-		//			data:{ // hashmap
-		//			}
-		//		]
-		//////////////////////////////////////////
-		List<QueryResultModel> listOfInferedData = new ArrayList<QueryResultModel>();
-		List<OWLNamedIndividual> boundedIndividuals = new ArrayList<OWLNamedIndividual>();
+		List<QueryResultData> listOfQueryResultData = new ArrayList<QueryResultData>();
+		final List<QueryResultModel> listOfQueryResultObject = new ArrayList<QueryResultModel>();
+		
+		Set<OWLNamedIndividual> boundedIndividuals = new HashSet<OWLNamedIndividual>();
 		
 		QueryResult sparqldlQueryResult = null;
 		
@@ -115,7 +96,7 @@ public class OntologyQuery {
 			// Do PARQL-DL Query							//
 			//////////////////////////////////////////////////
 			sparqldlQueryResult = queryEngine.execute(query);
-			
+			System.out.println(queryPattern);
 			for ( QueryBinding queryBinding : sparqldlQueryResult ) {
 				//////////////////////////////////////////////////////
 				// ambil semua variabel binding dari query sparqldl	//
@@ -129,211 +110,245 @@ public class OntologyQuery {
 					if ( item.isURI() && arg.getValue().matches("(sub|ob)ject")) {		
 						
 						String itemValue = item.getValue();
+						////////////////////////////////////
+						// Bentuk OWLNamedIndividual untuk mencari individual yang ber-relasi sameAs dengan 
+						// individual ini
+						////////////////////////////////////
+						IRI currentIndividualIRI = IRI.create(itemValue);
+						OWLNamedIndividual currentIndividual = mapper.dataFactory.getOWLNamedIndividual(currentIndividualIRI);
 						
-						if ( !boundedIndividuals.contains(itemValue) ) {
-							IRI currentIndividualIRI = IRI.create(itemValue);
-							OWLNamedIndividual currentIndividual = mapper.dataFactory.getOWLNamedIndividual(currentIndividualIRI);
-							Set<OWLNamedIndividual> listOfSameIndividuals = reasoner.getSameIndividuals(currentIndividual).getEntities();
+						//////////////////////////////
+						// Proses pencarian data individual hasil query SPARQL-DL dengan cara melakukan query SPARQL
+						// pada method doSPARQLQuery() dilakukan dengan cara terlebih dahulu mencari semua individual 
+						// yang sama (owl:sameAs). 
+						// Jika terdapat individual yang sama maka semua individual yang sama dilakukan proses query
+						// SPARQL secara bersamaan sehingga menghasilkan satu buah objek QueryResultModel yang berisi 
+						// properti gabungan dari semua individual.
+						//
+						// Karena hasil query SPARQL-DL juga akan mengembalikan individual yang sama (same as) 
+						// maka untuk menghidari terjadinya duplikasi data untuk 2 buah individual yang memiliki 
+						// properti same as, lakukan filtering terlebih dahulu dengan mengecek isi array boundedIndividual
+						// jika URI individual yang bersangkutan sudah ada, maka abaikan karena datanya sudah ada
+						//
+						// Contoh:
+						// misal hasil query SPARQL-DL adalah sbb:
+						// ?object = http://id.dbpedia.org/resource/Kabupaten_Lombok_Timur
+						// ?object = http://semanticweb.techtalk.web.id/dataset#Lombok_Timur
+						//
+						// kedua objek tersebut memiliki property same as, pada saat iterasi pertama dimana yang akan di proses 
+						// adalah http://id.dbpedia.org/resource/Kabupaten_Lombok_Timur, pada saat proses pencarian 
+						// sameAs individual melalui reasoner akan menemukan  http://semanticweb.techtalk.web.id/dataset#Lombok_Timur
+						// sehingga kedua URI ini akan di proses (doSPARQLQuery()) secara bersamaan, nah pada iterasi selanjutnya
+						// dimana URI yang akan di proses adalah http://semanticweb.techtalk.web.id/dataset#Lombok_Timur juga akan 
+						// menemukan http://id.dbpedia.org/resource/Kabupaten_Lombok_Timur, sehingga seharusnya iterasi ke-dua diabaikan
+						// agar tidak terjadi duplikasi data.
+						/////////////////////////////
+						if ( !boundedIndividuals.contains(currentIndividual) ) {
+							//////////////////////////////////////////////////////////////////
+							// Ambil list individual yang sama dengan individual saat ini	//
+							//////////////////////////////////////////////////////////////////
+							final Set<OWLNamedIndividual> listOfSameIndividuals = reasoner.getSameIndividuals(currentIndividual).getEntities();
 							
-							if ( listOfSameIndividuals.size() > 0 ) {
+							//////////////////////////////////////////////////////////////////////////////////////
+							// Masukkan semua individual yang ditemukan di dalam proses getSameIndividual()		//
+							// sehingga jika terdapat individual yang sama, proses pencarain data dapat di skip	//
+							//////////////////////////////////////////////////////////////////////////////////////
+							boundedIndividuals.addAll(listOfSameIndividuals);
 							
+							//////////////////////////////////////////////////////////////////////////////////////////////
+							// Siapkan objek QueryResultData															//
+							// Objek ini akan menyimpan hasil query sparql yang berupa property dan nilai propertynya	//
+							//////////////////////////////////////////////////////////////////////////////////////////////
+							final QueryResultData resultModel = new QueryResultData();
+							
+							//////////////////
+							// Karena tingkat akurasi DBPedia lebih rendah dari tingkat akurasi dari ontologi yang di kembangkan 
+							// sendiri, maka jika individual yang sedang di proses saat ini memiliki individual yang sama dengan 
+							// individual yang berasa dari DBPedai, maka untuk isi dari field subject pada objek resultModel 
+							// diisi dengan URI dari ontologi yang dikembangkan sendiri
+							// 
+							// Oleh karena proses ini memerlukan iterasi, maka untuk mencegah terjadinya blocking thread maka
+							// lakukan pada thread terpisah sehingga proses pengerjaan query SPARQL tidak terganggu.
+							////////////////////////////
+							Runnable decidedTheSubject = new Runnable() {
 								
-								
-								for ( OWLNamedIndividual individual : listOfSameIndividuals ) {
-									boundedIndividuals.add(individual);
+								@Override
+								public void run() {
+									for (Iterator<OWLNamedIndividual> indv = listOfSameIndividuals.iterator(); indv.hasNext();) {
+										OWLNamedIndividual i = indv.next();
+										if ( i.toString().matches("^(<?http://semanticweb.techtalk).*") || !indv.hasNext()) {
+											resultModel.setSubject(i.toStringID());
+											
+												Set<OWLClass> individualTypes = reasoner.getTypes(i, true).getFlattened();
+												System.out.println(individualTypes);
+												for ( OWLClass indvidualType:individualTypes ) {
+													
+													QueryResultModel classOfIndividualModel = new QueryResultModel();
+													QueryResultModel individualModel = new QueryResultModel();
+													classOfIndividualModel.setObject(indvidualType.toStringID());
+													individualModel.setObject(i.toStringID());
+													
+													listOfQueryResultObject.add(classOfIndividualModel);
+													listOfQueryResultObject.add(individualModel);
+												}
+											
+											break;
+										}
+									}
 								}
+							};
+							
+							Thread decideTheSubjectThread = new Thread(decidedTheSubject);
+							decideTheSubjectThread.start();
+							//////////////////////////////////////////////////////////////////////////////////////////////////////
+							// Meskipun individual yang saat ini tidak memiliki individual yang ber-relasi owl:sameAs namun 	//
+							// method getSameIndividual().getEntities() minimal akan mengembalikan satu nilai yaitu 			//
+							// individual yang saat ini di proses.																//
+							//																									//
+							// Set tidak langsung dikirimkan ke methd doSPARQLQuery() karena perlu diurutkan terlebih dahulu	//
+							// yaitu urutannya adalah variabel ?subject di proses terlebih dahulu 								//
+							//////////////////////////////////////////////////////////////////////////////////////////////////////
+							LinkedHashMap<String, String> sparqlResult = doSPARQLQuery(listOfSameIndividuals);
+							
+							resultModel.addData(sparqlResult);
+							decideTheSubjectThread.join();
+							
+							//////////////////////////////////////////////////////////////////////////////////////
+							// Jika individual berasal dari variabel ?subject maka pastikan ia berada 			//
+							// di array paling depan supaya hasil summryText sesuai dengan konteks pertanyaan	//
+							//////////////////////////////////////////////////////////////////////////////////////
+							if ( arg.getValue().equals("subject") ) {
+								listOfQueryResultData.add(0, resultModel);
+							} else {
+								listOfQueryResultData.add(resultModel);
 							}
-						}
-						
-						
-						////////////////////
-						// Untuk objek yang akan dimasukkan ke dalam array additional info
-						// lakukan filtering terlebih dahulu.
-						// item yang akan diambil hanya item yang berupa subjek atau objek
-						// karena kedua item sudah pasti berupa individual yang nantinya 
-						// akan dicari propertynya melalui query sparql biasa dengan menggunakan 
-						// sesame API.
-						// 
-						// Adapun query yang dilakukan nantinya dapat berupa query internal ontologi
-						// ataupun terhadap endpoint DBPEDIA Indonesia (tergantung URI dari objek yang berssangkutan
-						/////////////////////////////////
-						if ( arg.getValue().equals("subject") ) {
-							inferredData.add(0,itemValue);
-						}
-						
-						if ( arg.getValue().equals("object") ) {
-							inferredData.add(itemValue);
 						}
 					}
 				}
 			}
-			
-			///////////
-			// Proses query pencarian tambahan informasi dilakukan 
-			// mulai dari isi array yang paling belakang karena posisi data yang
-			// relevan dengan subjek berada di paling depan sehingga kalau dilakkukan
-			// query mulai dari yang paling depan, list data hasil query akan menempatkan 
-			// data yang paling relevan (subjek) menjadi posisi yang paling bawah
-			////////////////
-			for ( int i = 0; i < inferredData.size(); i++ ) {
-				
-				String inferredObject = inferredData.get(i);
-				
-				////////////////////////////////
-				// Jika individu bukan berasal dari dbpedia
-				// maka lakukan pengecekan untuk mencari individu yang sama
-				// (individu dengan property owl:sameAs) yang berasal dari dbpedia
-				// Jika ditemukan, maka lakukan query sparql terhadap individu yang 
-				// berasal dari dbpedia!!
-				//////////////////////////////////
-				if ( !inferredObject.matches("^(<?http://id.dbpedia).*") ) {
-					
-					if( inferredObject.startsWith("<") ) {
-						inferredObject = inferredObject.substring(1, inferredObject.length());
-					}
-					
-					if ( inferredObject.endsWith(">") ) {
-						inferredObject = inferredObject.substring(0, inferredObject.length() - 1);
-					}
-					
-					IRI iri = IRI.create(inferredObject);
-					
-					OWLNamedIndividual newIndividual = mapper.dataFactory.getOWLNamedIndividual(iri);
-					Set<OWLNamedIndividual> listOfSameIndividuals = this.reasoner.getSameIndividuals(newIndividual).getEntities();
-					
-					if (  listOfSameIndividuals.size() > 0 ) {
-						for ( OWLNamedIndividual individu : listOfSameIndividuals ) {
-							if ( individu.toString().matches("^(<?http://id.dbpedia).*") ) {
-								
-								String stringify = individu.toString();
-								stringify = stringify.substring(1, stringify.length() - 1);
-								/////////
-								// cek apakah individual yang sama sudah ada di dalam arraylist inferedList atau tidak
-								// Jika ada maka abaikan
-								////////////
-								if ( !inferredData.contains(stringify) ){
-									inferredObject = stringify;
-								}
-								
-								break;
-							}
-						}
-					}
-					
-				}
-				LinkedHashMap<String, String> sparqlQueryResult = doSPARQLQuery(inferredObject);
-//				QueryResultModel queryResultModel = doSPARQLQuery(inferredObject);
-//				listOfInferedData.add(queryResultModel);
-			}
-			
 		} catch (QueryParserException | QueryEngineException e) {
 			throw new Exception("Tidak dapat melakukan query terhadap basis pengetahuan!");
 		}
 		
-		result.put(ResultKey.SPARQLDL, sparqldlQueryResult);
-		result.put(ResultKey.INFERED_DATA, listOfInferedData);
+		String item = inferredItem.get("URI");
+		String ii = item.substring(1, item.length() - 1);
+		IRI iiIRI = IRI.create(ii);
+		
+		OWLNamedIndividual mainIndividu = mapper.dataFactory.getOWLNamedIndividual(iiIRI);
+		Set<OWLNamedIndividual> mainIndividuals = reasoner.getSameIndividuals(mainIndividu).getEntities();
+		
+		LinkedHashMap<String, String> qr = doSPARQLQuery(mainIndividuals);
+		
+		QueryResultData mainItemModel = new QueryResultData();
+		mainItemModel.addData(qr);
+		mainItemModel.setSubject(ii);
+		
+		if ( inferredItem.get("type").equals("subject") ){
+			listOfQueryResultData.add(0, mainItemModel);
+		} else {
+			listOfQueryResultData.add(mainItemModel);			
+		}
+		
+		result.put(ResultKey.DATA, listOfQueryResultData);
+		result.put(ResultKey.OBJECT, listOfQueryResultObject);
 		
 		return result;
 	}
 	
-	private LinkedHashMap<String, String> doSPARQLQuery(String instancePath) throws Exception {
-//		QueryResultModel result = new QueryResultModel();
-//		Map<String, String> data = new HashMap<String, String>();
-		LinkedHashMap<String, String> data = new LinkedHashMap<String, String>();
+	private LinkedHashMap<String, String> doSPARQLQuery(Set<OWLNamedIndividual> individuals) throws Exception {
+		LinkedHashMap<String, String> result = new LinkedHashMap<String, String>();
 		
-		String query = "";
 		Repository repo = null;
-		RepositoryConnection conn = null;
+		RepositoryConnection repositoryConnection = null;
+		String query = "";
 		
-		///////////////////////////
-		// karena default kembalian hasil mapping di dalam ontology adalah
-		// <http://foo.bar/>
-		// maka untuk menyeragamkan uri dengan hasil query dari dpbedia,
-		// hapus "<" dan ">" agar proses pembentukan query seragam
-		////////////////////////////
-		if ( instancePath.startsWith("<") ) {
-			instancePath = instancePath.substring(1, instancePath.length());
-		}
-		
-		if ( instancePath.endsWith(">") ) {
-			instancePath = instancePath.substring(0, instancePath.length() - 1);
-		}
-		
-		if ( instancePath.matches("^(http://id.dbpedia.org).*") ) {
+		for ( OWLNamedIndividual individual : individuals ) {
 			
-			repo = new SPARQLRepository(Ontology.Path.DBPEDIA_ENDPOINT);
-			repo.initialize();
+			String path = individual.toString();
 			
-			try {
-				conn = repo.getConnection();
-			} catch (OpenRDFException e) {
-				throw new Exception("Tidak dapat menghubungi DBPedia Endpoint");
-			}
-			
-			query = "SELECT * WHERE {"
-			 			+ "<" + instancePath + "> ?prop ?value . "
-			 			+ "FILTER(regex(?prop, \"(id.dbpedia.org/property|(rdf-schema#[(comment|label)])|depiction)\", \"i\"))"
-			 		+ "}";
-		} 
-		
-		if ( !instancePath.matches("^(http://id.dbpedia.org).*") ) {
-			
-			try {
-				URL location = new URL(Ontology.Path.DATASET);
+			if ( path.matches("^(<http://id.dbpedia.org).*") ) {
 				
-				repo = new SailRepository(new MemoryStore());
-				repo.initialize();
-				conn = repo.getConnection(); 
-				
-				String localPath = "http://semanticweb.techtalk.web.id/ontology/dataset";
-				conn.add(location, localPath, RDFFormat.TURTLE);
-				
-			} catch (OpenRDFException | IOException e) {
-				throw new Exception("Tidak dapat me-load dataset lokal");
-			}
-			
-			query = "SELECT * WHERE {\n"
-					+ "<" + instancePath + "> ?prop ?value . \n"
-					+ "}";
-		}
-		
-		try {
-	
-			TupleQuery tquery = conn.prepareTupleQuery(QueryLanguage.SPARQL, query);
-			
-			try(TupleQueryResult tr = tquery.evaluate()) {
-			
-				List<String> bindings = tr.getBindingNames();
-				
-				if ( tr.hasNext() ){
-					while (tr.hasNext()) {
-						
-						BindingSet bs = tr.next();
-						
-						Value prop = bs.getValue(bindings.get(0));
-						Value val = bs.getValue(bindings.get(1));
-						
-						////////
-						// ambil hanya property yang memiliki nilai
-						///////
-						if ( val.stringValue().matches("[a-zA-Z0-9]+.*") ) {
-							data.put(prop.stringValue(), val.stringValue());
-						}
-					}					
+				try {
+					repo = new SPARQLRepository(Ontology.Path.DBPEDIA_ENDPOINT);
+					repo.initialize();
+					repositoryConnection = repo.getConnection();
+					///////////////
+					// objek path tidak perlu ditambahkan tanda < dan > karena
+					// hasil konversi OWLNamedIndividual menjadi string sudah otomatis memiliki 
+					// tanda < dan >
+					////////////////					
+					query = "SELECT * WHERE {\n"
+							+ path + " ?prop ?value .\n"
+							+ "FILTER(regex(?prop, \"" + DBPEDIA_PROPERTY_FILTER + "\", \"i\"))\n"
+							+ "}";
+					
+				} catch (RepositoryException e) {
+					throw new Exception("Gagal melakukan koneksi dengan server DBPedia");
+				}
+			} else {				
+				try {
+					repo = new SailRepository(new MemoryStore());
+					repo.initialize();
+					
+					URL localRDFFile = new URL(Ontology.Path.DATASET);
+					String localPath = "http://semanticweb.techtalk.web.id/dataset";
+									
+					repositoryConnection = repo.getConnection();
+					repositoryConnection.add(localRDFFile, localPath, RDFFormat.TURTLE);
+					
+					///////////////
+					// objek path tidak perlu ditambahkan tanda < dan > karena
+					// hasil konversi OWLNamedIndividual menjadi string sudah otomatis memiliki 
+					// tanda < dan >
+					////////////////
+					query = "SELECT * WHERE {\n"
+							+ path + " ?prop ?value .\n"
+							+ "}";
+					
+				} catch (Exception e) {
+					throw new Exception("Gagal melakukan koneksi dengan server DATASET");
 				}
 			}
-			catch (Exception e) {
-				throw new Exception("Proses pembentukan hasil query SPARQL gagal");
+			
+			try {
+				TupleQuery tupleQuery = repositoryConnection.prepareTupleQuery(query);
+				
+				try(TupleQueryResult queryResult = tupleQuery.evaluate()) {
+					
+					List<String> boundVariables = queryResult.getBindingNames();
+					
+					if ( queryResult.hasNext() ) {
+						
+						while ( queryResult.hasNext() ) {
+							
+							BindingSet bs = queryResult.next();
+							
+							Value prop = bs.getValue(boundVariables.get(0));
+							Value val = bs.getValue(boundVariables.get(1));
+							
+							////////
+							// ambil hanya property yang memiliki nilai
+							///////
+							if ( val.stringValue().matches("[a-zA-Z0-9]+.*") ) {
+								result.put(prop.stringValue(), val.stringValue());
+							}
+						}
+					}
+					
+				} catch (Exception e) {
+					throw new Exception("Gagal mengambil hasil query SPARQL");
+				}
+				
+			} catch (OpenRDFException e) {
+				throw new Exception("Gagal membentuk query SPARQL");
 			}
 			
-		} catch (OpenRDFException e ) {
-			throw new Exception("Proses Query SPARQL Gagagl");
+			repositoryConnection.close();
+			repo.shutDown();
 		}
 		
-//		result.setSubject(instancePath);
-//		result.addData(data);
 		
-		return data;
+		return result;
 	}
 	
 	private Query buildQuery(List<Sentence> model) throws QueryParserException {
@@ -386,7 +401,8 @@ public class OntologyQuery {
 				switch (queryPattern) {
 				case "CI":
 					
-					inferredData.add(listOfObjects.get(1).toString());
+					inferredItem.put("type", "object");
+					inferredItem.put("URI", listOfObjects.get(1).toString());
 					
 					analyzedQuery = "{\n"
 							+ "Type(?subject," + listOfObjects.get(0) +"),\n"
@@ -395,7 +411,8 @@ public class OntologyQuery {
 					break;
 				case "OPCI":
 					
-					inferredData.add(listOfObjects.get(2).toString());
+					inferredItem.put("type", "subject");
+					inferredItem.put("URI", listOfObjects.get(2).toString());
 					
 					analyzedQuery = "{\n"
 							+ "Type(" + listOfObjects.get(2) + "," + listOfObjects.get(1) + "),\n"
@@ -405,7 +422,8 @@ public class OntologyQuery {
 					break;
 				case "OPCOPI":
 					
-					inferredData.add(listOfObjects.get(3).toString());
+					inferredItem.put("type", "object");
+					inferredItem.put("URI", listOfObjects.get(3).toString());
 					
 					analyzedQuery = "{\n "
 							+ "Type(?subject," + listOfObjects.get(1) + "),\n "
@@ -414,7 +432,8 @@ public class OntologyQuery {
 					break;
 				case "COPI":
 					
-					inferredData.add(listOfObjects.get(2).toString());
+					inferredItem.put("type", "object");
+					inferredItem.put("URI", listOfObjects.get(2).toString());
 					
 					analyzedQuery = "{\n "
 							+ "Type(?subject," + listOfObjects.get(0) + "),\n "
@@ -423,14 +442,16 @@ public class OntologyQuery {
 					break;
 				case "DPCI":
 					
-					inferredData.add(listOfObjects.get(2).toString());
+					inferredItem.put("type", "object");
+					inferredItem.put("URI", listOfObjects.get(2).toString());
 					
 					analyzedQuery = "{\nType(?subject," + listOfObjects.get(1) + "),\n"
 							+ "PropertyValue(?subject," + listOfObjects.get(0) + ", " + listOfObjects.get(2) + ")\n}";
 					break;
 				case "COPCI":
 					
-					inferredData.add(listOfObjects.get(3).toString());
+					inferredItem.put("type", "object");
+					inferredItem.put("", listOfObjects.get(3).toString());
 					
 					analyzedQuery = "{Type(?subject, " + listOfObjects.get(0) + "),"
 									+ "PropertyValue(?subject, " + listOfObjects.get(1) + ", " + listOfObjects.get(3) + ")"
@@ -438,7 +459,8 @@ public class OntologyQuery {
 					break;
 				case "I":
 					
-					inferredData.add(listOfObjects.get(0).toString());
+					inferredItem.put("type", "subject");
+					inferredItem.put("URI", listOfObjects.get(0).toString());
 					
 					analyzedQuery = "{\nDirectType(" + listOfObjects.get(0) + ",?class),\n"
 							+ "PropertyValue("+ listOfObjects.get(0) +",?prop, ?object)\n}";

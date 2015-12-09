@@ -23,7 +23,7 @@ public class OntologyLoader {
 	protected OWLOntologyManager manager;
 	protected OWLDataFactory dataFactory; 
 	
-	public OntologyLoader(String path) {
+	public OntologyLoader(String path) throws Exception {
 		this.manager = OWLManager.createOWLOntologyManager();
 		
 		try {
@@ -33,11 +33,11 @@ public class OntologyLoader {
 			dataFactory = manager.getOWLDataFactory();
 			
 		} catch (OWLOntologyCreationException e) {
-			System.out.println(e.getMessage());
+			throw new Exception("Load Ontologi gagal!");
 		}
 	}
 	
-	public OntologyLoader(String[] paths, String mergedURI) {
+	public OntologyLoader(String[] paths, String mergedURI) throws Exception {
 		this.manager = OWLManager.createOWLOntologyManager();
 	
 		try {
@@ -51,7 +51,7 @@ public class OntologyLoader {
 			dataFactory = manager.getOWLDataFactory();
 			
 		} catch (OWLOntologyCreationException e) {
-			System.out.println(e.getMessage());
+			throw new Exception("Load Ontologi gagal!");
 		}
 	}
 	

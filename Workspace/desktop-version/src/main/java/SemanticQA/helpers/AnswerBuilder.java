@@ -9,20 +9,87 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 import SemanticQA.constant.Type;
+import SemanticQA.model.QueryResultData;
 import SemanticQA.model.QueryResultModel;
 import SemanticQA.model.SemanticToken;
 import SemanticQA.model.Sentence;
 import SemanticQA.module.sw.OntologyQuery.ResultKey;
-import de.derivo.sparqldlapi.QueryArgument;
-import de.derivo.sparqldlapi.QueryBinding;
-import de.derivo.sparqldlapi.QueryResult;
-import de.derivo.sparqldlapi.types.QueryArgumentType;
 
 public class AnswerBuilder {
 	
 	private static List<String> questionConstituents;
 	private static String questionString;
 	
+	@SuppressWarnings("unchecked")
+	public static JSONObject json(List<Sentence> question, Map<String, List<? extends QueryResultModel>> results) throws Exception {
+		
+		JSONObject jsonObject = new JSONObject();
+		JSONArray inferedFacts = new JSONArray();
+		
+		StringBuffer summryText = getSubject(question);
+		
+		List<QueryResultModel> queryResultObject = (List<QueryResultModel>) results.get(ResultKey.OBJECT);
+		List<QueryResultData> queryResultData = (List<QueryResultData>) results.get(ResultKey.DATA);
+		
+		if ( questionString.matches("^di.*") ) {
+			summryText.append("adalah di");
+		} else {
+			summryText.append("adalah");
+		}
+		
+		for ( QueryResultData resultData:queryResultData ) {
+			JSONObject item = new JSONObject();
+			JSONObject itemData = new JSONObject();
+			
+			String subject = shorten(resultData.getSubject());
+			subject = normalize(subject);
+			
+			Map<String, String> props = resultData.getData();
+			
+			for( String key : props.keySet() ) {
+				String value = props.get(key);
+				String shortenedKey = shorten(key);
+				//////////////////////////////////////////////////////////////////////
+				// jika key adalah http://id.dbpedia.org/property/web atau 			//
+				// value dari item berekstensi jpeg/jpg/gif, jangan di shorten		//
+				// karena alamat aslinya dibutuhkan									//
+				//////////////////////////////////////////////////////////////////////
+				String shortnedValue  = ( shortenedKey.matches("(web|depiction)") || value.matches("(jpe?g|gif|png)$") ) ?
+					value : normalize(shorten(value));
+				
+				if ( !shortenedKey.matches("(type)") ) {
+					try {
+					itemData.put(shortenedKey, shortnedValue);
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+			
+			item.put("about", subject);
+			item.put("data", itemData);
+			inferedFacts.put(item);
+		}
+		
+		for ( int i = 0 ; i < queryResultObject.size(); i++ ) {
+			QueryResultModel resultObject = queryResultObject.get(i);
+			
+			String shortendAboutURI = shorten(resultObject.getObject());
+			shortendAboutURI = normalize(shortendAboutURI);
+			
+			summryText.append(" " + shortendAboutURI);
+		}
+		
+		try {
+			jsonObject.put("text", summryText.toString());
+			jsonObject.put("inferedFacts", inferedFacts);
+		} catch (JSONException e) {
+			throw new Exception("Proses pembentukan objek jawaban gagal!");
+		}
+		
+		return jsonObject;
+	}
+	/*
 	@SuppressWarnings("unchecked")
 	public static JSONObject json(List<Sentence> question, Map<String, Object> result) {
 		
@@ -36,7 +103,7 @@ public class AnswerBuilder {
 		List<String> orderOfBoundedVars = new ArrayList<String>();
 		
 		QueryResult query = (QueryResult) result.get(ResultKey.SPARQLDL);
-		List<QueryResultModel> inferedObjects = (List<QueryResultModel>) result.get(ResultKey.INFERED_DATA);
+		List<QueryResultData> inferedObjects = (List<QueryResultData>) result.get(ResultKey.INFERED_DATA);
 		
 		if ( query.size() > 0 ) {
 			if ( questionString.matches("^di.*") ) {
@@ -104,7 +171,7 @@ public class AnswerBuilder {
 		}
 		
 		
-		for ( QueryResultModel resultModel : inferedObjects ) {
+		for ( QueryResultData resultModel : inferedObjects ) {
 			
 			JSONObject item = new JSONObject();
 			JSONObject itemData = new JSONObject();
@@ -187,7 +254,7 @@ public class AnswerBuilder {
 		
 		return res;
 	}
-	
+	*/
 	private static String shorten(String uri) {
 		String sf = uri.replaceAll("^[a-z].*.(#|/)", "");
 		return sf;

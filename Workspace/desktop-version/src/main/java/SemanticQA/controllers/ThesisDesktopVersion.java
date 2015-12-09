@@ -3,19 +3,16 @@ package SemanticQA.controllers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.codehaus.jettison.json.JSONObject;
 import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
-import de.derivo.sparqldlapi.QueryResult;
 import SemanticQA.constant.Ontology;
 import SemanticQA.helpers.AnswerBuilder;
-import SemanticQA.helpers.Printer;
 import SemanticQA.model.MySQLDatabase;
+import SemanticQA.model.QueryResultModel;
 import SemanticQA.model.SemanticToken;
 import SemanticQA.model.Sentence;
 import SemanticQA.module.nlp.Parser;
@@ -37,7 +34,6 @@ class ThesisDesktopVersion {
 		
 		try {
 			
-			
 			OntologyMapper ontologyMapper = new OntologyMapper(ontologies, Ontology.Path.MERGED_URI);
 			Parser parser = new Parser();
 			OWLOntology ontology = ontologyMapper.getOntology();
@@ -51,14 +47,17 @@ class ThesisDesktopVersion {
 				List<Sentence> ps = clone(parsingResult);
 //				Printer.cetakKlausa(ps);
 				List<Sentence> mappingResult = ontologyMapper.map(parsingResult);
-				Map<String, Object> queryResult = queryEngine.execute(mappingResult);
+				long start = System.currentTimeMillis();
+				Map<String, List<? extends QueryResultModel>> queryResult = queryEngine.execute(mappingResult);
+				long end = System.currentTimeMillis();
+				System.out.println("query selesai dalam = " + ((end - start) / 60) + " detik");
 				JSONObject finalResult = AnswerBuilder.json(ps,queryResult);
 			
 //				Printer.cetakMap(mappingResult);
 				System.out.println(finalResult);
 			}
 		} catch (Exception e) {
-			
+			System.out.println(e.getMessage());
 		}
 	}
 	
@@ -96,9 +95,9 @@ class ThesisDesktopVersion {
 //				"apa wisata pantai terbaik yang ada di kabupaten lombok tengah",
 //				"di kabupaten lombok tengah ada wisata budaya apa saja",
 //				"siapa yang menjadi kepala desa danger",
-//				"apa saja destinasi wisata yang ada di lombok timur",
+				"apa saja destinasi wisata yang ada di lombok timur",
 //				"apa saja destinasi wisata yang terdapat di kabupaten lombok tengah"
-				"di mana letak pantai tangsi"
+//				"di mana letak pantai tangsi"
 				};
 		return pertanyaan;
 	}
