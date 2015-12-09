@@ -180,7 +180,7 @@ public class OntologyQuery {
 											resultModel.setSubject(i.toStringID());
 											
 												Set<OWLClass> individualTypes = reasoner.getTypes(i, true).getFlattened();
-												System.out.println(individualTypes);
+											
 												for ( OWLClass indvidualType:individualTypes ) {
 													
 													QueryResultModel classOfIndividualModel = new QueryResultModel();
