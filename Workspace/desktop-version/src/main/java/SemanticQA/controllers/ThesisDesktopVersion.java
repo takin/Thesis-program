@@ -7,10 +7,12 @@ import java.util.Map;
 import org.codehaus.jettison.json.JSONObject;
 import org.semanticweb.HermiT.Reasoner;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.reasoner.InferenceType;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 import SemanticQA.constant.Ontology;
 import SemanticQA.helpers.AnswerBuilder;
+import SemanticQA.helpers.Printer;
 import SemanticQA.model.MySQLDatabase;
 import SemanticQA.model.QueryResultModel;
 import SemanticQA.model.SemanticToken;
@@ -38,6 +40,8 @@ class ThesisDesktopVersion {
 			Parser parser = new Parser();
 			OWLOntology ontology = ontologyMapper.getOntology();
 			OWLReasoner reasoner = new Reasoner(ontology);
+			reasoner.precomputeInferences(InferenceType.OBJECT_PROPERTY_ASSERTIONS);
+			reasoner.precomputeInferences(InferenceType.CLASS_ASSERTIONS);
 			Tokenizer tokenizer = new Tokenizer(new MySQLDatabase());
 			for ( String p:pertanyaan() ){
 				System.out.println(p);
@@ -90,14 +94,14 @@ class ThesisDesktopVersion {
 //				"siapa yang terpilih menjadi kepala desa danger tahun 2015",
 //				"di mana alamat kantor dinas pendidikan kabupaten lombok timur",
 //				"di mana letak pantai tanjung an",
-//				"siapakah bupati kabupaten lombok timur",
+				"siapakah bupati kabupaten lombok timur",
 //				"bupati kabupaten lombok timur siapa",
 //				"apa wisata pantai terbaik yang ada di kabupaten lombok tengah",
 //				"di kabupaten lombok tengah ada wisata budaya apa saja",
 //				"siapa yang menjadi kepala desa danger",
-				"apa saja destinasi wisata yang ada di lombok timur",
-//				"apa saja destinasi wisata yang terdapat di kabupaten lombok tengah"
-//				"di mana letak pantai tangsi"
+//				"apa saja destinasi wisata yang ada di lombok tengah",
+//				"apa saja destinasi wisata yang terletak di kabupaten lombok tengah",
+//				"di mana letak pantai pink"
 				};
 		return pertanyaan;
 	}

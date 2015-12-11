@@ -57,9 +57,15 @@ public class OntologyQuery {
 	private String queryPattern = "";
 	private static final String DBPEDIA_PROPERTY_FILTER = "(id.dbpedia.org/property|(rdf-schema#[(comment|label)])|depiction)";
 	
-	public static abstract class ResultKey {
-		public static final String DATA = "data";
-		public static final String OBJECT = "object";
+	public static abstract class Key {
+		public abstract class Result {
+			public static final String DATA = "data";
+			public static final String OBJECT = "object";
+		}
+		public abstract class InferedItem {
+			public static final String TYPE = "type";
+			public static final String URI = "uri";
+		}
 	}
 	
 	///////////////////////////
@@ -96,7 +102,7 @@ public class OntologyQuery {
 			// Do PARQL-DL Query							//
 			//////////////////////////////////////////////////
 			sparqldlQueryResult = queryEngine.execute(query);
-			System.out.println(queryPattern);
+			
 			for ( QueryBinding queryBinding : sparqldlQueryResult ) {
 				//////////////////////////////////////////////////////
 				// ambil semua variabel binding dari query sparqldl	//
@@ -177,21 +183,34 @@ public class OntologyQuery {
 									for (Iterator<OWLNamedIndividual> indv = listOfSameIndividuals.iterator(); indv.hasNext();) {
 										OWLNamedIndividual i = indv.next();
 										if ( i.toString().matches("^(<?http://semanticweb.techtalk).*") || !indv.hasNext()) {
+											
 											resultModel.setSubject(i.toStringID());
-											
-												Set<OWLClass> individualTypes = reasoner.getTypes(i, true).getFlattened();
-											
-												for ( OWLClass indvidualType:individualTypes ) {
-													
-													QueryResultModel classOfIndividualModel = new QueryResultModel();
-													QueryResultModel individualModel = new QueryResultModel();
-													classOfIndividualModel.setObject(indvidualType.toStringID());
-													individualModel.setObject(i.toStringID());
-													
+											Set<OWLClass> individualTypes = reasoner.getTypes(i, true).getFlattened();
+										
+											for ( OWLClass indvidualType:individualTypes ) {
+												
+												QueryResultModel classOfIndividualModel = new QueryResultModel();
+												QueryResultModel individualModel = new QueryResultModel();
+												classOfIndividualModel.setObject(indvidualType.toStringID());
+												individualModel.setObject(i.toStringID());
+												
+												//////////////////////////////////////////////////////////////////////////////////////////////////
+												// Khusus untuk query pattern CI misalnya "siapakah bupati kabupaten lombok timur"				//
+												// jangan sertakan nama kelas ke dalam daftar summry text agar teks jawaban menjadi 			//
+												// lebih natural -> "bupati kabupaten lombok timur adalah ali bin dahlan", jika tidak 			//
+												// dibuang, maka akan menghasilkan "bupati kabupaten lombok timur adalah bupati ali bin dahlan"	//
+												//////////////////////////////////////////////////////////////////////////////////////////////////
+												if ( !queryPattern.matches("CI") ) {
 													listOfQueryResultObject.add(classOfIndividualModel);
-													listOfQueryResultObject.add(individualModel);
 												}
-											
+												//////////
+												// masukkan daftar hasil query sparql untuk masing-masing individu ke dalam 
+												// array list queryResultObject
+												///////////
+												listOfQueryResultObject.add(individualModel);
+												
+												break;
+											}
 											break;
 										}
 									}
@@ -209,9 +228,8 @@ public class OntologyQuery {
 							// yaitu urutannya adalah variabel ?subject di proses terlebih dahulu 								//
 							//////////////////////////////////////////////////////////////////////////////////////////////////////
 							LinkedHashMap<String, String> sparqlResult = doSPARQLQuery(listOfSameIndividuals);
-							
-							resultModel.addData(sparqlResult);
 							decideTheSubjectThread.join();
+							resultModel.addData(sparqlResult);
 							
 							//////////////////////////////////////////////////////////////////////////////////////
 							// Jika individual berasal dari variabel ?subject maka pastikan ia berada 			//
@@ -226,31 +244,50 @@ public class OntologyQuery {
 					}
 				}
 			}
+			
+			String item = inferredItem.get(Key.InferedItem.URI);
+			String ii = item.substring(1, item.length() - 1);
+			IRI iiIRI = IRI.create(ii);
+			
+			OWLNamedIndividual mainIndividu = mapper.dataFactory.getOWLNamedIndividual(iiIRI);
+			Set<OWLNamedIndividual> mainIndividuals = reasoner.getSameIndividuals(mainIndividu).getEntities();
+			
+			LinkedHashMap<String, String> qr = doSPARQLQuery(mainIndividuals);
+			
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			// Khusus untuk model query PS atau SP yang hanya memiliki mapping Individul (tanpa ada kelas atau properti)	//
+			// misalnya "siapakah ali bin dahlan", maka tambahkan nama kelas ke dalam array listOfQueryResultObject			//
+			// Hal ini dilakukan karena hasil summery text akan menjadi "ali bin dahlan adalah kabupaten lombok timur"		//
+			// karena tidak ada nama kelas. sehingga untuk memperbaikinya maka harus ditambahkan 							//
+			//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+			if ( queryPattern.matches("I") ) {
+				QueryResultModel m = new QueryResultModel();
+				Set<OWLClass> classes = reasoner.getTypes(mainIndividu, true).getFlattened();
+				for ( OWLClass c:classes ) {
+					m.setObject(c.toStringID());
+					break;
+				}
+				
+				listOfQueryResultObject.add(0, m);
+			}
+			
+			QueryResultData mainItemModel = new QueryResultData();
+			mainItemModel.addData(qr);
+			mainItemModel.setSubject(ii);
+			
+			if ( inferredItem.get(Key.InferedItem.TYPE).equals("subject") ){
+				listOfQueryResultData.add(0, mainItemModel);
+			} else {
+				listOfQueryResultData.add(mainItemModel);			
+			}
+			
+			result.put(Key.Result.DATA, listOfQueryResultData);
+			result.put(Key.Result.OBJECT, listOfQueryResultObject);			
+			
 		} catch (QueryParserException | QueryEngineException e) {
 			throw new Exception("Tidak dapat melakukan query terhadap basis pengetahuan!");
 		}
 		
-		String item = inferredItem.get("URI");
-		String ii = item.substring(1, item.length() - 1);
-		IRI iiIRI = IRI.create(ii);
-		
-		OWLNamedIndividual mainIndividu = mapper.dataFactory.getOWLNamedIndividual(iiIRI);
-		Set<OWLNamedIndividual> mainIndividuals = reasoner.getSameIndividuals(mainIndividu).getEntities();
-		
-		LinkedHashMap<String, String> qr = doSPARQLQuery(mainIndividuals);
-		
-		QueryResultData mainItemModel = new QueryResultData();
-		mainItemModel.addData(qr);
-		mainItemModel.setSubject(ii);
-		
-		if ( inferredItem.get("type").equals("subject") ){
-			listOfQueryResultData.add(0, mainItemModel);
-		} else {
-			listOfQueryResultData.add(mainItemModel);			
-		}
-		
-		result.put(ResultKey.DATA, listOfQueryResultData);
-		result.put(ResultKey.OBJECT, listOfQueryResultObject);
 		
 		return result;
 	}
@@ -314,7 +351,6 @@ public class OntologyQuery {
 				TupleQuery tupleQuery = repositoryConnection.prepareTupleQuery(query);
 				
 				try(TupleQueryResult queryResult = tupleQuery.evaluate()) {
-					
 					List<String> boundVariables = queryResult.getBindingNames();
 					
 					if ( queryResult.hasNext() ) {
@@ -336,7 +372,9 @@ public class OntologyQuery {
 					}
 					
 				} catch (Exception e) {
-					throw new Exception("Gagal mengambil hasil query SPARQL");
+					// jangan throw exception karena jika koneksi ke DBPedia gagal
+					// akan mengakibatkan gagal secara keseluruhan 
+					// termasuk proses query lokal repository
 				}
 				
 			} catch (OpenRDFException e) {
@@ -401,69 +439,81 @@ public class OntologyQuery {
 				switch (queryPattern) {
 				case "CI":
 					
-					inferredItem.put("type", "object");
-					inferredItem.put("URI", listOfObjects.get(1).toString());
+					inferredItem.put(Key.InferedItem.TYPE, "object");
+					inferredItem.put(Key.InferedItem.URI, listOfObjects.get(1).toString());
 					
 					analyzedQuery = "{\n"
-							+ "Type(?subject," + listOfObjects.get(0) +"),\n"
-							+ "PropertyValue(?subject, ?prop, " + listOfObjects.get(1) + ")"
+							+ "ObjectProperty(?op),"
+							+ "Type(?object," + listOfObjects.get(0) +"),\n"
+							+ "PropertyValue(?object, ?op, " + listOfObjects.get(1) + ")"
 							+ "\n}";
 					break;
 				case "OPCI":
 					
-					inferredItem.put("type", "subject");
-					inferredItem.put("URI", listOfObjects.get(2).toString());
+					inferredItem.put(Key.InferedItem.TYPE, "subject");
+					inferredItem.put(Key.InferedItem.URI, listOfObjects.get(2).toString());
 					
 					analyzedQuery = "{\n"
 							+ "Type(" + listOfObjects.get(2) + "," + listOfObjects.get(1) + "),\n"
+							+ "Transitive(" + listOfObjects.get(0) + "),\n"
 							+ "PropertyValue(" + listOfObjects.get(2) + ", " + listOfObjects.get(0) + ", ?object),\n"
 							+ "DirectType(?object, ?class)"
 							+ "\n}";
 					break;
 				case "OPCOPI":
 					
-					inferredItem.put("type", "object");
-					inferredItem.put("URI", listOfObjects.get(3).toString());
+					inferredItem.put(Key.InferedItem.TYPE, "object");
+					inferredItem.put(Key.InferedItem.URI, listOfObjects.get(3).toString());
 					
 					analyzedQuery = "{\n "
 							+ "Type(?subject," + listOfObjects.get(1) + "),\n "
+							+ "Transitive(" + listOfObjects.get(2) + "),\n"
 							+ "PropertyValue(?subject, " + listOfObjects.get(2) + "," + listOfObjects.get(3)+")"
 							+ "\n}";
 					break;
 				case "COPI":
 					
-					inferredItem.put("type", "object");
-					inferredItem.put("URI", listOfObjects.get(2).toString());
+					inferredItem.put(Key.InferedItem.TYPE, "object");
+					inferredItem.put(Key.InferedItem.URI, listOfObjects.get(2).toString());
 					
 					analyzedQuery = "{\n "
 							+ "Type(?subject," + listOfObjects.get(0) + "),\n "
+							+ "Transitive(" + listOfObjects.get(1) + "),\n"
 							+ "PropertyValue(?subject, " + listOfObjects.get(1) + "," + listOfObjects.get(2) + ")"
 							+ "\n}";
 					break;
 				case "DPCI":
 					
-					inferredItem.put("type", "object");
-					inferredItem.put("URI", listOfObjects.get(2).toString());
+					inferredItem.put(Key.InferedItem.TYPE, "object");
+					inferredItem.put(Key.InferedItem.URI, listOfObjects.get(2).toString());
 					
-					analyzedQuery = "{\nType(?subject," + listOfObjects.get(1) + "),\n"
-							+ "PropertyValue(?subject," + listOfObjects.get(0) + ", " + listOfObjects.get(2) + ")\n}";
+					analyzedQuery = "{\n"
+							+ "Type(?subject," + listOfObjects.get(1) + "),\n"
+							+ "DataProperty(" + listOfObjects.get(0) + "),"
+							+ "PropertyValue(?subject," + listOfObjects.get(0) + ", " + listOfObjects.get(2) + ")"
+							+ "}";
 					break;
 				case "COPCI":
 					
-					inferredItem.put("type", "object");
-					inferredItem.put("", listOfObjects.get(3).toString());
+					inferredItem.put(Key.InferedItem.TYPE, "object");
+					inferredItem.put(Key.InferedItem.URI, listOfObjects.get(3).toString());
 					
-					analyzedQuery = "{Type(?subject, " + listOfObjects.get(0) + "),"
-									+ "PropertyValue(?subject, " + listOfObjects.get(1) + ", " + listOfObjects.get(3) + ")"
+					analyzedQuery = "{\n"
+							+ "Type(?subject, " + listOfObjects.get(0) + "),"
+							+ "Transitive(" + listOfObjects.get(1) + "),\n"
+							+ "PropertyValue(?subject, " + listOfObjects.get(1) + ", " + listOfObjects.get(3) + ")"
 							+ "}";
 					break;
 				case "I":
 					
-					inferredItem.put("type", "subject");
-					inferredItem.put("URI", listOfObjects.get(0).toString());
+					inferredItem.put(Key.InferedItem.TYPE, "subject");
+					inferredItem.put(Key.InferedItem.URI, listOfObjects.get(0).toString());
 					
-					analyzedQuery = "{\nDirectType(" + listOfObjects.get(0) + ",?class),\n"
-							+ "PropertyValue("+ listOfObjects.get(0) +",?prop, ?object)\n}";
+					analyzedQuery = "{\n"
+							+ "DirectType(" + listOfObjects.get(0) + ",?class),\n"
+							+ "ObjectProperty(?op),"
+							+ "PropertyValue("+ listOfObjects.get(0) +",?op, ?object)\n"
+							+ "}";
 					break;
 				}
 			}

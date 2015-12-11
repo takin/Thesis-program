@@ -8,12 +8,16 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
+import de.derivo.sparqldlapi.QueryArgument;
+import de.derivo.sparqldlapi.QueryBinding;
+import de.derivo.sparqldlapi.QueryResult;
+import de.derivo.sparqldlapi.types.QueryArgumentType;
 import SemanticQA.constant.Type;
 import SemanticQA.model.QueryResultData;
 import SemanticQA.model.QueryResultModel;
 import SemanticQA.model.SemanticToken;
 import SemanticQA.model.Sentence;
-import SemanticQA.module.sw.OntologyQuery.ResultKey;
+import SemanticQA.module.sw.OntologyQuery.Key;
 
 public class AnswerBuilder {
 	
@@ -28,8 +32,8 @@ public class AnswerBuilder {
 		
 		StringBuffer summryText = getSubject(question);
 		
-		List<QueryResultModel> queryResultObject = (List<QueryResultModel>) results.get(ResultKey.OBJECT);
-		List<QueryResultData> queryResultData = (List<QueryResultData>) results.get(ResultKey.DATA);
+		List<QueryResultModel> queryResultObject = (List<QueryResultModel>) results.get(Key.Result.OBJECT);
+		List<QueryResultData> queryResultData = (List<QueryResultData>) results.get(Key.Result.DATA);
 		
 		if ( questionString.matches("^di.*") ) {
 			summryText.append("adalah di");
@@ -89,6 +93,7 @@ public class AnswerBuilder {
 		
 		return jsonObject;
 	}
+	
 	/*
 	@SuppressWarnings("unchecked")
 	public static JSONObject json(List<Sentence> question, Map<String, Object> result) {
@@ -102,8 +107,8 @@ public class AnswerBuilder {
 		boolean objectNotBeenAdded = true;
 		List<String> orderOfBoundedVars = new ArrayList<String>();
 		
-		QueryResult query = (QueryResult) result.get(ResultKey.SPARQLDL);
-		List<QueryResultData> inferedObjects = (List<QueryResultData>) result.get(ResultKey.INFERED_DATA);
+		QueryResult query = (QueryResult) result.get(Key.Result.OBJECT);
+		List<QueryResultData> inferedObjects = (List<QueryResultData>) result.get(Key.Result.DATA);
 		
 		if ( query.size() > 0 ) {
 			if ( questionString.matches("^di.*") ) {
