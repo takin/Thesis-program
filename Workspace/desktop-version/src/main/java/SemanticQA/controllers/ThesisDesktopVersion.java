@@ -94,14 +94,14 @@ class ThesisDesktopVersion {
 //				"siapa yang terpilih menjadi kepala desa danger tahun 2015",
 //				"di mana alamat kantor dinas pendidikan kabupaten lombok timur",
 //				"di mana letak pantai tanjung an",
-				"siapakah bupati kabupaten lombok timur",
+//				"siapakah bupati kabupaten lombok timur",
 //				"bupati kabupaten lombok timur siapa",
 //				"apa wisata pantai terbaik yang ada di kabupaten lombok tengah",
 //				"di kabupaten lombok tengah ada wisata budaya apa saja",
 //				"siapa yang menjadi kepala desa danger",
 //				"apa saja destinasi wisata yang ada di lombok tengah",
 //				"apa saja destinasi wisata yang terletak di kabupaten lombok tengah",
-//				"di mana letak pantai pink"
+				"di mana letak pantai pink"
 				};
 		return pertanyaan;
 	}

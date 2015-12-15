@@ -12,23 +12,23 @@ public class MySQLDatabase implements DBConnector {
 
 	private Connection DB;
 	
-	public MySQLDatabase() throws Exception {
+	public MySQLDatabase() {
 		this( "com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/kamuskata", "root", "root");
 	}
 	
-	public MySQLDatabase(String driver, String url, String username, String password) throws Exception {
+	public MySQLDatabase(String driver, String url, String username, String password) {
 		connect(driver, url, username, password);
 	}
 
 	@Override
 	public void connect(String driver, String url, String username,
-			String password) throws Exception {
+			String password) {
 		try{
             Class.forName(driver).newInstance();
              DB = DriverManager.getConnection(url, username, password);
         }
         catch( IllegalAccessException | ClassNotFoundException | InstantiationException | SQLException e ){
-           throw new Exception("Unable to connect to word type database"); 
+           e.printStackTrace(); 
         }
 	}
 
@@ -42,7 +42,7 @@ public class MySQLDatabase implements DBConnector {
 	}
 
 	@Override
-	public String query(String token) throws Exception {
+	public String query(String token) {
 		String result = null;
     	String sql = "SELECT tipe FROM katadasar WHERE kata='"+token+"'";
     	
@@ -58,7 +58,7 @@ public class MySQLDatabase implements DBConnector {
 			queryResult.close();
 		    stmt.close();
 		} catch (SQLException e) {
-			throw new Exception("Word type checking failed!");
+			e.printStackTrace();
 		}
 		
 		return result;

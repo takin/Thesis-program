@@ -28,12 +28,12 @@ public class OntologyMapper extends OntologyLoader {
 	
 	private ShortFormProvider shortForm;
 	
-	public OntologyMapper(String ontology) {
+	public OntologyMapper(String ontology) throws Exception {
 		super(ontology);
 		shortForm = new SimpleShortFormProvider();
 	}
 	
-	public OntologyMapper(String[] ontologies, String mergedURI) {
+	public OntologyMapper(String[] ontologies, String mergedURI) throws Exception {
 		super(ontologies, mergedURI);
 		shortForm = new SimpleShortFormProvider();
 	}

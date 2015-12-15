@@ -23,6 +23,7 @@ import SemanticQA.constant.Ontology;
 import SemanticQA.helpers.AnswerBuilder;
 import SemanticQA.helpers.Printer;
 import SemanticQA.model.MySQLDatabase;
+import SemanticQA.model.QueryResultModel;
 import SemanticQA.model.SemanticToken;
 import SemanticQA.model.Sentence;
 import SemanticQA.module.nlp.Parser;
@@ -59,7 +60,7 @@ public class Main {
 		List<Sentence> bufferPrseResult = clone(parsingResult);
 		List<Sentence> mappingResult = ontologyMapper.map(parsingResult);
 		
-		Map<String, Object> queryResult = queryEngine.execute(mappingResult);
+		Map<String, List<? extends QueryResultModel>> queryResult = queryEngine.execute(mappingResult);
 		
 		
 		finalResult = AnswerBuilder.json(bufferPrseResult, queryResult);
