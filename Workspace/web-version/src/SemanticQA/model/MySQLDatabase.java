@@ -13,7 +13,7 @@ public class MySQLDatabase implements DBConnector {
 	private Connection DB;
 	
 	public MySQLDatabase() {
-		this( "com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/kamuskata", "root", "root");
+		this( "com.mysql.jdbc.Driver", "jdbc:mysql://localhost:3306/akinjvmh_kamuskata", "akinjvmh_mtakin", "46Syamsul1985");
 	}
 	
 	public MySQLDatabase(String driver, String url, String username, String password) {

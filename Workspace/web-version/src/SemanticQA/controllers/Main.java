@@ -21,7 +21,6 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 import SemanticQA.constant.Ontology;
 import SemanticQA.helpers.AnswerBuilder;
-import SemanticQA.helpers.Printer;
 import SemanticQA.model.MySQLDatabase;
 import SemanticQA.model.QueryResultModel;
 import SemanticQA.model.SemanticToken;
@@ -30,6 +29,7 @@ import SemanticQA.module.nlp.Parser;
 import SemanticQA.module.nlp.Tokenizer;
 import SemanticQA.module.sw.OntologyMapper;
 import SemanticQA.module.sw.OntologyQuery;
+import SemanticQA.module.sw.OntologyQuery.Key;
 import sun.net.www.protocol.http.HttpURLConnection;
 
 
@@ -61,7 +61,12 @@ public class Main {
 		List<Sentence> mappingResult = ontologyMapper.map(parsingResult);
 		
 		Map<String, List<? extends QueryResultModel>> queryResult = queryEngine.execute(mappingResult);
+		@SuppressWarnings("unchecked")
+		List<QueryResultModel> queryResultObject = (List<QueryResultModel>) queryResult.get(Key.Result.OBJECT);
 		
+		if ( queryResultObject.isEmpty() ) {
+			throw new Exception("Maaf pertanyaan Anda tidak dapat dipahami sistem");
+		}
 		
 		finalResult = AnswerBuilder.json(bufferPrseResult, queryResult);
 		

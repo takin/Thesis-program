@@ -8,10 +8,6 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
-import de.derivo.sparqldlapi.QueryArgument;
-import de.derivo.sparqldlapi.QueryBinding;
-import de.derivo.sparqldlapi.QueryResult;
-import de.derivo.sparqldlapi.types.QueryArgumentType;
 import SemanticQA.constant.Type;
 import SemanticQA.model.QueryResultData;
 import SemanticQA.model.QueryResultModel;
