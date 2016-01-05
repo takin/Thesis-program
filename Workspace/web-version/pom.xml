@@ -74,6 +74,12 @@
   		<groupId>org.openrdf.sesame</groupId>
   		<artifactId>sesame-runtime</artifactId>
   		<version>4.0.0</version>
+  		<exclusions>
+  			<exclusion>
+  				<artifactId>httpcore-osgi</artifactId>
+  				<groupId>org.apache.httpcomponents</groupId>
+  			</exclusion>
+  		</exclusions>
   	</dependency>
   </dependencies>
 </project>

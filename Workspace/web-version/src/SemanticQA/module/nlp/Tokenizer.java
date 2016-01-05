@@ -35,7 +35,7 @@ public class Tokenizer extends MorphologicalAnalyzer  {
     public List<SemanticToken> tokenize(String sentence) throws Exception {
         
     	// split kalimat menjadi token-token kata
-    	String[] splittedSentence = sentence.split(" ");
+    	String[] splittedSentence = sentence.split("\\s+");
     	
     	///////////////////////////////////////////////////////////////
     	// siapkan objek array list TokenModel yang akan digunakan   //

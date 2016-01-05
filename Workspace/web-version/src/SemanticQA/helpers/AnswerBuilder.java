@@ -31,7 +31,7 @@ public class AnswerBuilder {
 		List<QueryResultModel> queryResultObject = (List<QueryResultModel>) results.get(Key.Result.OBJECT);
 		List<QueryResultData> queryResultData = (List<QueryResultData>) results.get(Key.Result.DATA);
 		
-		if ( questionString.matches("^di.*") ) {
+		if ( questionString.matches("^di") ) {
 			summryText.append("adalah di");
 		} else {
 			summryText.append("adalah");
@@ -59,7 +59,7 @@ public class AnswerBuilder {
 				
 				if ( !shortenedKey.matches("(type)") ) {
 					try {
-					itemData.put(shortenedKey, shortnedValue);
+						itemData.put(shortenedKey, shortnedValue);
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
@@ -77,7 +77,22 @@ public class AnswerBuilder {
 			String shortendAboutURI = shorten(resultObject.getObject());
 			shortendAboutURI = normalize(shortendAboutURI);
 			
-			summryText.append(" " + shortendAboutURI);
+			////////////////////////////////////////////////////////////////////////
+			// Sebelum menambahkan teks ke dalam summry teks
+			// cek terlebih dahulu apakah kata terakhir sama 
+			// dengan kata yang akan dimasukkan, jika sama maka abaikan teks 
+			// yang bersangkutan. Tujuannya adalah untuk mencegah terjadinya 
+			// redundansi kata di dalam summry teks, milsanya:
+			// 
+			// pantai yang ada di kabupaten lombok timur adalah pantai pantai pink
+			//
+			// hal ini terjadi karena individual bernama pantai_pink digabungkan 
+			// dengan nama kelas pantai, untuk itu perlu di cek terlebih dahulu
+			////////////////////////////////////////////////////////////////////////
+			
+			if(summryText.indexOf(shortendAboutURI) == -1) {
+				summryText.append(" " + shortendAboutURI);
+			}
 		}
 		
 		try {
