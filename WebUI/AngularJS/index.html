@@ -2,16 +2,17 @@
 <html ng-app="myThesis">
     <head>
         <meta charset="UTF-8">
-        <base href="http://local.co/thesis/">
+        <base href="http://thesis.me/">
         <title>Question Answering</title>
+        <link rel="stylesheet" href="css/animate.css" />
         <link rel="stylesheet" href="css/style.css" />
     </head>
 <body>
     <div id="mainContainer" ng-controller="appController">
-        <h1 className="header">Question Aswering<br/>Data Kabupaten di Nusa Tenggara Barat</h1>
+        <h1>Question Answering<br/>Data Kabupaten di Nusa Tenggara Barat</h1>
         <question-form></question-form>
-        <answer-card class="answer-animation" ng-show="dataIsReady" data="answer"></answer-card>
-        <spinner class="spinner-animation" ng-show="loading" />
+        <answer-card ng-show="dataIsReady" data="answer"></answer-card>
+        <spinner class="spinner-animation" ng-show="loading"></spinner>
     </div>
     <script type="text/javascript" src="js/angular.js"></script>
     <script type="text/javascript" src="js/angular-animate.js"></script>

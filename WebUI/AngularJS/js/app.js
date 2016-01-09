@@ -1,73 +1,97 @@
 'use strict';
 
 angular.module('myThesis',['ngAnimate','ngSanitize'])
-.directive('spinner', () => {
+.directive('spinner', function () {
 	return {
 		restrict: 'E',
 		templateUrl: 'loader.html'
 	}
 })
-.directive('questionForm', () => {
+.directive('questionForm', function () {
 	return {
 		restrict: 'E',
 		templateUrl: 'form.html'
 	}
 })
-.directive('answerCard', () => {
+.directive('answerCard', function () {
 	return {
 		restrict: 'E',
 		templateUrl: 'answer.html'
 	}
 })
-.controller('appController', ($scope, $http) => {
+.controller('appController', function ($http, $scope) {
+	var _self = this;
+	_self.serverAPI = 'http://localhost:8090/web-version/api/ask?q=';
+	_self.imagePattern = new RegExp("^(http://).*.\.(jpe?g|gif|png|svg)$", "i");
+	_self.webURLPattern = new RegExp("^(https?).*\.[^(jpe?g|gif|png|svg)]+$", "i");
+
 	$scope.loading = false;
 	$scope.formIsSubmitted = false;
 	$scope.dataIsReady = false;
-	$scope.answer = {};
+	$scope.mainAnswer = '';
+	$scope.facts = [];
 
-	$scope.search = () => {
+	$scope.search = function () {
+		$scope.facts = [];
+		$scope.mainAnswer = '';
 		$scope.dataIsReady = false;
 		$scope.loading = true;
+
 		if ( $scope.loading ) {
-			$http.get('http://localhost:8080/web-version/api/qa?q=' + $scope.q)
+			$http.get( _self.serverAPI + $scope.q)
 			.then((res) => {
-				
-				if ( res.data.code === 200 ) {
+				if ( res.data.code === 200) {
 					
 					var data = res.data.answer;
 
 					$scope.mainAnswer = res.data.answer.text;
 					$scope.facts = [];
 					
-					data.inferedFacts.forEach((value) => {
-						var fact = {
-							about: value.about,
-							data:[]
-						};
-						
-						for (var key in value.data ) {
-							if ( value.data.hasOwnProperty(key) ) {
+					data.inferedFacts.forEach(function (value) {
+						if( value !== null ) {
+							var fact = {
+								about: value.about,
+								data:[]
+							};
 
-								var dataItem = {};
-								dataItem.name = key;
-								dataItem.value = value.data[key];
+							var tempContentImage = [];
+							
+							for (var key in value.data ) {
+								if ( value.data.hasOwnProperty(key) ) {
+									var dataItem = {
+										isSpan	: false,
+										name 	: key,
+										value 	: value.data[key]
+									};
 
-								var imagePattern = new RegExp("\.(jpe?g|gif|png)$", "i");
-								var webURLPattern = new RegExp("^(https?).*\.[^(jpe?g|gif|png)]+$", "i");
-
-								if ( value.data[key].match(imagePattern) ) {
-									dataItem.value = '<img src="' + value.data[key] + '" />';
+									if ( value.data[key].match(_self.imagePattern) ) {
+										tempContentImage.push('<img src="' + value.data[key] + '" />');
+									} else {
+										if ( key.match(new RegExp("(comment|description)$","i")) ) {
+											dataItem.isSpan = true;
+											dataItem.value = '<span>' + value.data[key] + '</span>';
+											fact.data.unshift(dataItem);
+										} else {
+											if ( value.data[key].match(_self.webURLPattern) ) {
+												dataItem.value = '<a target="_blank" href="' + value.data[key] + '">' + value.data[key] +'</a>';
+											}
+											fact.data.push(dataItem);
+										}
+									}
 								}
-
-								if ( value.data[key].match(webURLPattern) ) {
-									dataItem.value = '<a target="_blank" href="' + value.data[key] + '">' + value.data[key] +'</a>';
-								}
-
-								fact.data.push(dataItem);
 							}
-						}
+							if ( tempContentImage.length > 0 ) {
+								var x = fact.data[0];
+								x.isSpan = true;
+								var newContent = '';
+								tempContentImage.forEach( function (item) {
+									newContent += item + '<br/>';
+								});
+								x.value = newContent + x.value;
+							}
 
-						$scope.facts.push(fact);
+							$scope.facts.push(fact);
+						}
 					});
 
 				} else {
@@ -76,6 +100,7 @@ angular.module('myThesis',['ngAnimate','ngSanitize'])
 
 				$scope.loading = false;
 				$scope.dataIsReady = true;
+				// $scope.q = '';
 			});
 		}
 	}
