@@ -86,10 +86,10 @@ public class OntologyMapper extends OntologyLoader {
 				// Aturan pemilihan konstituen (setelah melalui proses konkatinasi):
 				//
 				////////////////////////////////////////////////////////////////////////////////////
-				if ( cleanToken.isEmpty() || (lastItemOfCleanToken != null && !currentToken.getToken().contains(lastItemOfCleanToken.getToken()))) {
-					cleanToken.add(currentToken);					
-				} else {	
+				if ( currentToken.getToken().contains(lastItemOfCleanToken.getToken()) && (currentToken.getOWLType() == lastItemOfCleanToken.getOWLType()) ) {
 					cleanToken.set((cleanToken.size() - 1), currentToken);
+				} else {
+					cleanToken.add(currentToken);
 				}
 				
 

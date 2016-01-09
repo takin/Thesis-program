@@ -87,16 +87,13 @@ public class OntologyMapper extends OntologyLoader {
 					
 					SemanticToken lastItemOfCleanToken = cleanToken.get(cleanToken.size() - 1); 
 					
-					if ( currentToken.getToken().contains(lastItemOfCleanToken.getToken()) ) {
+					if ( currentToken.getToken().contains(lastItemOfCleanToken.getToken()) && (currentToken.getOWLType() == lastItemOfCleanToken.getOWLType()) ) {
 						cleanToken.set((cleanToken.size() - 1), currentToken);
 					} else {
 						cleanToken.add(currentToken);
 					}
 				}
 				
-//				if ( cleanToken.isEmpty() || !currentToken.getOWLType().equals(cleanToken.get(cleanToken.size() - 1).getOWLType()) ) {
-//					cleanToken.add(currentToken);
-//				}
 			}
 			currentPhrase.replaceConstituent(cleanToken);
 		}
