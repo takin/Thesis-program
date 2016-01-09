@@ -25,7 +25,6 @@ import SemanticQA.module.sw.OntologyQuery;
 class ThesisDesktopVersion {
 	
 	public static void main(String args[]){
-//		OntologyQuery.findOnDBPedia();
 		
 		String[] ontologies = new String[]{
 				Ontology.Path.ONTOPAR, 
@@ -51,10 +50,10 @@ class ThesisDesktopVersion {
 				List<Sentence> ps = clone(parsingResult);
 //				Printer.cetakKlausa(ps);
 				List<Sentence> mappingResult = ontologyMapper.map(parsingResult);
-				long start = System.currentTimeMillis();
+//				long start = System.currentTimeMillis();
 				Map<String, List<? extends QueryResultModel>> queryResult = queryEngine.execute(mappingResult);
-				long end = System.currentTimeMillis();
-				System.out.println("query selesai dalam = " + ((end - start) / 60) + " detik");
+//				long end = System.currentTimeMillis();
+//				System.out.println("query selesai dalam = " + ((end - start) / 60) + " detik");
 				JSONObject finalResult = AnswerBuilder.json(ps,queryResult);
 			
 //				Printer.cetakMap(mappingResult);
@@ -63,6 +62,7 @@ class ThesisDesktopVersion {
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		
 	}
 	
 	public static List<Sentence> clone(List<Sentence> items){
@@ -101,7 +101,9 @@ class ThesisDesktopVersion {
 //				"siapa yang menjadi kepala desa danger",
 //				"apa saja destinasi wisata yang ada di lombok tengah",
 //				"apa saja destinasi wisata yang terletak di kabupaten lombok tengah",
-				"di mana letak pantai pink"
+//				"di mana letak pantai pink",
+//				"siapa wakil bupati kabupaten lombok timur",
+				"apa saja wisata budaya yang terdapat di kabupaten lombok timur"
 				};
 		return pertanyaan;
 	}

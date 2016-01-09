@@ -65,7 +65,7 @@ public class Main {
 		List<QueryResultModel> queryResultObject = (List<QueryResultModel>) queryResult.get(Key.Result.OBJECT);
 		
 		if ( queryResultObject.isEmpty() ) {
-			throw new Exception("Maaf pertanyaan Anda tidak dapat dipahami sistem");
+			throw new Exception("Jawaban tidak ditemukan!");
 		}
 		
 		finalResult = AnswerBuilder.json(bufferPrseResult, queryResult);

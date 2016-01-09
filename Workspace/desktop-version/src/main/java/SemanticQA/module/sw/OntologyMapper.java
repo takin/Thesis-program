@@ -73,15 +73,26 @@ public class OntologyMapper extends OntologyLoader {
 			// maka buang token lombok_tengah. Tujuan dari proses ini adalah untuk mengurangi		// 
 			// tingkat kompleksitas proses pembentukan query SPARQL-DL								//
 			//////////////////////////////////////////////////////////////////////////////////////////
+
 			
 			List<SemanticToken> cleanToken = new ArrayList<SemanticToken>();
 			
 			for ( int i = 0; i < constituents.size(); i++ ) {
 				
 				SemanticToken currentToken = constituents.get(i);
-				if ( cleanToken.isEmpty() || !currentToken.getOWLType().equals(cleanToken.get(cleanToken.size() - 1).getOWLType()) ) {
-					cleanToken.add(currentToken);
+				SemanticToken lastItemOfCleanToken = cleanToken.isEmpty() ? null : cleanToken.get(cleanToken.size() - 1);
+				
+				////////////////////////////////////////////////////////////////////////////////////
+				// Aturan pemilihan konstituen (setelah melalui proses konkatinasi):
+				//
+				////////////////////////////////////////////////////////////////////////////////////
+				if ( cleanToken.isEmpty() || (lastItemOfCleanToken != null && !currentToken.getToken().contains(lastItemOfCleanToken.getToken()))) {
+					cleanToken.add(currentToken);					
+				} else {	
+					cleanToken.set((cleanToken.size() - 1), currentToken);
 				}
+				
+
 			}
 			currentPhrase.replaceConstituent(cleanToken);
 		}

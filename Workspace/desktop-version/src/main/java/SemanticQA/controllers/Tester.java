@@ -14,7 +14,7 @@ import SemanticQA.module.sw.OntologyLoader;
 public class Tester {
 
 	
-	public static void main(String args[]) {
+	public static void main(String[] args) {
 		
 		String[] paths = new String[]{
 			Ontology.Path.ONTOGEO,
@@ -22,7 +22,13 @@ public class Tester {
 			Ontology.Path.ONTOPAR
 		};
 		
-		validateOntologiesClasses(paths);
+		String s = "http://www.blabla.com/gambar/coba.gif";
+		
+		if ( s.matches("[a-z0-9]+.*.(jpe?g|gif)$") ) {
+			System.out.println("match");
+		}
+		
+//		validateOntologiesClasses(paths);
 	}
 	
 	public static void validateOntologies(String[] paths) {

@@ -19,6 +19,7 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
 import SemanticQA.constant.Type;
+import SemanticQA.helpers.Printer;
 import SemanticQA.helpers.StringManipulation;
 import SemanticQA.model.SemanticToken;
 import SemanticQA.model.Sentence;
@@ -79,9 +80,23 @@ public class OntologyMapper extends OntologyLoader {
 			for ( int i = 0; i < constituents.size(); i++ ) {
 				
 				SemanticToken currentToken = constituents.get(i);
-				if ( cleanToken.isEmpty() || !currentToken.getOWLType().equals(cleanToken.get(cleanToken.size() - 1).getOWLType()) ) {
+				
+				if ( cleanToken.isEmpty() ) {
 					cleanToken.add(currentToken);
+				} else {
+					
+					SemanticToken lastItemOfCleanToken = cleanToken.get(cleanToken.size() - 1); 
+					
+					if ( currentToken.getToken().contains(lastItemOfCleanToken.getToken()) ) {
+						cleanToken.set((cleanToken.size() - 1), currentToken);
+					} else {
+						cleanToken.add(currentToken);
+					}
 				}
+				
+//				if ( cleanToken.isEmpty() || !currentToken.getOWLType().equals(cleanToken.get(cleanToken.size() - 1).getOWLType()) ) {
+//					cleanToken.add(currentToken);
+//				}
 			}
 			currentPhrase.replaceConstituent(cleanToken);
 		}
@@ -138,6 +153,7 @@ public class OntologyMapper extends OntologyLoader {
 			checkType(prevTokens, tokensToProcess, result);
 		}
 		
+		Printer.cetak(result);
 		return result;
 	}
 	

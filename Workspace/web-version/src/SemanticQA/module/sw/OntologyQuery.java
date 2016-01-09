@@ -42,6 +42,7 @@ import de.derivo.sparqldlapi.exceptions.QueryEngineException;
 import de.derivo.sparqldlapi.exceptions.QueryParserException;
 import SemanticQA.constant.Ontology;
 import SemanticQA.constant.Type;
+import SemanticQA.helpers.Printer;
 import SemanticQA.model.QueryResultData;
 import SemanticQA.model.QueryResultModel;
 import SemanticQA.model.SemanticToken;
@@ -86,6 +87,8 @@ public class OntologyQuery {
 	}
 	
 	public Map<String, List<? extends QueryResultModel>> execute(List<Sentence> model) throws Exception {
+		
+		Printer.cetakMap(model);
 		
 		Map<String, List<? extends QueryResultModel>> result = new HashMap<String, List<? extends QueryResultModel>>();
 		
@@ -423,8 +426,8 @@ public class OntologyQuery {
 						listOfObjects.add(t.getOWLPath());
 						break;
 					case Type.Ontology.DATATYPE_PROPERTY:
-						queryPattern += "DP";
-						listOfObjects.add(t.getOWLPath());
+//						queryPattern += "DP";
+//						listOfObjects.add(t.getOWLPath());
 						break;
 					case Type.Ontology.INDIVIDUAL:
 						queryPattern += "I";
@@ -488,9 +491,9 @@ public class OntologyQuery {
 					inferredItem.put(Key.InferedItem.URI, listOfObjects.get(2).toString());
 					
 					analyzedQuery = "{\n"
-							+ "Type(?subject," + listOfObjects.get(1) + "),\n"
-							+ "DataProperty(" + listOfObjects.get(0) + "),"
-							+ "PropertyValue(?subject," + listOfObjects.get(0) + ", " + listOfObjects.get(2) + ")"
+							+ "Type("+ listOfObjects.get(2) +"," + listOfObjects.get(1) + "),\n"
+//							+ "DataProperty(" + listOfObjects.get(0) + "),"
+							+ "PropertyValue(" + listOfObjects.get(2) + "," + listOfObjects.get(0) + ", ?object)"
 							+ "}";
 					break;
 				case "COPCI":
@@ -519,6 +522,7 @@ public class OntologyQuery {
 			}
 		}
 
+		
 		String query = "select * where " + analyzedQuery;
 		return Query.create(query);
 	}

@@ -15,7 +15,7 @@ public class Printer {
 		System.out.println("[");
 		for(SemanticToken t: token)
 		{
-			System.out.println("    {kata:" + t.getToken()  + ", kelas:" + t.getType() + "}");
+			System.out.println("    {kata:" + t.getToken()  + ", kelas:" + t.getType() + ", OWLType: " + t.getOWLType() + "}");
 		}
 		System.out.println("]");
 		System.out.println("--------------------------------------------------------------");

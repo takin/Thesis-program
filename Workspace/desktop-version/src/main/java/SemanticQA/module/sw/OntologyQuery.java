@@ -42,6 +42,7 @@ import de.derivo.sparqldlapi.exceptions.QueryEngineException;
 import de.derivo.sparqldlapi.exceptions.QueryParserException;
 import SemanticQA.constant.Ontology;
 import SemanticQA.constant.Type;
+import SemanticQA.helpers.Printer;
 import SemanticQA.model.QueryResultData;
 import SemanticQA.model.QueryResultModel;
 import SemanticQA.model.SemanticToken;
@@ -87,6 +88,8 @@ public class OntologyQuery {
 	
 	public Map<String, List<? extends QueryResultModel>> execute(List<Sentence> model) throws Exception {
 		
+		Printer.cetakMap(model);
+		
 		Map<String, List<? extends QueryResultModel>> result = new HashMap<String, List<? extends QueryResultModel>>();
 		
 		List<QueryResultData> listOfQueryResultData = new ArrayList<QueryResultData>();
@@ -102,13 +105,16 @@ public class OntologyQuery {
 			// Do PARQL-DL Query							//
 			//////////////////////////////////////////////////
 			sparqldlQueryResult = queryEngine.execute(query);
+			if ( sparqldlQueryResult.isEmpty() ) {
+				throw new Exception("Sistem tidak menemukan jawaban!");
+			}
+			System.out.println(sparqldlQueryResult.toJSON());
 			
 			for ( QueryBinding queryBinding : sparqldlQueryResult ) {
 				//////////////////////////////////////////////////////
 				// ambil semua variabel binding dari query sparqldl	//
 				//////////////////////////////////////////////////////
 				Set<QueryArgument> args = queryBinding.getBoundArgs();
-				
 				for ( QueryArgument arg:args ) {
 					
 					QueryArgument item = queryBinding.get(arg);
@@ -443,7 +449,7 @@ public class OntologyQuery {
 					inferredItem.put(Key.InferedItem.URI, listOfObjects.get(1).toString());
 					
 					analyzedQuery = "{\n"
-							+ "ObjectProperty(?op),"
+							+ "ObjectProperty(?op),\n"
 							+ "Type(?object," + listOfObjects.get(0) +"),\n"
 							+ "PropertyValue(?object, ?op, " + listOfObjects.get(1) + ")"
 							+ "\n}";
@@ -489,8 +495,8 @@ public class OntologyQuery {
 					
 					analyzedQuery = "{\n"
 							+ "Type(?subject," + listOfObjects.get(1) + "),\n"
-							+ "DataProperty(" + listOfObjects.get(0) + "),"
-							+ "PropertyValue(?subject," + listOfObjects.get(0) + ", " + listOfObjects.get(2) + ")"
+							+ "DataProperty(" + listOfObjects.get(0) + "),\n"
+							+ "PropertyValue(?subject," + listOfObjects.get(0) + ", " + listOfObjects.get(2) + ")\n"
 							+ "}";
 					break;
 				case "COPCI":
@@ -499,9 +505,9 @@ public class OntologyQuery {
 					inferredItem.put(Key.InferedItem.URI, listOfObjects.get(3).toString());
 					
 					analyzedQuery = "{\n"
-							+ "Type(?subject, " + listOfObjects.get(0) + "),"
+							+ "Type(?subject, " + listOfObjects.get(0) + "),\n"
 							+ "Transitive(" + listOfObjects.get(1) + "),\n"
-							+ "PropertyValue(?subject, " + listOfObjects.get(1) + ", " + listOfObjects.get(3) + ")"
+							+ "PropertyValue(?subject, " + listOfObjects.get(1) + ", " + listOfObjects.get(3) + ")\n"
 							+ "}";
 					break;
 				case "I":
@@ -520,6 +526,8 @@ public class OntologyQuery {
 		}
 
 		String query = "select * where " + analyzedQuery;
+		System.out.println(query);
+		System.out.println(queryPattern);
 		return Query.create(query);
 	}
 	

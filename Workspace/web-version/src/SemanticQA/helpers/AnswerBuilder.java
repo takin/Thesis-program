@@ -26,16 +26,17 @@ public class AnswerBuilder {
 		JSONObject jsonObject = new JSONObject();
 		JSONArray inferedFacts = new JSONArray();
 		
-		StringBuffer summryText = getSubject(question);
+		List<String> summryText = getSubject(question);
 		
 		List<QueryResultModel> queryResultObject = (List<QueryResultModel>) results.get(Key.Result.OBJECT);
 		List<QueryResultData> queryResultData = (List<QueryResultData>) results.get(Key.Result.DATA);
 		
-		if ( questionString.matches("^di") ) {
-			summryText.append("adalah di");
+		if ( questionString.matches("^di.*") ) {
+			summryText.add("adalah di");
 		} else {
-			summryText.append("adalah");
+			summryText.add("adalah");
 		}
+		
 		
 		for ( QueryResultData resultData:queryResultData ) {
 			JSONObject item = new JSONObject();
@@ -54,8 +55,12 @@ public class AnswerBuilder {
 				// value dari item berekstensi jpeg/jpg/gif, jangan di shorten		//
 				// karena alamat aslinya dibutuhkan									//
 				//////////////////////////////////////////////////////////////////////
-				String shortnedValue  = ( shortenedKey.matches("(web|depiction)") || value.matches("(jpe?g|gif|png)$") ) ?
+				String shortnedValue  = ( value.matches("[a-z0-9]+.*.(jpe?g|JPE?G|gif|png|PNG|svg|SVG)$") || shortenedKey.matches("(web(site)?)") ) ?
 					value : normalize(shorten(value));
+				
+				if ( value.matches("(jpe?g|gif|png)$") ) {
+					System.out.println("match -> " + value);					
+				}
 				
 				if ( !shortenedKey.matches("(type)") ) {
 					try {
@@ -89,14 +94,20 @@ public class AnswerBuilder {
 			// hal ini terjadi karena individual bernama pantai_pink digabungkan 
 			// dengan nama kelas pantai, untuk itu perlu di cek terlebih dahulu
 			////////////////////////////////////////////////////////////////////////
-			
-			if(summryText.indexOf(shortendAboutURI) == -1) {
-				summryText.append(" " + shortendAboutURI);
+			summryText.add(" " + shortendAboutURI);
+		}
+		
+		StringBuffer sb = new StringBuffer(summryText.size());
+		for ( String s:summryText ) {
+			if (s == summryText.get(summryText.size() - 1) ) {
+				sb.append(s);
+			} else {
+				sb.append(s + " ");
 			}
 		}
 		
 		try {
-			jsonObject.put("text", summryText.toString());
+			jsonObject.put("text", sb.toString());
 			jsonObject.put("inferedFacts", inferedFacts);
 		} catch (JSONException e) {
 			throw new Exception("Proses pembentukan objek jawaban gagal!");
@@ -289,11 +300,13 @@ public class AnswerBuilder {
 		return concatinatedNormalized.replaceAll("(,)", "");
 	}
 	
-	private static StringBuffer getSubject(List<Sentence> question) {
+	private static List<String> getSubject(List<Sentence> question) {
 		
-		StringBuffer returnedString = new StringBuffer();
+		List<String> returnedString = new ArrayList<>();
 		
-		for ( Sentence s:question ) {
+		for ( int i = 0; i < question.size(); i++ ) {
+			
+			Sentence s = question.get(i);
 			
 			if ( s.getType().equals(Type.Token.PRONOMINA) || s.getType().equals(Type.Phrase.PRONOMINAL) ) {
 				List<SemanticToken> constituents = s.getConstituents();
@@ -312,10 +325,10 @@ public class AnswerBuilder {
 				
 				for ( SemanticToken c : constituents ) {
 					String token = c.getToken();
-					if ( returnedString.length() == 0 || c.getType().equals(Type.Token.NOMINA) ) {
+					if ( returnedString.isEmpty() || c.getType().equals(Type.Token.NOMINA) ) {
 						token = normalize(token);
 					}
-					returnedString.append(token + " "); 
+					returnedString.add(token); 
 				}	
 			}
 			
