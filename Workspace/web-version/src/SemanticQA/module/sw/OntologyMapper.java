@@ -19,7 +19,6 @@ import org.semanticweb.owlapi.util.ShortFormProvider;
 import org.semanticweb.owlapi.util.SimpleShortFormProvider;
 
 import SemanticQA.constant.Type;
-import SemanticQA.helpers.Printer;
 import SemanticQA.helpers.StringManipulation;
 import SemanticQA.model.SemanticToken;
 import SemanticQA.model.Sentence;
@@ -149,8 +148,7 @@ public class OntologyMapper extends OntologyLoader {
 		if ( tokensToProcess.size() > 0 ) {
 			checkType(prevTokens, tokensToProcess, result);
 		}
-		
-		Printer.cetak(result);
+
 		return result;
 	}
 	

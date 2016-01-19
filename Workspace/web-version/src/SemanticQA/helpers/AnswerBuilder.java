@@ -37,7 +37,6 @@ public class AnswerBuilder {
 			summryText.add("adalah");
 		}
 		
-		
 		for ( QueryResultData resultData:queryResultData ) {
 			JSONObject item = new JSONObject();
 			JSONObject itemData = new JSONObject();
@@ -58,10 +57,6 @@ public class AnswerBuilder {
 				String shortnedValue  = ( value.matches("[a-z0-9]+.*.(jpe?g|JPE?G|gif|png|PNG|svg|SVG)$") || shortenedKey.matches("(web(site)?)") ) ?
 					value : normalize(shorten(value));
 				
-				if ( value.matches("(jpe?g|gif|png)$") ) {
-					System.out.println("match -> " + value);					
-				}
-				
 				if ( !shortenedKey.matches("(type)") ) {
 					try {
 						itemData.put(shortenedKey, shortnedValue);
@@ -78,9 +73,24 @@ public class AnswerBuilder {
 		
 		for ( int i = 0 ; i < queryResultObject.size(); i++ ) {
 			QueryResultModel resultObject = queryResultObject.get(i);
-			
 			String shortendAboutURI = shorten(resultObject.getObject());
 			shortendAboutURI = normalize(shortendAboutURI);
+
+			summryText.add(" " + shortendAboutURI);
+		}
+		
+		
+		String rawSummrySentence = String.join(" ", summryText);
+		System.out.println(rawSummrySentence);
+		
+		String[] splittedRawSentence = rawSummrySentence.split("\\s+");
+		
+		StringBuffer sb = new StringBuffer();
+		String prevString = "";
+		
+		for ( int i = 0; i < splittedRawSentence.length;i++ ) {
+			
+			String theString = splittedRawSentence[i];
 			
 			////////////////////////////////////////////////////////////////////////
 			// Sebelum menambahkan teks ke dalam summry teks
@@ -94,16 +104,16 @@ public class AnswerBuilder {
 			// hal ini terjadi karena individual bernama pantai_pink digabungkan 
 			// dengan nama kelas pantai, untuk itu perlu di cek terlebih dahulu
 			////////////////////////////////////////////////////////////////////////
-			summryText.add(" " + shortendAboutURI);
-		}
-		
-		StringBuffer sb = new StringBuffer(summryText.size());
-		for ( String s:summryText ) {
-			if (s == summryText.get(summryText.size() - 1) ) {
-				sb.append(s);
-			} else {
-				sb.append(s + " ");
+			if ( i == 0 || !prevString.equals(theString.toLowerCase())) {
+				
+				if ( i == splittedRawSentence.length - 1 ) {
+					sb.append(theString);
+				} else {
+					sb.append(theString + " ");					
+				}
 			}
+			
+			prevString = theString.toLowerCase();
 		}
 		
 		try {
@@ -341,7 +351,6 @@ public class AnswerBuilder {
 			}
 			
 		}
-		
 		return returnedString;
 	}
 }

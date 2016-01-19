@@ -42,7 +42,6 @@ import de.derivo.sparqldlapi.exceptions.QueryEngineException;
 import de.derivo.sparqldlapi.exceptions.QueryParserException;
 import SemanticQA.constant.Ontology;
 import SemanticQA.constant.Type;
-import SemanticQA.helpers.Printer;
 import SemanticQA.model.QueryResultData;
 import SemanticQA.model.QueryResultModel;
 import SemanticQA.model.SemanticToken;
@@ -87,8 +86,6 @@ public class OntologyQuery {
 	}
 	
 	public Map<String, List<? extends QueryResultModel>> execute(List<Sentence> model) throws Exception {
-		
-		Printer.cetakMap(model);
 		
 		Map<String, List<? extends QueryResultModel>> result = new HashMap<String, List<? extends QueryResultModel>>();
 		
