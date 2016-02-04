@@ -7,6 +7,7 @@ public abstract class Ontology {
 //	    public static final String ONTOGOV = "http://ontology.techtalk.web.id/ontogov.owl";
 //	    public static final String ONTOGEO = "http://ontology.techtalk.web.id/ontogeo.owl";
 //	    public static final String DATASET = "http://ontology.techtalk.web.id/dataset.owl";
+		public static final String UNIVERSITAS = "http://localhost/ontologi/universitas-owl.owl";
 	    public static final String ONTOPAR = "http://localhost/ontologi/ontopar.owl";
 	    public static final String ONTOGOV = "http://localhost/ontologi/ontogov.owl";
 	    public static final String ONTOGEO = "http://localhost/ontologi/ontogeo.owl";

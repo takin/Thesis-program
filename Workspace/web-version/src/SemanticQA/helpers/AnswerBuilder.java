@@ -81,7 +81,6 @@ public class AnswerBuilder {
 		
 		
 		String rawSummrySentence = String.join(" ", summryText);
-		System.out.println(rawSummrySentence);
 		
 		String[] splittedRawSentence = rawSummrySentence.split("\\s+");
 		

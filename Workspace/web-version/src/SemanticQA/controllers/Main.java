@@ -44,7 +44,8 @@ public class Main {
 				Ontology.Path.ONTOPAR, 
 				Ontology.Path.ONTOGEO, 
 				Ontology.Path.ONTOGOV,
-				Ontology.Path.DATASET
+				Ontology.Path.DATASET,
+				Ontology.Path.UNIVERSITAS
 		};
 		
 		Tokenizer tokenizer = new Tokenizer(new MySQLDatabase());
@@ -60,7 +61,10 @@ public class Main {
 		List<Sentence> bufferPrseResult = clone(parsingResult);
 		List<Sentence> mappingResult = ontologyMapper.map(parsingResult);
 		
-		Map<String, List<? extends QueryResultModel>> queryResult = queryEngine.execute(mappingResult);
+		Map<String, List<? extends QueryResultModel>> queryResult = ( question.toLowerCase().contains("saja") ) 
+				? queryEngine.execute(mappingResult) 
+				: queryEngine.execute(mappingResult, OntologyQuery.theQuestionIsSingular); 
+		
 		@SuppressWarnings("unchecked")
 		List<QueryResultModel> queryResultObject = (List<QueryResultModel>) queryResult.get(Key.Result.OBJECT);
 		
@@ -139,7 +143,7 @@ public class Main {
 		return createResponse(obj, requestHeader, code);
 	}
 	
-	private static List<Sentence> clone(List<Sentence> sentence){
+	public static List<Sentence> clone(List<Sentence> sentence){
 		
 		List<Sentence> clone = new ArrayList<Sentence>(sentence.size());
 		

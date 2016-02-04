@@ -23,9 +23,12 @@ public class Tester {
 		};
 		
 		String s = "http://www.blabla.com/gambar/coba.gif";
+		String ss = "<http://semanticweb.techtalk.web.id/ontology/dataset#Ali_bin_dahlan>";
 		
-		if ( s.matches("[a-z0-9]+.*.(jpe?g|gif)$") ) {
+		if ( ss.matches("^<?[a-z0-9]+.*.(techtalk).*") ) {
 			System.out.println("match");
+		} else {
+			System.out.println("no match");
 		}
 		
 //		validateOntologiesClasses(paths);

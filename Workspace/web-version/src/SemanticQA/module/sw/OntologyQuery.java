@@ -53,6 +53,7 @@ import SemanticQA.model.Sentence;
  */
 public class OntologyQuery {
 
+	public static final boolean theQuestionIsSingular = true;
 	private QueryEngine queryEngine;
 	private String queryPattern = "";
 	private static final String DBPEDIA_PROPERTY_FILTER = "(id.dbpedia.org/property|(rdf-schema#[(comment|label)])|depiction)";
@@ -86,6 +87,10 @@ public class OntologyQuery {
 	}
 	
 	public Map<String, List<? extends QueryResultModel>> execute(List<Sentence> model) throws Exception {
+		return execute(model, false);
+	}
+	
+	public Map<String, List<? extends QueryResultModel>> execute(List<Sentence> model, boolean questionIsSingular) throws Exception {
 		
 		Map<String, List<? extends QueryResultModel>> result = new HashMap<String, List<? extends QueryResultModel>>();
 		
@@ -240,8 +245,16 @@ public class OntologyQuery {
 							} else {
 								listOfQueryResultData.add(resultModel);
 							}
-						}
+						}						
 					}
+				}
+				
+				//////////////////////////////////////////////////////////////////////
+				// Jika pertanyaan tidak mengandung kata saja, maka batasi hasil 	//
+				// pencarian hanya pada satu buah individual saja					//
+				//////////////////////////////////////////////////////////////////////
+				if ( questionIsSingular ) {
+					break;
 				}
 			}
 			
@@ -327,11 +340,19 @@ public class OntologyQuery {
 					repo = new SailRepository(new MemoryStore());
 					repo.initialize();
 					
-					URL localRDFFile = new URL(Ontology.Path.DATASET);
+					URL localRDFFile = null;
 					String localPath = "http://semanticweb.techtalk.web.id/dataset";
+					RDFFormat format = null;
+					if ( individual.toStringID().matches("^<?[a-z0-9]+.*.(techtalk).*") ) {
+						localRDFFile = new URL(Ontology.Path.DATASET);
+						format = RDFFormat.TURTLE;
+					} else {
+						localRDFFile = new URL(Ontology.Path.UNIVERSITAS);
+						format = RDFFormat.RDFXML;
+					}
 									
 					repositoryConnection = repo.getConnection();
-					repositoryConnection.add(localRDFFile, localPath, RDFFormat.TURTLE);
+					repositoryConnection.add(localRDFFile, localPath, format);
 					
 					///////////////
 					// objek path tidak perlu ditambahkan tanda < dan > karena
@@ -519,7 +540,6 @@ public class OntologyQuery {
 			}
 		}
 
-		
 		String query = "select * where " + analyzedQuery;
 		return Query.create(query);
 	}
