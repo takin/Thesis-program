@@ -1,14 +1,4 @@
 <?xml version="1.0"?>
-
-
-<!DOCTYPE Ontology [
-    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
-    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
-    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
-    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
-]>
-
-
 <Ontology xmlns="http://www.w3.org/2002/07/owl#"
      xml:base="http://semanticweb.techtalk.web.id/ontology"
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -20,21 +10,59 @@
     <Prefix name="" IRI="http://www.w3.org/2002/07/owl#"/>
     <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
     <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
     <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="onto" IRI="http://semanticweb.techtalk.web.id/ontology#"/>
     <Prefix name="prop" IRI="http://semanticweb.techtalk.web.id/ontology/property#"/>
     <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
     <Annotation>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <Literal datatypeIRI="&rdf;PlainLiteral">Otologi yang menyimpan fakta-fakta seputar pemerintahan tingkat kabupaten, kota dan provinsi.</Literal>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Otologi yang menyimpan fakta-fakta seputar pemerintahan tingkat kabupaten, kota dan provinsi.</Literal>
     </Annotation>
     <Declaration>
-        <Class IRI="#Badan"/>
+        <DataProperty IRI="/property#postCode"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#Biro"/>
+        <DataProperty IRI="/property#nama"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Orang"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="/property#wakil_dari"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Wakil_wali_kota"/>
     </Declaration>
     <Declaration>
         <Class IRI="#Bupati"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#hasAddress"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="/property#viceOfKota"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="/property#pimpinan"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#alamat"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Gubernur"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#website"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#hasPhone"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Wakil_camat"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Kepala_dinas"/>
     </Declaration>
     <Declaration>
         <Class IRI="#Camat"/>
@@ -46,118 +74,103 @@
         <Class IRI="#Dinas"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#Gubernur"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Kabupaten"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Kecamatan"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#Kepala_badan"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#Kepala_biro"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Kepala_desa"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Kepala_dinas"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Kota"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Orang"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PNS"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Pegawai_negeri"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Pemerintah_daerah"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Provinsi"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Wakil_bupati"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Wakil_camat"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Wakil_gubernur"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Wakil_wali_kota"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Wali_kota"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="/property#hasHead"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="/property#hasVice"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="/property#headOf"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="/property#kepala"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="/property#pimpinan"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="/property#viceOf"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="/property#wakil_dari"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="/property#alamat"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="/property#alamat_website"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="/property#hasAddress"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="/property#hasPhone"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="/property#hasWebsite"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="/property#kode_pos"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="/property#nama"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="/property#postCode"/>
+        <NamedIndividual IRI="#warisin"/>
     </Declaration>
     <Declaration>
         <DataProperty IRI="/property#telepon"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#Kepala_biro"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Badan"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#lotim"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="/property#hasHead"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Provinsi"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PNS"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="/property#viceOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="/property#kepala"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Kota"/>
+    </Declaration>
+    <Declaration>
         <DataProperty IRI="/property#telp"/>
     </Declaration>
     <Declaration>
-        <DataProperty IRI="/property#website"/>
+        <Class IRI="#Wakil_bupati"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#Lotim"/>
+        <DataProperty IRI="/property#kode_pos"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#Syamsul"/>
+        <Class IRI="#Kabupaten"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Wali_kota"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="/property#viceOfKab"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#hasWebsite"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="/property#headOf"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Wakil_gubernur"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Pegawai_negeri"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Kecamatan"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="/property#hasVice"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ali"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Biro"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Pemerintah_daerah"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="/property#memimpin"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Kepala_desa"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#gambar"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="/property#alamat_website"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="/property#viceOfProv"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty IRI="http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled"/>
     </Declaration>
     <EquivalentClasses>
         <Class IRI="#Badan"/>
@@ -351,8 +364,8 @@
     <EquivalentClasses>
         <Class IRI="#Wakil_bupati"/>
         <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="/property#viceOf"/>
-            <Class IRI="#Bupati"/>
+            <ObjectProperty IRI="/property#viceOfKab"/>
+            <Class IRI="#Kabupaten"/>
         </ObjectSomeValuesFrom>
     </EquivalentClasses>
     <EquivalentClasses>
@@ -365,15 +378,15 @@
     <EquivalentClasses>
         <Class IRI="#Wakil_gubernur"/>
         <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="/property#viceOf"/>
-            <Class IRI="#Gubernur"/>
+            <ObjectProperty IRI="/property#viceOfProv"/>
+            <Class IRI="#Provinsi"/>
         </ObjectSomeValuesFrom>
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#Wakil_wali_kota"/>
         <ObjectSomeValuesFrom>
-            <ObjectProperty IRI="/property#viceOf"/>
-            <Class IRI="#Wali_kota"/>
+            <ObjectProperty IRI="/property#viceOfKota"/>
+            <Class IRI="#Kota"/>
         </ObjectSomeValuesFrom>
     </EquivalentClasses>
     <EquivalentClasses>
@@ -444,10 +457,10 @@
         <Class IRI="#Gubernur"/>
         <Class IRI="#Kepala_desa"/>
         <Class IRI="#Pegawai_negeri"/>
-        <Class IRI="#Pemerintah_daerah"/>
         <Class IRI="#Wakil_bupati"/>
         <Class IRI="#Wakil_gubernur"/>
         <Class IRI="#Wakil_wali_kota"/>
+        <Class IRI="#Wali_kota"/>
     </DisjointClasses>
     <DisjointClasses>
         <Class IRI="#Camat"/>
@@ -461,21 +474,38 @@
         <Class IRI="#Pemerintah_daerah"/>
     </DisjointClasses>
     <ClassAssertion>
-        <Class IRI="#Kabupaten"/>
-        <NamedIndividual IRI="#Lotim"/>
+        <Class IRI="#Orang"/>
+        <NamedIndividual IRI="#ali"/>
     </ClassAssertion>
     <ClassAssertion>
-        <Class abbreviatedIRI="owl:Thing"/>
-        <NamedIndividual IRI="#Syamsul"/>
+        <Class IRI="#Kabupaten"/>
+        <NamedIndividual IRI="#lotim"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Orang"/>
+        <NamedIndividual IRI="#warisin"/>
     </ClassAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="/property#headOf"/>
-        <NamedIndividual IRI="#Syamsul"/>
-        <NamedIndividual IRI="#Lotim"/>
+        <NamedIndividual IRI="#ali"/>
+        <NamedIndividual IRI="#lotim"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="/property#viceOf"/>
+        <NamedIndividual IRI="#warisin"/>
+        <NamedIndividual IRI="#ali"/>
     </ObjectPropertyAssertion>
     <EquivalentObjectProperties>
         <ObjectProperty IRI="/property#hasHead"/>
         <ObjectProperty IRI="/property#pimpinan"/>
+    </EquivalentObjectProperties>
+    <EquivalentObjectProperties>
+        <ObjectProperty IRI="/property#headOf"/>
+        <ObjectProperty IRI="/property#memimpin"/>
+    </EquivalentObjectProperties>
+    <EquivalentObjectProperties>
+        <ObjectProperty IRI="/property#viceOf"/>
+        <ObjectProperty IRI="/property#wakil_dari"/>
     </EquivalentObjectProperties>
     <SubObjectPropertyOf>
         <ObjectProperty IRI="/property#hasHead"/>
@@ -485,17 +515,13 @@
         <ObjectProperty IRI="/property#pimpinan"/>
         <ObjectProperty IRI="/property#kepala"/>
     </SubObjectPropertyOf>
-    <SubObjectPropertyOf>
-        <ObjectProperty IRI="/property#viceOf"/>
-        <ObjectProperty IRI="/property#wakil_dari"/>
-    </SubObjectPropertyOf>
     <InverseObjectProperties>
-        <ObjectProperty IRI="/property#headOf"/>
         <ObjectProperty IRI="/property#hasHead"/>
+        <ObjectProperty IRI="/property#headOf"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
-        <ObjectProperty IRI="/property#viceOf"/>
         <ObjectProperty IRI="/property#hasVice"/>
+        <ObjectProperty IRI="/property#viceOf"/>
     </InverseObjectProperties>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="/property#hasVice"/>
@@ -506,19 +532,11 @@
         <Class IRI="#Orang"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="/property#viceOf"/>
-        <Class IRI="#Orang"/>
-    </ObjectPropertyDomain>
-    <ObjectPropertyDomain>
         <ObjectProperty IRI="/property#wakil_dari"/>
         <Class IRI="#Orang"/>
     </ObjectPropertyDomain>
     <ObjectPropertyRange>
         <ObjectProperty IRI="/property#hasVice"/>
-        <Class IRI="#Orang"/>
-    </ObjectPropertyRange>
-    <ObjectPropertyRange>
-        <ObjectProperty IRI="/property#viceOf"/>
         <Class IRI="#Orang"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
@@ -557,9 +575,132 @@
         <DataProperty IRI="/property#telp"/>
         <DataProperty IRI="/property#telepon"/>
     </SubDataPropertyOf>
+    <DLSafeRule>
+        <Annotation>
+            <AnnotationProperty IRI="http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">true</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string"></Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">wakil bupati</Literal>
+        </Annotation>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Bupati"/>
+                <Variable abbreviatedIRI="owl:x"/>
+            </ClassAtom>
+            <ClassAtom>
+                <Class IRI="#Kabupaten"/>
+                <Variable abbreviatedIRI="owl:y"/>
+            </ClassAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="/property#headOf"/>
+                <Variable abbreviatedIRI="owl:x"/>
+                <Variable abbreviatedIRI="owl:y"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="/property#viceOf"/>
+                <Variable abbreviatedIRI="owl:z"/>
+                <Variable abbreviatedIRI="owl:x"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="/property#viceOfKab"/>
+                <Variable abbreviatedIRI="owl:z"/>
+                <Variable abbreviatedIRI="owl:y"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Annotation>
+            <AnnotationProperty IRI="http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">true</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string"></Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">wakil gubernur</Literal>
+        </Annotation>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Gubernur"/>
+                <Variable abbreviatedIRI="owl:x"/>
+            </ClassAtom>
+            <ClassAtom>
+                <Class IRI="#Provinsi"/>
+                <Variable abbreviatedIRI="owl:y"/>
+            </ClassAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="/property#headOf"/>
+                <Variable abbreviatedIRI="owl:x"/>
+                <Variable abbreviatedIRI="owl:y"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="/property#viceOf"/>
+                <Variable abbreviatedIRI="owl:z"/>
+                <Variable abbreviatedIRI="owl:x"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="/property#viceOfProv"/>
+                <Variable abbreviatedIRI="owl:z"/>
+                <Variable abbreviatedIRI="owl:y"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Annotation>
+            <AnnotationProperty IRI="http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#boolean">true</Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string"></Literal>
+        </Annotation>
+        <Annotation>
+            <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+            <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">wakil wali kota</Literal>
+        </Annotation>
+        <Body>
+            <ClassAtom>
+                <Class IRI="#Wali_kota"/>
+                <Variable abbreviatedIRI="owl:x"/>
+            </ClassAtom>
+            <ClassAtom>
+                <Class IRI="#Kota"/>
+                <Variable abbreviatedIRI="owl:y"/>
+            </ClassAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="/property#headOf"/>
+                <Variable abbreviatedIRI="owl:x"/>
+                <Variable abbreviatedIRI="owl:y"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="/property#viceOf"/>
+                <Variable abbreviatedIRI="owl:z"/>
+                <Variable abbreviatedIRI="owl:x"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="/property#viceOfKota"/>
+                <Variable abbreviatedIRI="owl:z"/>
+                <Variable abbreviatedIRI="owl:y"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
 </Ontology>
 
 
 
-<!-- Generated by the OWL API (version 3.5.0) http://owlapi.sourceforge.net -->
+<!-- Generated by the OWL API (version 4.1.3.20151118-2017) https://github.com/owlcs/owlapi -->
 

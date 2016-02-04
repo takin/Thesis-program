@@ -192,6 +192,7 @@ public class OntologyQuery {
 											resultModel.setSubject(i.toStringID());
 											Set<OWLClass> individualTypes = reasoner.getTypes(i, true).getFlattened();
 										
+											
 											for ( OWLClass indvidualType:individualTypes ) {
 												
 												QueryResultModel classOfIndividualModel = new QueryResultModel();
@@ -253,7 +254,7 @@ public class OntologyQuery {
 				// Jika pertanyaan tidak mengandung kata saja, maka batasi hasil 	//
 				// pencarian hanya pada satu buah individual saja					//
 				//////////////////////////////////////////////////////////////////////
-				if ( questionIsSingular ) {
+				if ( questionIsSingular || queryPattern == "I" ) {
 					break;
 				}
 			}
@@ -531,9 +532,9 @@ public class OntologyQuery {
 					inferredItem.put(Key.InferedItem.URI, listOfObjects.get(0).toString());
 					
 					analyzedQuery = "{\n"
-							+ "DirectType(" + listOfObjects.get(0) + ",?class),\n"
-							+ "ObjectProperty(?op),"
-							+ "PropertyValue("+ listOfObjects.get(0) +",?op, ?object)\n"
+							+ "DirectType(" + listOfObjects.get(0) + ",?class)\n"
+//							+ "ObjectProperty(?op),"
+//							+ "PropertyValue("+ listOfObjects.get(0) +",?op, ?object)\n"
 							+ "}";
 					break;
 				}

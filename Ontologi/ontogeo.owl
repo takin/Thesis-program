@@ -52,7 +52,25 @@
         <Class IRI="#Kota"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#Perikanan"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Perkebunan"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Pertambangan"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Pertanian"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Peternakan"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#Provinsi"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Tambang"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="/property#ada_di"/>
@@ -163,19 +181,10 @@
         <DataProperty IRI="/property#website"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#Perikanan"/>
+        <NamedIndividual IRI="http://id.dbpedia.org/resource/Masbagik,_Lombok_Timur"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#Perkebunan"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Pertambangan"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Pertanian"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Peternakan"/>
+        <NamedIndividual IRI="/dataset#Lombok_Timur"/>
     </Declaration>
     <EquivalentClasses>
         <Class IRI="#Ibu_kota"/>
@@ -199,14 +208,8 @@
         </ObjectSomeValuesFrom>
     </EquivalentClasses>
     <EquivalentClasses>
-        <Class IRI="#Komoditas"/>
-        <ObjectOneOf>
-            <NamedIndividual IRI="#Pertanian"/>
-            <NamedIndividual IRI="#Peternakan"/>
-            <NamedIndividual IRI="#Perikanan"/>
-            <NamedIndividual IRI="#Pertambangan"/>
-            <NamedIndividual IRI="#Perkebunan"/>
-        </ObjectOneOf>
+        <Class IRI="#Pertambangan"/>
+        <Class IRI="#Tambang"/>
     </EquivalentClasses>
     <SubClassOf>
         <Class IRI="#Ibu_kota_kabupaten"/>
@@ -215,6 +218,30 @@
     <SubClassOf>
         <Class IRI="#Ibu_kota_provinsi"/>
         <Class IRI="#Ibu_kota"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Perikanan"/>
+        <Class IRI="#Komoditas"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Perkebunan"/>
+        <Class IRI="#Komoditas"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Pertambangan"/>
+        <Class IRI="#Komoditas"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Pertanian"/>
+        <Class IRI="#Komoditas"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Peternakan"/>
+        <Class IRI="#Komoditas"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Tambang"/>
+        <Class IRI="#Komoditas"/>
     </SubClassOf>
     <DisjointClasses>
         <Class IRI="#Desa"/>
@@ -225,32 +252,18 @@
         <Class IRI="#Provinsi"/>
     </DisjointClasses>
     <ClassAssertion>
-        <Class IRI="#Komoditas"/>
-        <NamedIndividual IRI="#Perikanan"/>
+        <Class IRI="#Kecamatan"/>
+        <NamedIndividual IRI="http://id.dbpedia.org/resource/Masbagik,_Lombok_Timur"/>
     </ClassAssertion>
     <ClassAssertion>
-        <Class IRI="#Komoditas"/>
-        <NamedIndividual IRI="#Perkebunan"/>
+        <Class IRI="#Kabupaten"/>
+        <NamedIndividual IRI="/dataset#Lombok_Timur"/>
     </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="#Komoditas"/>
-        <NamedIndividual IRI="#Pertambangan"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="#Komoditas"/>
-        <NamedIndividual IRI="#Pertanian"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class IRI="#Komoditas"/>
-        <NamedIndividual IRI="#Peternakan"/>
-    </ClassAssertion>
-    <DifferentIndividuals>
-        <NamedIndividual IRI="#Perikanan"/>
-        <NamedIndividual IRI="#Perkebunan"/>
-        <NamedIndividual IRI="#Pertambangan"/>
-        <NamedIndividual IRI="#Pertanian"/>
-        <NamedIndividual IRI="#Peternakan"/>
-    </DifferentIndividuals>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="/property#letak"/>
+        <NamedIndividual IRI="http://id.dbpedia.org/resource/Masbagik,_Lombok_Timur"/>
+        <NamedIndividual IRI="/dataset#Lombok_Timur"/>
+    </ObjectPropertyAssertion>
     <EquivalentObjectProperties>
         <ObjectProperty IRI="/property#ada_di"/>
         <ObjectProperty IRI="/property#berada_di"/>

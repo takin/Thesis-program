@@ -18,7 +18,6 @@ import SemanticQA.module.nlp.Parser;
 import SemanticQA.module.nlp.Tokenizer;
 import SemanticQA.module.sw.OntologyMapper;
 import SemanticQA.module.sw.OntologyQuery;
-import SemanticQA.module.sw.OntologyQuery.Key;
 
 public class Tester {
 
@@ -32,7 +31,7 @@ public class Tester {
 				Ontology.Path.UNIVERSITAS
 		};
 		
-		String question = "apa saja wisata pantai yang terdapat di kabupaten lombok timur";
+		String question = "siapakah ali bin dahlan";
 		
 		Tokenizer tokenizer = new Tokenizer(new MySQLDatabase());
 		Parser parser = new Parser();
@@ -53,7 +52,9 @@ public class Tester {
 					: queryEngine.execute(mappingResult, OntologyQuery.theQuestionIsSingular);
 			
 			JSONObject finalResult = AnswerBuilder.json(bufferedParseResult, queryResult);
-						
+			
+			System.out.println(finalResult);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
