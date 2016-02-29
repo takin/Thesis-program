@@ -2,7 +2,9 @@
 API/Jena/*
 Ontologi/v*.*/*
 .metadata/
+Workspace/RemoteSystemsTempFiles/
 Workspace/DesktopVersion/.settings/
+Workspace/web-version/.settings/
 Workspace/DesktopVersion/.project
 Workspace/DesktopVersion/.classpath
 Workspace/SemanticQA/.settings/
@@ -11,6 +13,6 @@ Workspace/SemanticQA/.classpath
 Workspace/.metadata/
 Workspace/.recommenders/
 Workspace/Servers/
-Workspace/.settings/*
+Workspace/.settings
 Workspace/SemanticQA/.settings/*
 WebUI/ReactJS/node_modules/*
