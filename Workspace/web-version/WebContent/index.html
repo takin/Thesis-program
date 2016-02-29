@@ -1,10 +1,22 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Welcome</title>
-</head>
+<html ng-app="myThesis">
+    <head>
+        <meta charset="UTF-8">
+        <base href="http://localhost:8080/web-version/">
+        <title>Question Answering</title>
+        <link rel="stylesheet" href="assets/css/animate.css" />
+        <link rel="stylesheet" href="assets/css/style.css" />
+    </head>
 <body>
-	Selamat datang di Semantic Web Question Answering System API
+    <div id="mainContainer" ng-controller="appController">
+        <h1>Question Answering<br/>Data Kabupaten di Nusa Tenggara Barat</h1>
+        <question-form></question-form>
+        <answer-card ng-show="dataIsReady" data="answer"></answer-card>
+        <spinner class="spinner-animation" ng-show="loading"></spinner>
+    </div>
+    <script type="text/javascript" src="assets/js/angular.js"></script>
+    <script type="text/javascript" src="assets/js/angular-animate.js"></script>
+    <script type="text/javascript" src="assets/js/angular-sanitize.js"></script>
+    <script type="text/javascript" src="assets/js/app.js"></script>
 </body>
 </html>
