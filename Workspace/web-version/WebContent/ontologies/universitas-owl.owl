@@ -1,0 +1,1036 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#"
+     xml:base="http://www.semanticweb.org/syamsul/ontologies/2016/0/university"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:university="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#"
+     xmlns:swrlb="http://www.w3.org/2003/11/swrlb#"
+     xmlns:swrl="http://www.w3.org/2003/11/swrl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:swrla="http://swrl.stanford.edu/ontologies/3.3/swrla.owl#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled -->
+
+    <owl:AnnotationProperty rdf:about="http://swrl.stanford.edu/ontologies/3.3/swrla.owl#isRuleEnabled"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#diampu_oleh -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#diampu_oleh">
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#mengajar"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#institusi -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#institusi">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#judul_penelitian -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#judul_penelitian">
+        <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#InverseFunctionalProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#membimbing -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#membimbing">
+        <owl:inverseOf rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#pembimbing"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#memimpin -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#memimpin">
+        <rdfs:subPropertyOf rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#institusi"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#mengajar -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#mengajar"/>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#mengambil_jurusan -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#mengambil_jurusan"/>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#pembimbing -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#pembimbing"/>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#wakil_dari -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#wakil_dari"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#alamat -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#alamat"/>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#email -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#email"/>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#gambar -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#gambar"/>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#gelar_akademik -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#gelar_akademik"/>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#jumlah_sks -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#jumlah_sks"/>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#nama -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#nama"/>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#telp -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#telp"/>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#website -->
+
+    <owl:DatatypeProperty rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#website"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Akademik -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Akademik"/>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Buku -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Buku">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Karya_Ilmiah"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Dekan -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Dekan">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Karyawan"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#memimpin"/>
+                        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Fakultas"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Dosen -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Dosen">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Karyawan"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#mengajar"/>
+                        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Mata_Kuliah"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Fakultas -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Fakultas">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Akademik"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Jurnal -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Jurnal">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Karya_Ilmiah"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Jurnal_Internasional -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Jurnal_Internasional">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Jurnal"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Jurnal_Nasional -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Jurnal_Nasional">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Jurnal"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Jurusan -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Jurusan">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Akademik"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Kaprodi -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Kaprodi">
+        <owl:equivalentClass rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Kepala_Prodi"/>
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Karyawan"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#memimpin"/>
+                        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Prodi"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Karya_Ilmiah -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Karya_Ilmiah">
+        <owl:equivalentClass rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Publikasi"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Karyawan -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Karyawan">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Orang"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#institusi"/>
+                        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Universitas"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Orang"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Kepala_Prodi -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Kepala_Prodi">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Karyawan"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Ketua_Jurusan -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Ketua_Jurusan">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Karyawan"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#memimpin"/>
+                        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Jurusan"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Mahasiswa -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Mahasiswa">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Orang"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Mahasiswa_Bimbingan -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Mahasiswa_Bimbingan">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Mahasiswa"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#pembimbing"/>
+                        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Dosen"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Mata_Kuliah -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Mata_Kuliah"/>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Orang -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Orang"/>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Paper -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Paper">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Karya_Ilmiah"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Prodi -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Prodi">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Akademik"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Publikasi -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Publikasi"/>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Rektor -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Rektor">
+        <owl:equivalentClass>
+            <owl:Class>
+                <owl:intersectionOf rdf:parseType="Collection">
+                    <rdf:Description rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Karyawan"/>
+                    <owl:Restriction>
+                        <owl:onProperty rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#memimpin"/>
+                        <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Universitas"/>
+                    </owl:Restriction>
+                </owl:intersectionOf>
+            </owl:Class>
+        </owl:equivalentClass>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Tesis -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Tesis">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Karya_Ilmiah"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Universitas -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Universitas">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Akademik"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Wakil_Dekan -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Wakil_Dekan">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Karyawan"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Wakil_Rektor -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Wakil_Rektor">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Karyawan"/>
+    </owl:Class>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Individuals
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Agus_Harjoko -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Agus_Harjoko">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Orang"/>
+        <institusi rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Ilmu_Komputer_dan_Elektronika"/>
+        <mengajar rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Pengenalan_Pola"/>
+        <nama>Agus Harjoko, Ph.D</nama>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Ahmad_Ashari -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Ahmad_Ashari">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Orang"/>
+        <institusi rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Ilmu_Komputer_dan_Elektronika"/>
+        <mengajar rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Teknologi_Web"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Azhari_SN -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Azhari_SN">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Orang"/>
+        <institusi rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Ilmu_Komputer_dan_Elektronika"/>
+        <mengajar rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Semantic_Web"/>
+        <mengajar rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Supply_Chain_Management"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Case_Base_Reasoning -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Case_Base_Reasoning">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Mata_Kuliah"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Didi_Achjari -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Didi_Achjari">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Orang"/>
+        <institusi rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#UGM"/>
+        <wakil_dari rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Dwikorita_Karnawati"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Dwikorita_Karnawati -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Dwikorita_Karnawati">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Orang"/>
+        <memimpin rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#UGM"/>
+        <gambar>http://www.ugm.ac.id/headlines/dwikorita_karnawati.jpg</gambar>
+        <nama>Prof. Ir. Dwikorita Karnawati, M.Sc., Ph.D.</nama>
+        <rdfs:comment>Dwikorita Ratnawati adalah Profesor Teknik dan Geologi Lingkungan di Universitas Gadjah Mada, Indonesia. Jabatan sebelumnya termasuk the Fulbright Adjunct Professor di San Diego State University, A.S., dari tahun 2011-2012; the Leverhulme Professor di Institute of Advanced Study – Bristol University, Inggris, tahun 2003; dan the Hitachi Fellow Researcher di Tokyo University of Agriculture and Technology tahun 1997. Dwikorita mendapatkan gelar Doktor dari Department of Earth Sciences di Leeds University, Inggris, tahun 1996. Kontribusinya pada sains diakui secara internasional oleh the International Consortium – United Nations International Strategy on Disaster Reduction (UN-ISDR) yang menganugerahinya the International Award pada tahun 2011, dan oleh the International Consortium on Landslides yang memilihnya sebagai Vice-President berkat karya-karya inovatifnya dalam mengembangkan Pengurangan Resiko Bahaya Longsor berdasar komunitas &amp; teknologi pribumi.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Ekonomi_dan_Bisnis -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Ekonomi_dan_Bisnis">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Fakultas"/>
+        <institusi rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#UGM"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Elektronika_Instrumentasi -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Elektronika_Instrumentasi">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Jurusan"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Fakultas_Teknik -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Fakultas_Teknik">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Fakultas"/>
+        <institusi rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#UGM"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Ilmu_Budaya -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Ilmu_Budaya">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Fakultas"/>
+        <institusi rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#UGM"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Ilmu_Komputer_dan_Elektronika -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Ilmu_Komputer_dan_Elektronika">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Jurusan"/>
+        <institusi rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#MIPA"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Jaringan_Komputer -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Jaringan_Komputer">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Mata_Kuliah"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Kedokteran -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Kedokteran">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Fakultas"/>
+        <institusi rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#UGM"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Khabib_Mustofa -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Khabib_Mustofa">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Orang"/>
+        <membimbing rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Syamsul_Muttaqin"/>
+        <mengajar rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#SMBD"/>
+        <mengajar rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Semantic_Web"/>
+        <wakil_dari rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Pekik_Nurwantoro"/>
+        <email rdf:datatype="http://www.w3.org/2001/XMLSchema#string">khabib@ugm.ac.id</email>
+        <gambar>http://khabib.mustofa.googlepages.com/milestone.jpg</gambar>
+        <nama>Dr.Techn. Khabib MUSTOFA,S.Si.,M.Kom.</nama>
+        <website>http://khabib.staff.ugm.ac.id/baru/</website>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#MIPA -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#MIPA">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Fakultas"/>
+        <institusi rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#UGM"/>
+        <gambar>http://mipa.ugm.ac.id/web/files/gd-fak.jpg</gambar>
+        <telp>(0274) 513339</telp>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2000/01/rdf-schema#Literal">Fakultas yang mengasuh Matematika dan Ilmu Pengetahuan Alam di Universitas Gadjah Mada diresmikan berdirinya pada tanggal 19 September 1955 dengan Surat Keputusan Menteri Pendidikan, Pengajaran dan Kebudayaan tanggal 15 September 1955 nomor 53759/Kab. Dalam surat keputusan ini fakultas tersebut masih merupakan fakultas gabungan dengan Fakultas Teknik yang disebut Persatuan Fakultas Ilmu Pasti dan Alam dan Fakultas Teknik. Sejak tanggal 1 September 1956.Fakultas Ilmu Pasti dan Alam (disingkat FIPA) mulai memisahkan diri dari Fakultas Teknik.Pada saat diresmikannya sebagai Fakultas Persatuan, FIPA baru mempunyai satu Jurusan yang waktu itu disebut Bagian Ilmu Pasti. Jurusan ini sebenarnya sudah ada sejak tahun 1950 yaitu sebagai jurusan pada Bagian Teknik Sipil Fakultas Teknik.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Pekik_Nurwantoro -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Pekik_Nurwantoro">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Orang"/>
+        <memimpin rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#MIPA"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Pengenalan_Pola -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Pengenalan_Pola">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Mata_Kuliah"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Pertanian -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Pertanian">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Fakultas"/>
+        <institusi rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#UGM"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Peternakan -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Peternakan">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Fakultas"/>
+        <institusi rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#UGM"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#S2_Ilmu_Komputer -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#S2_Ilmu_Komputer">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Prodi"/>
+        <institusi rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Ilmu_Komputer_dan_Elektronika"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#SMBD -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#SMBD">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Mata_Kuliah"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Semantic_Web -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Semantic_Web">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Mata_Kuliah"/>
+        <jumlah_sks rdf:datatype="http://www.w3.org/2001/XMLSchema#integer">3</jumlah_sks>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Sistem_question_answering -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Sistem_question_answering">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Tesis"/>
+        <rdfs:label>Sistem Question Answering Data Kabupaten di Nusa Tenggara Barat Berbasis Multi-Ontologi</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Sri_Hartati -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Sri_Hartati">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Orang"/>
+        <institusi rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Ilmu_Komputer_dan_Elektronika"/>
+        <mengajar rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Case_Base_Reasoning"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Sugeng_Raharjo -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Sugeng_Raharjo">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Orang"/>
+        <institusi rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Ilmu_Komputer_dan_Elektronika"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Supply_Chain_Management -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Supply_Chain_Management">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Mata_Kuliah"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Syamsul_Muttaqin -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Syamsul_Muttaqin">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Mahasiswa"/>
+        <judul_penelitian rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Sistem_question_answering"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Teknik_Elektro -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Teknik_Elektro">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Jurusan"/>
+        <institusi rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Fakultas_Teknik"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Teknologi_Web -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Teknologi_Web">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Mata_Kuliah"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Tri_Kuntoro -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Tri_Kuntoro">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Orang"/>
+        <memimpin rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#S2_Ilmu_Komputer"/>
+        <mengajar rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Jaringan_Komputer"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#UGM -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#UGM">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Universitas"/>
+        <owl:sameAs rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Universitas_Gadjah_Mada"/>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Universitas_Gadjah_Mada -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Universitas_Gadjah_Mada">
+        <rdf:type rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Universitas"/>
+        <alamat rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Bulaksumur, Selman Yogyakarta</alamat>
+        <email rdf:datatype="http://www.w3.org/2001/XMLSchema#string">humas@ugm.ac.id</email>
+        <gambar>http://www.ugm.ac.id/about/pengelola/central-building-first-stone.jpg</gambar>
+        <telp>(0274) 588688</telp>
+        <rdfs:comment>Universitas Gadjah Mada resmi didirikan pada tanggal 19 Desember 1949 dan merupakan Universitas yang bersifat nasional. Selain itu Universitas Gadjah Mada juga berperan sebagai pengemban Pancasila dan Universitas pembina di Indonesia Pada saat didirikan, Universitas Gadjah Mada hanya memiliki enam fakultas, sekarang memiliki 18 Fakultas, satu sekolah Pascasarjana (S-2 dan S-3), dan satu Sekolah Vokasi. Universitas Gadjah Mada termasuk universitas yang tertua di Indonesia, berlokasi di Kampus Bulaksumur Yogyakarta. Sebagian besar fakultas dalam lingkungan Universitas Gadjah Mada terdiri atas beberapa jurusan/bagian dan atau program studi. Kegiatan Universitas Gadjah Mada dituangkan dalam bentuk Tri Dharma Perguruan Tinggi yang terdiri atas Pendidikan dan Pengajaran, Penelitian dan Pengabdian kepada Masyarakat.</rdfs:comment>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Rules
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <rdf:Description rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#x">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#y">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description rdf:about="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#z">
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Variable"/>
+    </rdf:Description>
+    <rdf:Description>
+        <swrla:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrla:isRuleEnabled>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">wakil_dekan</rdfs:label>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Karyawan"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#x"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#wakil_dari"/>
+                                <swrl:argument1 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#x"/>
+                                <swrl:argument2 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#y"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#memimpin"/>
+                                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#y"/>
+                                        <swrl:argument2 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#z"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                        <rdf:first>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                                                <swrl:classPredicate rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Fakultas"/>
+                                                <swrl:argument1 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#z"/>
+                                            </rdf:Description>
+                                        </rdf:first>
+                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Wakil_Dekan"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#x"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <swrla:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrla:isRuleEnabled>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">wakil_rektor</rdfs:label>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Karyawan"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#x"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#wakil_dari"/>
+                                <swrl:argument1 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#x"/>
+                                <swrl:argument2 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#y"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#memimpin"/>
+                                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#y"/>
+                                        <swrl:argument2 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#z"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                        <rdf:first>
+                                            <rdf:Description>
+                                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                                                <swrl:classPredicate rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Universitas"/>
+                                                <swrl:argument1 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#z"/>
+                                            </rdf:Description>
+                                        </rdf:first>
+                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                    </rdf:Description>
+                                </rdf:rest>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                        <swrl:classPredicate rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Wakil_Rektor"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#x"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <swrla:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrla:isRuleEnabled>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">mahasiswa universitas</rdfs:label>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#mengambil_jurusan"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#x"/>
+                        <swrl:argument2 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#y"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#institusi"/>
+                                <swrl:argument1 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#y"/>
+                                <swrl:argument2 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#z"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                                <rdf:first>
+                                    <rdf:Description>
+                                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#ClassAtom"/>
+                                        <swrl:classPredicate rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#Universitas"/>
+                                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#z"/>
+                                    </rdf:Description>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:Description>
+                        </rdf:rest>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#institusi"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#x"/>
+                        <swrl:argument2 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#z"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+    <rdf:Description>
+        <swrla:isRuleEnabled rdf:datatype="http://www.w3.org/2001/XMLSchema#boolean">true</swrla:isRuleEnabled>
+        <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string"></rdfs:comment>
+        <rdfs:label rdf:datatype="http://www.w3.org/2001/XMLSchema#string">institusi wakil</rdfs:label>
+        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#Imp"/>
+        <swrl:body>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#wakil_dari"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#x"/>
+                        <swrl:argument2 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#y"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                        <rdf:first>
+                            <rdf:Description>
+                                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                                <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#institusi"/>
+                                <swrl:argument1 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#y"/>
+                                <swrl:argument2 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#z"/>
+                            </rdf:Description>
+                        </rdf:first>
+                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                    </rdf:Description>
+                </rdf:rest>
+            </rdf:Description>
+        </swrl:body>
+        <swrl:head>
+            <rdf:Description>
+                <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#AtomList"/>
+                <rdf:first>
+                    <rdf:Description>
+                        <rdf:type rdf:resource="http://www.w3.org/2003/11/swrl#IndividualPropertyAtom"/>
+                        <swrl:propertyPredicate rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#institusi"/>
+                        <swrl:argument1 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#x"/>
+                        <swrl:argument2 rdf:resource="http://www.semanticweb.org/syamsul/ontologies/2016/0/university#z"/>
+                    </rdf:Description>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:Description>
+        </swrl:head>
+    </rdf:Description>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 4.1.3.20151118-2017) https://github.com/owlcs/owlapi -->
+

@@ -2,12 +2,13 @@
 <catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
     <uri id="Imports Wizard Entry" name="http://semanticweb.techtalk.web.id/ontology/ontogeo/1.0" uri="ontogeo.owl"/>
     <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
-        <uri id="Automatically generated entry, Timestamp=1448870241460" name="duplicate:http://semanticweb.techtalk.web.id/ontology" uri="ontogeo.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1448870241460" name="duplicate:http://semanticweb.techtalk.web.id/ontology" uri="ontogov.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1448870241460" name="duplicate:http://semanticweb.techtalk.web.id/ontology" uri="ontopar.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1448870241460" name="http://semanticweb.techtalk.web.id/resources" uri="dataset.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1448870241460" name="duplicate:http://www.ntbprov.go.id/semweb/resource/" uri="ntbgeo.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1448870241460" name="duplicate:http://www.ntbprov.go.id/semweb/resource/" uri="ntbgov.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1448870241460" name="duplicate:http://www.ntbprov.go.id/semweb/resource/" uri="ntbpar.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1460438574118" name="duplicate:http://semanticweb.techtalk.web.id/ontology" uri="ontopar.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1460438574118" name="duplicate:http://semanticweb.techtalk.web.id/ontology" uri="ontogeo.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1460438574118" name="duplicate:http://semanticweb.techtalk.web.id/ontology" uri="ontogov.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1460438574118" name="http://semanticweb.techtalk.web.id/resources" uri="dataset.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1460438574118" name="duplicate:http://www.ntbprov.go.id/semweb/resource/" uri="ntbgov.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1460438574118" name="duplicate:http://www.ntbprov.go.id/semweb/resource/" uri="ntbgeo.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1460438574118" name="duplicate:http://www.ntbprov.go.id/semweb/resource/" uri="ntbpar.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1460438574118" name="http://www.semanticweb.org/syamsul/ontologies/2016/0/university" uri="universitas-owl.owl"/>
     </group>
 </catalog>

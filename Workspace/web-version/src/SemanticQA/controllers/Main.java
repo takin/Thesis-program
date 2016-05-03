@@ -80,7 +80,7 @@ public class Main {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response search(@HeaderParam("Access-Control-Request-Headers") String header, @QueryParam("q") String question) throws JSONException{
-		
+
 		Response responseObject = null;
 		
 		if ( question == null || question.matches("/[^a-z0-9 ]+/i") ) {
